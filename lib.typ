@@ -137,8 +137,8 @@
     show std-bibliography: set text(8pt)
     set std-bibliography(title: text(10pt)[Bibliography], style: "association-for-computing-machinery")
     bibliography
+    pagebreak(weak: true)
   }
-  pagebreak(weak: true)
 
   // Indices.
   let display-index(kind, title) = {
