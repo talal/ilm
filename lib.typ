@@ -4,31 +4,30 @@
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 
-// This function gets your whole document as its `body` and formats
-// it as a simple non-fiction paper.
+// This function gets your whole document as its `body` and formats it as a simple
+// non-fiction paper.
 #let paper(
   // The paper's title.
   title: [Paper Title],
 
-  // The paper's short-title.
-  // This will be displayed in the header.
+  // The paper's short-title. This will be displayed in the header.
   short-title: none,
 
   // The paper's author.
   author: "Author",
 
-  // The paper's date of creation.
-  // The value needs to be of the 'datetime' type.
-  // More info: https://typst.app/docs/reference/foundations/datetime/ 
+  // The paper's date of creation. The value needs to be of the 'datetime' type.
+  // More info: https://typst.app/docs/reference/foundations/datetime/
   // Example: datetime(year: 2024, month: 03, day: 17)
   date: none,
 
   // The paper's abstract. Can be omitted if you don't have one.
   abstract: none,
 
-  // The paper's preface page. This will be displayed after the cover page. Can be omitted if you don't have one.
+  // The paper's preface page. This will be displayed after the cover page. Can be omitted
+  // if you don't have one.
   preface: none,
-  
+
   // The paper size to use.
   paper-size: "a4",
 
@@ -41,11 +40,8 @@
   // Set the document's metadata.
   set document(title: title, author: author)
 
-  // Set the body font. TeX Gyre Pagella is a free alternative
-  // to Palatino.
-  // set text(font: "TeX Gyre Pagella")
+  // Set the body font.
   set text(font: "Linux Libertine", size: 12pt)
-  
 
   // Configure the page properties.
   set page(
@@ -57,10 +53,10 @@
   page(align(left + horizon)[#box(width: 90%)[
       #text(3em)[*#title*]
       #v(2em, weak: true)
-      
+
       #text(1.6em, author)
       #v(2em, weak: true)
-      
+
       #box(width: 80%)[
         // Default leading is 0.65em.
         #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
@@ -78,7 +74,7 @@
 
   // Configure outline properties.
   set outline(indent: auto)
-  
+
   // Start with a table of contents.
   outline(title: "Contents")
   pagebreak(weak: true)
@@ -86,8 +82,8 @@
   // Configure page properties.
   set page(
     numbering: "1",
-    // The header always contains the paper's short-title if it is set.
-    // Additionally the header also contains the top-level heading.
+    // The header always displays the top-level heading and additionally the short-title
+    // (if set).
     header: context {
       let target = heading.where(level: 1)
       // Find the top-level heading of the section we are currently in.
@@ -133,7 +129,7 @@
   set table(fill: (_, y) => if y == 0 { gray.lighten(75%) })
   // Break large tables across pages.
   show figure.where(kind: table): set block(breakable: true)
-  
+
   body
 
   // Display bibliography.
@@ -160,8 +156,9 @@
   }
 }
 
-// Arguments that can be given to `codly` function so that the code snippets are displayed in the same style as the other (non-codly) snippets.
-#let codly-args = arguments(  
+// Arguments that can be given to `codly` function so that the code snippets are displayed
+// in the same style as the other (non-codly) snippets.
+#let codly-args = arguments(
   display-name: false,
   display-icon: false,
   fill: raw-box-color.lighten(60%),
