@@ -88,15 +88,27 @@
     numbering: "1",
     // The header always contains the paper's short-title if it is set.
     // Additionally the header also contains the top-level heading.
-    header: locate(loc => {
+    header: context {
+      let target = heading.where(level: 1)
       // Find the top-level heading of the section we are currently in.
-      let before = query(heading.where(level: 1).before(loc), loc)
-      if before != () {
-        text(0.95em, smallcaps(before.last().body)) + h(1fr) +  text(0.95em, smallcaps(short-title))
+      let before = query(target.before(here()))
+      if before.len() > 0 {
+        let current = before.last()
+        if current.numbering != none {
+          smallcaps(counter(target).display("1. ") + current.body)
+        } else if current.body == [Bibliography] {
+          smallcaps("Index")
+        } else {
+          smallcaps(current.body)
+        }
+        if short-title != none {
+          h(1fr)
+          smallcaps(short-title)
+        }
         v(-20%)
         line(length: 100%, stroke: 0.5pt)
       }
-    }),
+    },
   )
 
   // Configure heading properties.
