@@ -165,6 +165,12 @@
   }
 }
 
+#let horizontal-rule = {
+  v(2%)
+  line(start: (20%, 0%), end: (80%, 0%))
+  v(2%)
+}
+
 // Arguments that can be given to `codly` function so that the code snippets are displayed
 // in the same style as the other (non-codly) snippets.
 #let codly-args = arguments(
