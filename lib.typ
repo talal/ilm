@@ -117,12 +117,21 @@
   // Configure equation numbering and spacing.
   set math.equation(numbering: "(1)")
 
+  // Configure raw text properties.
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
     fill: raw-box-color,
     inset: (x: 3pt, y: 0pt),
     outset: (y: 3pt),
     radius: 2pt,
+  )
+  // Display block code in a larger block with more padding.
+  show raw.where(block: true): block.with(
+    width: 100%,
+    fill: raw-box-color.lighten(60%),
+    inset: 6pt,
+    radius: 4pt,
+    stroke: raw-box-color,
   )
 
   // Add gray background to table header row.
