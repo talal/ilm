@@ -140,8 +140,8 @@
       return it
     }
     it
-    h(2pt)
-    super(box(height: 4pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
+    h(1.25pt)
+    super(box(height: 3.75pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
   }
 
   // Display inline code in a small box that retains the correct baseline.
