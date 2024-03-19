@@ -139,10 +139,9 @@
     if type(it.dest) == label {
       return it
     }
-    it + box(height: 0.6em, circle(
-      radius: 1.25pt,
-      stroke: 0.75pt+rgb("#993333")
-    ))
+    it
+    h(2pt)
+    super(box(height: 4pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
   }
 
   // Display inline code in a small box that retains the correct baseline.
