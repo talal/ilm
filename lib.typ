@@ -86,7 +86,7 @@
   }
 
   // Configure paragraph properties.
-  set par(leading: 0.75em, first-line-indent: 12pt, justify: true)
+  set par(leading: 0.75em, justify: true, linebreaks: "optimized")
 
   // Configure outline properties.
   set outline(indent: auto)
