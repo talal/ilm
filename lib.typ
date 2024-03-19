@@ -52,6 +52,9 @@
   // Set the body font.
   set text(font: "Linux Libertine", size: 12pt)
 
+  // Set raw text font.
+  show raw: set text(font: "Cascadia Mono", size: 10pt)
+
   // Configure the page properties.
   set page(
     paper: paper-size,
