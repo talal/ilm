@@ -165,7 +165,9 @@
 
   // Display bibliography.
   if bibliography != none {
-    show std-bibliography: set text(10pt)
+    show std-bibliography: set text(0.85em)
+    // Reset paragraph properties to default.
+    show std-bibliography: set par(justify: false)
     bibliography
   }
 
