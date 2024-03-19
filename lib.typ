@@ -34,6 +34,15 @@
   // The result of a call to the `bibliography` function or `none`.
   bibliography: none,
 
+  // Whether to display an index of figures (images).
+  figure-index: false,
+
+  // Whether to display an index of tables
+  table-index: false,
+
+  // Whether to display an index of listings (code blocks).
+  listing-index: false,
+
   // The paper's content.
   body,
 ) = {
@@ -146,22 +155,25 @@
     show std-bibliography: set text(8pt)
     set std-bibliography(title: text(10pt)[Bibliography], style: "association-for-computing-machinery")
     bibliography
-    pagebreak(weak: true)
   }
 
-  // Indices.
-  let display-index(kind, title) = {
-    let target = figure.where(kind: kind)
-    let elems = counter(target).get().at(0)
-    if elems > 0 {
-      outline(title: title, target: target)
-    }
-  }
-  context {
+  // Display indices of figures, tables, and listings.
+  let fig-t(kind) = figure.where(kind: kind)
+  let hasFig(kind) = counter(fig-t(kind)).get().at(0) > 0
+  if figure-index or table-index or listing-index {
     show outline: set heading(outlined: true)
-    display-index(image, "Index of Figures")
-    display-index(table, "Index of Tables")
-    display-index(raw, "Index of Listings")
+    context {
+      let imgs = figure-index and hasFig(image)
+      let tbls = table-index and hasFig(table)
+      let lsts = listing-index and hasFig(raw)
+      if imgs or tbls or lsts {
+        pagebreak(weak: true)
+      }
+
+      if imgs { outline(title: "Index of Figures", target: fig-t(image)) }
+      if tbls { outline(title: "Index of Tables", target: fig-t(table)) }
+      if lsts { outline(title: "Index of Listings", target: fig-t(raw)) }
+    }
   }
 }
 
