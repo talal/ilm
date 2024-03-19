@@ -61,22 +61,28 @@
   // The first page.
   page(align(left + horizon)[#box(width: 90%)[
       #text(3em)[*#title*]
-      #v(2em, weak: true)
 
+      #v(2em, weak: true)
       #text(1.6em, author)
-      #v(2em, weak: true)
 
-      #box(width: 80%)[
-        // Default leading is 0.65em.
-        #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
-      ]
-      #v(2em, weak: true)
+      #if abstract != none {
+        v(2em, weak: true)
+        box(width: 80%)[
+          // Default leading is 0.65em.
+          #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
+        ]
+      }
 
-      #text(date.display("[month repr:long] [day padding:zero], [year repr:full]"))
+      #if date != none {
+        v(2em, weak: true)
+        text(date.display("[month repr:long] [day padding:zero], [year repr:full]"))
+      }
   ]])
 
   // Display preface as the second page.
-  page(preface)
+  if preface != none {
+    page(preface)
+  }
 
   // Configure paragraph properties.
   set par(leading: 0.75em, first-line-indent: 12pt, justify: true)
@@ -152,8 +158,8 @@
 
   // Display bibliography.
   if bibliography != none {
-    show std-bibliography: set text(8pt)
-    set std-bibliography(title: text(10pt)[Bibliography], style: "association-for-computing-machinery")
+    show std-bibliography: set text(10pt)
+    // set std-bibliography(style: "association-for-computing-machinery")
     bibliography
   }
 
