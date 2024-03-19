@@ -1,31 +1,29 @@
-// Color for raw text's box (inline and block).
-#let raw-box-color = luma(240)
-
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 
 // This function gets your whole document as its `body` and formats it as a simple
 // non-fiction paper.
-#let paper(
-  // The paper's title.
+#let ilm(
+  // The title for your work.
   title: [Paper Title],
 
-  // The paper's short-title. This will be displayed in the header.
+  // A short-title for your work. This will be displayed in the header of all pages.
   short-title: none,
 
-  // The paper's author.
+  // Author's name.
   author: "Author",
 
-  // The paper's date of creation. The value needs to be of the 'datetime' type.
+  // Date that will be displayed on cover page.
+  // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
   // Example: datetime(year: 2024, month: 03, day: 17)
   date: none,
 
-  // The paper's abstract. Can be omitted if you don't have one.
+  // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
 
-  // The paper's preface page. This will be displayed after the cover page. Can be omitted
-  // if you don't have one.
+  // The contents for the preface page. This will be displayed after the cover page.
+  // Can be omitted if you don't have one.
   preface: none,
 
   // The paper size to use.
@@ -43,7 +41,7 @@
   // Whether to display an index of listings (code blocks).
   listing-index: false,
 
-  // The paper's content.
+  // The content of your work.
   body,
 ) = {
   // Set the document's metadata.
@@ -136,6 +134,7 @@
   set math.equation(numbering: "(1)")
 
   // Configure raw text properties.
+  let raw-box-color = luma(240)
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
     fill: raw-box-color,
@@ -162,7 +161,6 @@
   // Display bibliography.
   if bibliography != none {
     show std-bibliography: set text(10pt)
-    // set std-bibliography(style: "association-for-computing-machinery")
     bibliography
   }
 
@@ -191,13 +189,3 @@
   line(start: (20%, 0%), end: (80%, 0%))
   v(2%)
 }
-
-// Arguments that can be given to `codly` function so that the code snippets are displayed
-// in the same style as the other (non-codly) snippets.
-#let codly-args = arguments(
-  display-name: false,
-  display-icon: false,
-  fill: raw-box-color.lighten(60%),
-  zebra-color: raw-box-color.lighten(60%),
-  breakable: false,
-)
