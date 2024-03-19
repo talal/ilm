@@ -133,8 +133,18 @@
   // Configure equation numbering and spacing.
   set math.equation(numbering: "(1)")
 
-  // Configure raw text properties.
-  let raw-box-color = luma(240)
+  // Show a small maroon circle next to external links.
+  show link: it => {
+    // Workaround for ctheorems so that its labels keep the default link styling.
+    if type(it.dest) == label {
+      return it
+    }
+    it + box(height: 0.6em, circle(
+      radius: 1.25pt,
+      stroke: 0.75pt+rgb("#993333")
+    ))
+  }
+
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
     fill: raw-box-color,
