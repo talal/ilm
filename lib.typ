@@ -5,13 +5,16 @@
 // non-fiction paper.
 #let ilm(
   // The title for your work.
-  title: [Paper Title],
+  title: [Your Title],
 
   // A short-title for your work. This will be displayed in the header of all pages.
   short-title: none,
 
   // Author's name.
   author: "Author",
+
+  // The paper size to use.
+  paper-size: "a4",
 
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
@@ -25,9 +28,6 @@
   // The contents for the preface page. This will be displayed after the cover page.
   // Can be omitted if you don't have one.
   preface: none,
-
-  // The paper size to use.
-  paper-size: "a4",
 
   // The result of a call to the `bibliography` function or `none`.
   bibliography: none,
@@ -189,10 +189,4 @@
       if lsts { outline(title: "Index of Listings", target: fig-t(raw)) }
     }
   }
-}
-
-#let horizontal-rule = {
-  v(2%)
-  line(start: (20%, 0%), end: (80%, 0%))
-  v(2%)
 }
