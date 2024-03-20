@@ -48,10 +48,12 @@
   set document(title: title, author: author)
 
   // Set the body font.
+  // Default is Linux Libertine at 11pt
   set text(font: "Linux Libertine", size: 12pt)
 
   // Set raw text font.
-  show raw: set text(font: "Cascadia Mono", size: 10pt)
+  // Default is Fira Mono at 8.8pt
+  show raw: set text(font: "Cascadia Mono", size: 9pt)
 
   // Configure the page properties.
   set page(
