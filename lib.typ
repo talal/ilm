@@ -106,17 +106,17 @@
       let before = query(target.before(here()))
       if before.len() > 0 {
         let current = before.last()
+        let left-side = current.body
         if current.numbering != none {
-          smallcaps(counter(target).display("1. ") + current.body)
+          left-side = counter(target).display("1. ") + current.body
         } else if current.body == [Bibliography] {
-          smallcaps("Index")
-        } else {
-          smallcaps(current.body)
+          left-side = "Index"
         }
+        let right-side = title
         if short-title != none {
-          h(1fr)
-          smallcaps(short-title)
+          right-side = short-title
         }
+        smallcaps(left-side) + h(1fr) + smallcaps(right-side)
         v(-20%)
         line(length: 100%, stroke: 0.5pt)
       }
