@@ -34,7 +34,7 @@ This template exports the `ilm` function with the following named arguments:
 | `short-title` | `none` | [content] | A shorter version of your title. If specified, this will be displayed in the header otherwise `title` will be shown instead. |
 | `author` | `Author` | [content] | A string to specify the author's name |
 | `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
-| `date` | `none` | [datetime] | This date will be displayed on the cover page. |
+| `date` | `none` | [datetime] | This date will be displayed on the cover page in the format: `MMMM DD, YYYY`. |
 | `abstract` | `none` | [content] | A brief summary/description of your work. This is shown on the cover page. |
 | `preface` | `none` | [content] | The preface for your work. The preface content is shown on its own separate page after the cover. |
 | `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
