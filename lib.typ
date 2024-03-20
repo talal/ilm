@@ -82,13 +82,13 @@
       }
   ]))
 
+  // Configure paragraph properties.
+  set par(leading: 0.75em, justify: true, linebreaks: "optimized")
+
   // Display preface as the second page.
   if preface != none {
     page(preface)
   }
-
-  // Configure paragraph properties.
-  set par(leading: 0.75em, justify: true, linebreaks: "optimized")
 
   // Configure outline properties.
   set outline(indent: auto)
