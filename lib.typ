@@ -60,7 +60,7 @@
   )
 
   // The first page.
-  page(align(left + horizon)[#box(width: 90%)[
+  page(align(left + horizon, box(width: 90%)[
       #text(3em)[*#title*]
 
       #v(2em, weak: true)
@@ -78,7 +78,7 @@
         v(2em, weak: true)
         text(date.display("[month repr:long] [day padding:zero], [year repr:full]"))
       }
-  ]])
+  ]))
 
   // Display preface as the second page.
   if preface != none {
@@ -130,12 +130,12 @@
     v(2%, weak: true)
   }
 
-  // Configure equation numbering and spacing.
+  // Configure equation numbering.
   set math.equation(numbering: "(1)")
 
   // Show a small maroon circle next to external links.
   show link: it => {
-    // Workaround for ctheorems so that its labels keep the default link styling.
+    // Workaround for ctheorems package so that its labels keep the default link styling.
     if type(it.dest) == label {
       return it
     }
@@ -166,8 +166,8 @@
   // Display bibliography.
   if bibliography != none {
     show std-bibliography: set text(0.85em)
-    // Reset paragraph properties to default.
-    show std-bibliography: set par(justify: false)
+    // Use default paragraph properties for bibliography.
+    show std-bibliography: set par(leading: 0.65em, justify: false, linebreaks: auto)
     bibliography
   }
 
