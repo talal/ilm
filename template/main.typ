@@ -1,4 +1,4 @@
-#import "@preview/ilm:0.1.0": ilm
+#import "../lib.typ": ilm
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
@@ -10,12 +10,12 @@
   ],
   preface: [#align(center + bottom, text(0.85em)[
     #sym.copyright 2024 Wikipedia \
-    The text of these notes has been mostly borrowed from Wikipedia\
+    The text of this document has been mostly borrowed from Wikipedia\
     which is available under a Creative Commons Attribution-ShareAlike License 4.0.
 
     For license details, see https://creativecommons.org/licenses/by-sa/4.0/.
 
-    Find the template for these notes at https://typst.app/universe/template/ilm/ \
+    Find the template for this document at https://typst.app/universe/template/ilm/ \
     Suggestions and critique are welcome at https://github.com/talal/ilm/
   ])],
   bibliography: bibliography("refs.bib"),
@@ -33,12 +33,14 @@
 Philosophy (#text(lang: "el")[φιλοσοφία], 'love of wisdom', in #link("https://en.wikipedia.org/wiki/Ancient_Greek")[Ancient Greek]) is a systematic study of general and fundamental questions concerning topics like #wiki-url("existence"), #wiki-url("reason"), knowledge, value, mind, and #wiki-url("language"). It is a rational and critical inquiry that reflects on its own methods and assumptions.
 
 == Plato
-Plato @wikipedia_plato is often misquoted as the author of #quote[I know that I know
-nothing], however, this is a derivation form his original quote:
+Plato is often misquoted as the author of #quote[I know that I know
+nothing], however, this is a derivation @I_know_that_I_know_nothing from his original quote:
 
 #quote(block: true, attribution: [Plato])[
   #set text(lang: "el")
-  ... ἔοικα γοῦν τούτου γε σμικρῷ τινι αὐτῷ τούτῳ σοφώτερος εἶναι, ὅτι ἃ μὴ οἶδα οὐδὲ οἴομαι εἰδέναι.
+  ... ἔοικα γοῦν τούτου γε σμικρῷ τινι αὐτῷ τούτῳ σοφώτερος εἶναι, ὅτι ἃ μὴ οἶδα οὐδὲ οἴομαι εἰδέναι.\
+  #set text(lang: "en")
+  ... I seem, then, in just this little thing to be wiser than this man at any rate, that what I do not know I do not think I know either.
 ]
 
 = Physics
@@ -76,7 +78,7 @@ fn main() {
 ```
 ] <rust-hello-world>
 
-= Math.
+= Math
 == Prime numbers
 
 #rect(
