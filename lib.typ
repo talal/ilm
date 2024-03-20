@@ -53,7 +53,7 @@
 
   // Set raw text font.
   // Default is Fira Mono at 8.8pt
-  show raw: set text(font: "Cascadia Mono", size: 9pt)
+  show raw: set text(font: ("Iosevka", "Fira Mono"), size: 9pt)
 
   // Configure the page properties.
   set page(
