@@ -155,7 +155,7 @@
   )
   // Display block code with padding.
   show raw.where(block: true): block.with(
-    inset: (x: 10pt),
+    inset: (x: 5pt),
   )
 
   // Add gray background to table header row.
