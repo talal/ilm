@@ -8,8 +8,7 @@ A versatile, clean and minimal template for non-fiction writing. The template is
 
 It contains a title page, a table of contents, and a chapter template.
 
-Dynamic running headers contain the title of the chapter (top-level heading) and the
-title or short-title (if specified).
+Dynamic running headers contain the title of the chapter (top-level heading).
 
 ## Usage
 
@@ -31,7 +30,6 @@ This template exports the `ilm` function with the following named arguments:
 | Argument | Default Value | Type | Description |
 | --- | --- | --- | --- |
 | `title` | `Your Title` | [content] | The title for your work. |
-| `short-title` | `none` | [content] | A shorter version of your title. If specified, this will be displayed in the header otherwise `title` will be shown instead. |
 | `author` | `Author` | [content] | A string to specify the author's name |
 | `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
 | `date` | `none` | [datetime] | This date will be displayed on the cover page in the format: `MMMM DD, YYYY`. |
@@ -53,7 +51,6 @@ use this template, you can add a show rule like this at the top of your file:
 
 #show: ilm.with(
   title: [Your Title],
-  short-title: "Title",
   author: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [],

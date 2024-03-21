@@ -7,9 +7,6 @@
   // The title for your work.
   title: [Your Title],
 
-  // A short-title for your work. This will be displayed in the header of all pages.
-  short-title: none,
-
   // Author's name.
   author: "Author",
 
@@ -107,27 +104,22 @@
   // Configure page properties.
   set page(
     numbering: "1",
-    // The header always displays the top-level heading and additionally the short-title
-    // (if set).
+    // The header displays the top-level heading on the left or right side depending on
+    // whether the page is even or odd respectively.
     header: context {
-      let target = heading.where(level: 1)
+      // Are we on an odd page?
+      let isOdd = calc.odd(counter(page).at(here()).first())
       // Find the top-level heading of the section we are currently in.
+      let target = heading.where(level: 1)
       let before = query(target.before(here()))
       if before.len() > 0 {
         let current = before.last()
-        let left-side = current.body
         if current.numbering != none {
-          left-side = counter(target).display("1. ") + current.body
-        } else if current.body == [Bibliography] {
-          left-side = "Index"
+          let aln = if isOdd{ right } else { left }
+          align(aln)[#smallcaps(counter(target).display("1. ") + current.body)]
+          v(-20%)
+          line(length: 100%, stroke: 0.5pt)
         }
-        let right-side = title
-        if short-title != none {
-          right-side = short-title
-        }
-        smallcaps(left-side) + h(1fr) + smallcaps(right-side)
-        v(-20%)
-        line(length: 100%, stroke: 0.5pt)
       }
     },
   )
