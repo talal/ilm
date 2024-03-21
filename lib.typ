@@ -1,5 +1,12 @@
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
+#let std-smallcaps = smallcaps
+#let std-upper = upper
+
+// Overwrite the default `smallcaps` and `upper` functions with increased spacing between characters.
+// Default tracking is 0pt.
+#let smallcaps(body) = std-smallcaps(text(tracking: 0.5pt, body))
+#let upper(body) = std-upper(text(tracking: 0.5pt, body))
 
 // This function gets your whole document as its `body` and formats it as a simple
 // non-fiction paper.
