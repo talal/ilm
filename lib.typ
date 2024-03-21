@@ -75,6 +75,7 @@
 
       #if date != none {
         v(2em, weak: true)
+        // Display date as MMMM DD, YYYY
         text(date.display("[month repr:long] [day padding:zero], [year repr:full]"))
       }
   ]))
@@ -96,9 +97,7 @@
   // Show a small maroon circle next to external links.
   show link: it => {
     // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label {
-      return it
-    }
+    if type(it.dest) == label { return it }
     it
     h(1.5pt)
     super(box(height: 3.5pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
@@ -111,7 +110,7 @@
     page(preface)
   }
 
-  // Configure outline properties.
+  // Indent nested entires in the outline.
   set outline(indent: auto)
 
   // Display table of contents.
@@ -156,6 +155,7 @@
     outset: (y: 3pt),
     radius: 2pt,
   )
+
   // Display block code with padding.
   show raw.where(block: true): block.with(
     inset: (x: 5pt),
