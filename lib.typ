@@ -6,7 +6,7 @@
 // Overwrite the default `smallcaps` and `upper` functions with increased spacing between characters.
 // Default tracking is 0pt.
 #let smallcaps(body) = std-smallcaps(text(tracking: 0.5pt, body))
-#let upper(body) = std-upper(text(tracking: 0.5pt, body))
+#let upper(body) = std-upper(text(tracking: 0.6pt, body))
 
 // This function gets your whole document as its `body` and formats it as a simple
 // non-fiction paper.
@@ -149,7 +149,7 @@
       if before.len() > 0 {
         let current = before.last()
         let gap = 1.75em
-        let chapter = smallcaps(text(size: 0.85em, current.body))
+        let chapter = upper(text(size: 0.65em, current.body))
         if current.numbering != none {
             if isOdd {
               align(aln)[#chapter #h(gap) #i]
