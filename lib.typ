@@ -102,6 +102,8 @@
 
   // Display preface as the second page.
   if preface != none {
+    // Do not number heading on the preface page.
+    set heading(numbering: none)
     page(preface)
   }
 
