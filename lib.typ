@@ -199,3 +199,14 @@
     }
   }
 }
+
+// This function formats its `body` (content) into a blockquote.
+#let blockquote(body) = {
+  block(
+    width: 100%,
+    fill: luma(250),
+    inset: 2em,
+    stroke: (y: 0.5pt + luma(200)),
+    body
+  )
+}
