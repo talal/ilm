@@ -52,7 +52,7 @@
   // Default is Fira Mono at 8.8pt
   show raw: set text(font: ("Iosevka", "Fira Mono"), size: 9pt)
 
-  // Configure the page properties.
+  // Configure page size and margins.
   set page(
     paper: paper-size,
     margin: (bottom: 1.75cm, top: 2.25cm),
@@ -110,11 +110,11 @@
   // Configure outline properties.
   set outline(indent: auto)
 
-  // Start with a table of contents.
+  // Display table of contents.
   outline(title: "Contents")
   pagebreak(weak: true)
 
-  // Configure page properties.
+  // Configure page numbering and header.
   set page(
     numbering: "1",
     // The header displays the top-level heading on the left or right side depending on
