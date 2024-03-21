@@ -141,7 +141,7 @@
       let before = query(target.before(here()))
       if before.len() > 0 {
         let current = before.last()
-        let gap = 1.5em
+        let gap = 1.75em
         let chapter = smallcaps(text(size: 0.85em, current.body))
         if current.numbering != none {
             if isOdd {
