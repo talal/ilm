@@ -88,8 +88,12 @@
   show heading: it => {
     // Do not hyphenate headings.
     set text(hyphenate: false)
-    // Start new chapters on a new page.
-    if it.level == 1 { pagebreak() }
+    // Start new chapters on a new page except for figures lists.
+    if it.level == 1 {
+      if not it.body.text.starts-with("Index of") {
+        pagebreak()
+      }
+    }
     it
     v(2%, weak: true)
   }
@@ -115,7 +119,6 @@
 
   // Display table of contents.
   outline(title: "Contents")
-  pagebreak(weak: true)
 
   // Configure page numbering and footer.
   set page(
