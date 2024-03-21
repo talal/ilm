@@ -117,29 +117,35 @@
   outline(title: "Contents")
   pagebreak(weak: true)
 
-  // Configure page numbering and header.
+  // Configure page numbering and footer.
   set page(
-    numbering: "1",
-    // The header displays the chapter (top-level heading) on the left or right side depending on
-    // whether the page is even or odd respectively.
-    header: context {
+    footer: context {
       // Get current page number.
       let i = counter(page).at(here()).first()
+
+      // Align right for even pages and left for odd.
+      let isOdd = calc.odd(i)
+      let aln = if isOdd { right } else { left }
 
       // Are we on a page that starts a chapter?
       let target = heading.where(level: 1)
       let all = query(target, here())
       if all.any(it => it.location().page() == i) {
-        return
+        return align(aln)[#i]
       }
 
       // Find the chapter of the section we are currently in.
       let before = query(target.before(here()))
       if before.len() > 0 {
         let current = before.last()
+        let gap = 1.5em
+        let chapter = smallcaps(text(size: 0.85em, current.body))
         if current.numbering != none {
-          let aln = if calc.odd(i) { right } else { left }
-          align(aln)[#smallcaps(counter(target).display("1. ") + current.body)]
+            if isOdd {
+              align(aln)[#chapter #h(gap) #i]
+            } else {
+              align(aln)[#i #h(gap) #chapter]
+            }
         }
       }
     },
