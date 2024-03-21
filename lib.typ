@@ -85,6 +85,13 @@
   // Configure paragraph properties.
   set par(leading: 0.75em, justify: true, linebreaks: "optimized")
 
+  // Configure heading properties.
+  set heading(numbering: "1.")
+  show heading: it => {
+    it
+    v(2%, weak: true)
+  }
+
   // Display preface as the second page.
   if preface != none {
     page(preface)
@@ -124,13 +131,6 @@
       }
     },
   )
-
-  // Configure heading properties.
-  set heading(numbering: "1.")
-  show heading: it => {
-    it
-    v(2%, weak: true)
-  }
 
   // Configure equation numbering.
   set math.equation(numbering: "(1)")
