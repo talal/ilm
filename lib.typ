@@ -85,6 +85,8 @@
   // Configure heading properties.
   set heading(numbering: "1.")
   show heading: it => {
+    // Do not hyphenate headings.
+    set text(hyphenate: false)
     it
     v(2%, weak: true)
   }
@@ -102,7 +104,7 @@
 
   // Display preface as the second page.
   if preface != none {
-    // Do not number heading on the preface page.
+    // Do not number headings on the preface page.
     set heading(numbering: none)
     page(preface)
   }
