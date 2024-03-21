@@ -150,7 +150,7 @@
 
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
-    fill: luma(240).lighten(30%),
+    fill: luma(245),
     inset: (x: 3pt, y: 0pt),
     outset: (y: 3pt),
     radius: 2pt,
