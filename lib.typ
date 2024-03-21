@@ -158,10 +158,14 @@
     inset: (x: 5pt),
   )
 
-  // Add gray background to table header row.
-  set table(fill: (_, y) => if y == 0 { gray.lighten(75%) })
   // Break large tables across pages.
   show figure.where(kind: table): set block(breakable: true)
+  set table(
+    // Add gray background to table header row.
+    fill: (_, y) => if y == 0 { gray.lighten(75%) },
+    // Increase the table cell's padding
+    inset: 6pt, // default is 5pt
+  )
 
   body
 
