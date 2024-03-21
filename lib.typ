@@ -58,7 +58,7 @@
     margin: (bottom: 1.75cm, top: 2.25cm),
   )
 
-  // The first page.
+  // Cover page.
   page(align(left + horizon, box(width: 90%)[
       #text(3em)[*#title*]
 
@@ -87,6 +87,8 @@
   show heading: it => {
     // Do not hyphenate headings.
     set text(hyphenate: false)
+    // Start new chapters on a new page.
+    if it.level == 1 { pagebreak() }
     it
     v(2%, weak: true)
   }
