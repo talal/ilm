@@ -121,21 +121,26 @@
   // Configure page numbering and header.
   set page(
     numbering: "1",
-    // The header displays the top-level heading on the left or right side depending on
+    // The header displays the chapter (top-level heading) on the left or right side depending on
     // whether the page is even or odd respectively.
     header: context {
-      // Are we on an odd page?
-      let isOdd = calc.odd(counter(page).at(here()).first())
-      // Find the top-level heading of the section we are currently in.
+      // Get current page number.
+      let i = counter(page).at(here()).first()
+
+      // Are we on a page that starts a chapter?
       let target = heading.where(level: 1)
+      let all = query(target, here())
+      if all.any(it => it.location().page() == i) {
+        return
+      }
+
+      // Find the chapter of the section we are currently in.
       let before = query(target.before(here()))
       if before.len() > 0 {
         let current = before.last()
         if current.numbering != none {
-          let aln = if isOdd{ right } else { left }
+          let aln = if calc.odd(i) { right } else { left }
           align(aln)[#smallcaps(counter(target).display("1. ") + current.body)]
-          v(-20%)
-          line(length: 100%, stroke: 0.5pt)
         }
       }
     },
