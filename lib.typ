@@ -165,7 +165,7 @@
   show figure.where(kind: table): set block(breakable: true)
   set table(
     // Add gray background to table header row.
-    fill: (_, y) => if y == 0 { gray.lighten(75%) },
+    fill: (_, y) => if y == 0 { luma(235) },
     // Increase the table cell's padding
     inset: 6pt, // default is 5pt
   )
