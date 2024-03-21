@@ -89,6 +89,17 @@
     v(2%, weak: true)
   }
 
+  // Show a small maroon circle next to external links.
+  show link: it => {
+    // Workaround for ctheorems package so that its labels keep the default link styling.
+    if type(it.dest) == label {
+      return it
+    }
+    it
+    h(1.5pt)
+    super(box(height: 3.5pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
+  }
+
   // Display preface as the second page.
   if preface != none {
     page(preface)
@@ -126,17 +137,6 @@
 
   // Configure equation numbering.
   set math.equation(numbering: "(1)")
-
-  // Show a small maroon circle next to external links.
-  show link: it => {
-    // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label {
-      return it
-    }
-    it
-    h(1.5pt)
-    super(box(height: 3.5pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
-  }
 
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
