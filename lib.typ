@@ -110,8 +110,8 @@
     // Workaround for ctheorems package so that its labels keep the default link styling.
     if type(it.dest) == label { return it }
     it
-    h(1.5pt)
-    super(box(height: 3.5pt, circle(radius: 1.25pt, stroke: 0.75pt + rgb("#993333"))))
+    h(1.6pt)
+    super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))))
   }
 
   // Display preface as the second page.
