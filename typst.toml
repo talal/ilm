@@ -1,6 +1,7 @@
 [package]
 name = "ilm"
 version = "0.1.0"
+compiler = "0.11.0"
 entrypoint = "lib.typ"
 repository = "https://github.com/talal/ilm"
 authors = ["Muhammad Talal Anwar <@talal>"]
