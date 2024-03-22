@@ -14,8 +14,8 @@ See the [example.pdf](https://github.com/talal/ilm/blob/main/example.pdf) file t
 
 ## Usage
 
-You can use this template in the Typst web app by clicking "Start from template"
-on the dashboard and searching for `ilm`.
+You can use this template in the Typst web app by clicking "Start from template" on the
+dashboard and searching for `ilm`.
 
 Alternatively, you can use the CLI to kick this project off using the command
 
@@ -49,9 +49,9 @@ This template exports the `ilm` function with the following named arguments:
 
 The function also accepts a single, positional argument for the body.
 
-The template will initialize your package with a sample call to the `ilm`
-function in a show rule. If you, however, want to change an existing project to
-use this template, you can add a show rule like this at the top of your file:
+The template will initialize your package with a sample call to the `ilm` function in a
+show rule. If you, however, want to change an existing project to use this template, you
+can add a show rule like this at the top of your file:
 
 ```typ
 #import "@preview/ilm:0.1.0": *
