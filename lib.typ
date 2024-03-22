@@ -150,8 +150,8 @@
       let i = counter(page).at(here()).first()
 
       // Align right for even pages and left for odd.
-      let isOdd = calc.odd(i)
-      let aln = if isOdd { right } else { left }
+      let is-odd = calc.odd(i)
+      let aln = if is-odd { right } else { left }
 
       // Are we on a page that starts a chapter?
       let target = heading.where(level: 1)
@@ -167,7 +167,7 @@
         let gap = 1.75em
         let chapter = upper(text(size: 0.68em, current.body))
         if current.numbering != none {
-            if isOdd {
+            if is-odd {
               align(aln)[#chapter #h(gap) #i]
             } else {
               align(aln)[#i #h(gap) #chapter]
@@ -215,13 +215,13 @@
 
   // Display indices of figures, tables, and listings.
   let fig-t(kind) = figure.where(kind: kind)
-  let hasFig(kind) = counter(fig-t(kind)).get().at(0) > 0
+  let has-fig(kind) = counter(fig-t(kind)).get().at(0) > 0
   if figure-index or table-index or listing-index {
     show outline: set heading(outlined: true)
     context {
-      let imgs = figure-index and hasFig(image)
-      let tbls = table-index and hasFig(table)
-      let lsts = listing-index and hasFig(raw)
+      let imgs = figure-index and has-fig(image)
+      let tbls = table-index and has-fig(table)
+      let lsts = listing-index and has-fig(raw)
       if imgs or tbls or lsts {
         pagebreak(weak: true)
       }

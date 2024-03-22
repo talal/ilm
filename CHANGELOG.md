@@ -22,6 +22,10 @@ The changes should be grouped using the following categories (in order of preced
 
 - Footer chapter size from `0.65em` to `0.68em`.
 
+### Fixed
+
+- Use kebab-case for variable and function names.
+
 ## 0.1.0 - 2024-03-22
 
 Initial Release.
