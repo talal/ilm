@@ -8,6 +8,10 @@
 #let smallcaps(body) = std-smallcaps(text(tracking: 0.5pt, body))
 #let upper(body) = std-upper(text(tracking: 0.6pt, body))
 
+// Colors used across the template.
+#let stroke-color = luma(200)
+#let fill-color = luma(250)
+
 // This function gets your whole document as its `body` and formats it as a simple
 // non-fiction paper.
 #let ilm(
@@ -169,7 +173,7 @@
 
   // Display inline code in a small box that retains the correct baseline.
   show raw.where(block: false): box.with(
-    fill: luma(245),
+    fill: fill-color.darken(2%),
     inset: (x: 3pt, y: 0pt),
     outset: (y: 3pt),
     radius: 2pt,
@@ -185,7 +189,7 @@
   set table(
     // Increase the table cell's padding
     inset: 7pt, // default is 5pt
-    stroke: (0.5pt + gray)
+    stroke: (0.5pt + stroke-color)
   )
   // Use smallcaps for table header row.
   show table.cell.where(y: 0): smallcaps
@@ -224,9 +228,9 @@
 #let blockquote(body) = {
   block(
     width: 100%,
-    fill: luma(250),
+    fill: fill-color,
     inset: 2em,
-    stroke: (y: 0.5pt + luma(200)),
+    stroke: (y: 0.5pt + stroke-color),
     body
   )
 }
