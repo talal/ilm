@@ -3,8 +3,8 @@
 #let std-smallcaps = smallcaps
 #let std-upper = upper
 
-// Overwrite the default `smallcaps` and `upper` functions with increased spacing between characters.
-// Default tracking is 0pt.
+// Overwrite the default `smallcaps` and `upper` functions with increased spacing between
+// characters. Default tracking is 0pt.
 #let smallcaps(body) = std-smallcaps(text(tracking: 0.6pt, body))
 #let upper(body) = std-upper(text(tracking: 0.6pt, body))
 
@@ -33,8 +33,8 @@
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
 
-  // The contents for the preface page. This will be displayed after the cover page.
-  // Can be omitted if you don't have one.
+  // The contents for the preface page. This will be displayed after the cover page. Can
+  // be omitted if you don't have one.
   preface: none,
 
   // The result of a call to the `bibliography` function or `none`.
@@ -108,8 +108,11 @@
     set text(hyphenate: false)
     // Start chapters on a new page except for figure lists (index of figures/tables/listings).
     if chapter-pagebreak and it.level == 1 {
-      // Do not start each figures list (index of figures/tables/listings) on separate pages as this can quite tedious if the document only has a couple of figures, tables, or listings.
-      // Note that we do however start the first figure index on new page. We do this by using a manual `pagebreak()` down below.
+      // Do not start each figures list (index of figures/tables/listings) on separate
+      // pages as this can get quite tedious if the document only has a couple of figures,
+      // tables, or listings.
+      // Note that we do however start the first figure index on new page. We do this by
+      // using a manual `pagebreak()` down below.
       if not it.body.text.starts-with("Index of") {
         pagebreak()
       }
