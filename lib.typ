@@ -5,7 +5,7 @@
 
 // Overwrite the default `smallcaps` and `upper` functions with increased spacing between characters.
 // Default tracking is 0pt.
-#let smallcaps(body) = std-smallcaps(text(tracking: 0.5pt, body))
+#let smallcaps(body) = std-smallcaps(text(tracking: 0.6pt, body))
 #let upper(body) = std-upper(text(tracking: 0.6pt, body))
 
 // Colors used across the template.
