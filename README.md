@@ -3,12 +3,14 @@
 > ‘Ilm (Urdu: عِلْم) is the Urdu term for knowledge. It is pronounced as ill-lm.
 
 A versatile, clean and minimal template for non-fiction writing. The template is ideal for
-[class notes](https://github.com/talal/ilm/blob/main/examples/lecture-notes), reports, and
-[books](https://github.com/talal/ilm/blob/main/examples/book).
+class notes, reports, and books.
 
-It contains a title page, a table of contents, and a chapter template.
+It contains a title page, a table of contents, and indices for different types of figures;
+images, tables, code blocks.
 
-Dynamic running headers contain the title of the chapter (top-level heading).
+Dynamic running footer contains the title of the chapter (top-level heading).
+
+See the [example.pdf](https://github.com/talal/ilm/blob/main/example.pdf) file to see how it looks.
 
 ## Usage
 
@@ -22,6 +24,10 @@ typst init @preview/ilm
 ```
 
 Typst will create a new directory with all the files needed to get you started.
+
+This template uses the [Iosevka] font for raw text. In order to use Iosevka, the font must
+be installed on your computer. In case Iosevka is not installed, as will be the case for
+Typst Web App, then the template will fall back to the default "Fira Mono" font.
 
 ## Configuration
 
@@ -48,7 +54,7 @@ function in a show rule. If you, however, want to change an existing project to
 use this template, you can add a show rule like this at the top of your file:
 
 ```typ
-#import "@preview/ilm:0.1.0": ilm
+#import "@preview/ilm:0.1.0": *
 
 #show: ilm.with(
   title: [Your Title],
@@ -65,6 +71,7 @@ use this template, you can add a show rule like this at the top of your file:
 // Your content goes below.
 ```
 
+[iosevka]: https://typeof.net/Iosevka/
 [bibliography]: https://typst.app/docs/reference/model/bibliography/
 [bool]: https://typst.app/docs/reference/foundations/bool/
 [content]: https://typst.app/docs/reference/foundations/content/
