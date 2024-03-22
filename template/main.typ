@@ -1,101 +1,133 @@
-#import "../lib.typ": ilm
+#import "@preview/ilm:0.1.0": *
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
-  short-title: "Knowledge",
   author: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [
-    ‘Ilm (Urdu: #text(lang: "ur")[عِلْم]) is the Urdu term for knowledge. In its general usage, 'ilm may refer to knowledge of any specific thing or proposition or any form of "learning". Subsequently, the term came to be used to refer to various categories of "sciences", especially when used in its plural form ('ulum).
+    'Ilm (Urdu: #text(lang: "ur", font: "Noto Naskh Arabic")[عِلْم]) is the Urdu term for knowledge. In its general usage, 'ilm may refer to knowledge of any specific thing or proposition or any form of "learning". Subsequently, the term came to be used to refer to various categories of "sciences", especially when used in its plural form ('ulum).
   ],
-  preface: [#align(center + bottom, text(0.85em)[
-    #sym.copyright 2024 Wikipedia \
-    The text of this document has been mostly borrowed from Wikipedia\
-    which is available under a Creative Commons Attribution-ShareAlike License 4.0.
+  preface: [
+    #align(center + horizon)[
+      This template is made possible by Matthew Butterick's\ excellent #link("https://practicaltypography.com")[_Practical Typography_] book.
 
-    For license details, see https://creativecommons.org/licenses/by-sa/4.0/.
-
-    Find the template for this document at https://typst.app/universe/template/ilm/ \
-    Suggestions and critique are welcome at https://github.com/talal/ilm/
-  ])],
+      Thank you Mr. Butterick!
+    ]
+  ],
   bibliography: bibliography("refs.bib"),
+  chapter-pagebreak: false,
   figure-index: true,
   table-index: true,
   listing-index: true
 )
 
-= Philosophy
+= Introduction
+Let's do a brief walkthrough of the 'Ilm template.
+
+= Text
+== External links
+'Ilm adds a small maroon circle to external (outgoing) links #link("https://github.com/talal/ilm")[like so].
+
+This acts as a hint for the reader so that they know that a specific text is a hyperlink. This is far better than #underline[underling a hyperlink] or making it a #text(fill: blue)[different color]. Don't you agree?
+
+This neat trick has been borrowed from Matthew Butterick's #link("https://practicaltypography.com")[_Practical Typography_] book.
 
 #let wiki-url(stub) = {
   return link("https://en.wikipedia.org/wiki/"+stub, stub)
 }
 
-Philosophy (#text(lang: "el")[φιλοσοφία], 'love of wisdom', in #link("https://en.wikipedia.org/wiki/Ancient_Greek")[Ancient Greek]) is a systematic study of general and fundamental questions concerning topics like #wiki-url("existence"), #wiki-url("reason"), knowledge, value, mind, and #wiki-url("language"). It is a rational and critical inquiry that reflects on its own methods and assumptions.
+== Blockquotes
+'Ilm also exports a `blockquote` function which can be used to create blockquotes. The function has one argument: `body` of the type content and can be used like so:
 
-== Plato
-Plato is often misquoted as the author of #quote[I know that I know
-nothing], however, this is a derivation @I_know_that_I_know_nothing from his original quote:
-
-#quote(block: true, attribution: [Plato])[
-  #set text(lang: "el")
-  ... ἔοικα γοῦν τούτου γε σμικρῷ τινι αὐτῷ τούτῳ σοφώτερος εἶναι, ὅτι ἃ μὴ οἶδα οὐδὲ οἴομαι εἰδέναι.\
-  #set text(lang: "en")
-  ... I seem, then, in just this little thing to be wiser than this man at any rate, that what I do not know I do not think I know either.
+```typst
+#blockquote[
+  A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to.
 ]
+```
 
-= Physics
-== SI Base Units
-The SI base units are the standard units of measurement defined by the International System of Units (SI) for the seven base quantities of what is now known as the International System of Quantities: they are notably a basic set from which all other SI units can be derived.
+the above code will render the following:
+
+#blockquote[A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. -- Gandalf @wikipedia_gandalf]
+
+You can of course use regular quotes instead, if your prefer:
+
+== Small- and all caps
+'Ilm also exports functions for styling text in small caps and uppercase, namely: `smallcaps` and `upper` respectively.
+
+These functions will overwrite the standard #link("https://typst.app/docs/reference/text/smallcaps/")[`smallcaps`] and #link("https://typst.app/docs/reference/text/upper/")[`upper`] functions that Typst itself provides. This behavior is intentional as the functions that 'Ilm exports fit in better with the rest of the template's styling.
+
+Here is how Typst's own #std-smallcaps[smallcaps] and #std-upper[upper] compared to the 'Ilm's variants down below:\
+#hide[Here is how Typst's own ] #smallcaps[smallcaps] and #upper[upper]
+
+They both look similar, the only difference is that 'Ilm uses more spacing between individual characters.
+
+If you prefer Typst's default spacing then you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
+
+= Figures
+The template also displays and index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
+
+```typst
+#import "lib.typ": *
+#show: ilm.with(
+  figure-index: true,
+  table-index: true,
+  listing-index: true
+)
+```
+
+== Tables
+In order to increase the focus on table's content, we minimize table's borders by using thin gray lines instead of thick black ones. Additionally, we use small caps for the header row. Take a look at the table below:
 
 #let unit(u) = math.display(math.upright(u))
-#figure(
-  caption: [The seven SI base units],
-  table(
-    columns: 3,
-    table.header[Quantity][Symbol][Unit],
-    [length], [$l$], [#unit("m")],
-    [mass], [$m$], [#unit("kg")],
-    [time], [$t$], [#unit("s")],
-    [electric current], [$I$], [#unit("A")],
-    [temperature], [$T$], [#unit("K")],
-    [amount of substance], [$n$], [#unit("mol")],
-    [luminous intensity], [$I_v$], [#unit("cd")],
-  )
-) <si-base-units>
+#let si-table = table(
+  columns: 3,
+  table.header[Quantity][Symbol][Unit],
+  [length], [$l$], [#unit("m")],
+  [mass], [$m$], [#unit("kg")],
+  [time], [$t$], [#unit("s")],
+  [electric current], [$I$], [#unit("A")],
+  [temperature], [$T$], [#unit("K")],
+  [amount of substance], [$n$], [#unit("mol")],
+  [luminous intensity], [$I_v$], [#unit("cd")],
+)
 
-=== 2019 Redefinition
-#lorem(55)
+#figure(caption: ['Ilm's styling], si-table)
 
-= Rust
-=== Hello World
-@rust-hello-world shows a "Hello, World!" program in Rust. The `fn` keyword denotes a function, and the ```rust println!``` macro prints the message to standard output. Statements in Rust are separated by semicolons.
+For comparison, this is how the same table will look with Typst's default styling:
 
-#figure(caption: [Rust "Hello, World!" program])[
+#[
+  #set table(inset: 5pt, stroke: 1pt + black)
+  #show table.cell.where(y: 0): it => {
+    v(0.5em)
+    h(0.5em) + it.body.text + h(0.5em)
+    v(0.5em)
+  }
+  #figure(caption: [Typst's default styling], si-table)
+]
+
+= Code
+== Custom font
+'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_] font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
+
+#let snip(cap) = figure(caption: cap)[
 ```rust
 fn main() {
-    println!("Hello, World!");
+    let user = ("Adrian", 38);
+    println!("User {} is {} years old", user.0, user.1);
+
+    // tuples within tuples
+    let employee = (("Adrian", 38), "die Mobiliar");
+    println!("User {} is {} years old and works for {}", employee.0.1, employee.0.1, employee.1);
 }
 ```
-] <rust-hello-world>
-
-= Math
-== Prime numbers
-
-#rect(
-  width: 100%,
-  radius: 4pt,
-  inset: 10pt,
-  fill: purple.lighten(90%)
-)[
-  *Theorem* (Euclid): There are infinitely many primes.
 ]
-_Proof_: Suppose to the contrary that $p_1, p_2, dots, p_n$ is a finite enumeration
-of all primes. Set $P = p_1 p_2 dots p_n$. Since $P + 1$ is not in our list,
-it cannot be prime. Thus, some prime factor $p_j$ divides $P + 1$.  Since
-$p_j$ also divides $P$, it must divide the difference $(P + 1) - P = 1$, a
-contradiction.
 
-*Corollary 1*: There is no largest prime number.\
-*Corollary 2*: There are infinitely many composite numbers.
+#show raw: set text(font: "Fira Mono")
+For comparison, here is what `code` in Fira Mono looks like:
+#snip("Code snippet typeset in Fira Mono font")
 
-#lorem(50)
+#show raw: set text(font: ("Iosevka", "Fira Mono"))
+and here is how the same `code` looks in Iosevka:
+#snip("Code snippet typeset in Iosevka font")
+
+In the case that both code snippets look the same then it means that Iosevka is not installed on your computer.
