@@ -183,11 +183,12 @@
   // Break large tables across pages.
   show figure.where(kind: table): set block(breakable: true)
   set table(
-    // Add gray background to table header row.
-    fill: (_, y) => if y == 0 { luma(235) },
     // Increase the table cell's padding
-    inset: 6pt, // default is 5pt
+    inset: 7pt, // default is 5pt
+    stroke: (0.5pt + gray)
   )
+  // Use smallcaps for table header row.
+  show table.cell.where(y: 0): smallcaps
 
   body
 
