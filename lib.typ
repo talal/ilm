@@ -165,7 +165,7 @@
       if before.len() > 0 {
         let current = before.last()
         let gap = 1.75em
-        let chapter = upper(text(size: 0.65em, current.body))
+        let chapter = upper(text(size: 0.68em, current.body))
         if current.numbering != none {
             if isOdd {
               align(aln)[#chapter #h(gap) #i]
