@@ -88,7 +88,10 @@
   ]))
 
   // Configure paragraph properties.
-  set par(leading: 0.75em, justify: true, linebreaks: "optimized")
+  // Default leading is 0.65em.
+  set par(leading: 0.7em, justify: true, linebreaks: "optimized")
+  // Default spacing is 1.2em.
+  show par: set block(spacing: 1.35em)
 
   // Configure heading properties.
   set heading(numbering: "1.")
