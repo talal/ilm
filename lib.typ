@@ -40,6 +40,9 @@
   // The result of a call to the `bibliography` function or `none`.
   bibliography: none,
 
+  // Whether to start a chapter on a new page.
+  chapter-pagebreak: true,
+
   // Whether to display an index of figures (images).
   figure-index: false,
 
@@ -102,8 +105,10 @@
   show heading: it => {
     // Do not hyphenate headings.
     set text(hyphenate: false)
-    // Start new chapters on a new page except for figures lists.
-    if it.level == 1 {
+    // Start chapters on a new page except for figure lists (index of figures/tables/listings).
+    if chapter-pagebreak and it.level == 1 {
+      // Do not start each figures list (index of figures/tables/listings) on separate pages as this can quite tedious if the document only has a couple of figures, tables, or listings.
+      // Note that we do however start the first figure index on new page. We do this by using a manual `pagebreak()` down below.
       if not it.body.text.starts-with("Index of") {
         pagebreak()
       }

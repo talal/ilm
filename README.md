@@ -36,6 +36,7 @@ This template exports the `ilm` function with the following named arguments:
 | `abstract` | `none` | [content] | A brief summary/description of your work. This is shown on the cover page. |
 | `preface` | `none` | [content] | The preface for your work. The preface content is shown on its own separate page after the cover. |
 | `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
+| `chapter-pagebreak` | `true` | [bool] | Setting this to `false` will prevent chapters from starting on a new page. |
 | `figure-index` | `false` | [bool] | Setting this to `true` will display a index of image figures at the end of the document. |
 | `table-index` | `false` | [bool] | Setting this to `true` will display a index of table figures at the end of the document. |
 | `listing-index` | `false` | [bool] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
