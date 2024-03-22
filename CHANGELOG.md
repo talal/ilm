@@ -25,6 +25,7 @@ The changes should be grouped using the following categories (in order of preced
 ### Fixed
 
 - Use kebab-case for variable and function names.
+- Unnecessary `here()` parameter in `query()` usage.
 
 ## 0.1.0 - 2024-03-22
 

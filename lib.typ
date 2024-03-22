@@ -155,8 +155,7 @@
 
       // Are we on a page that starts a chapter?
       let target = heading.where(level: 1)
-      let all = query(target, here())
-      if all.any(it => it.location().page() == i) {
+      if query(target).any(it => it.location().page() == i) {
         return align(aln)[#i]
       }
 
