@@ -106,14 +106,11 @@
   show heading: it => {
     // Do not hyphenate headings.
     set text(hyphenate: false)
-    // Start chapters on a new page except for figure lists (index of figures/tables/listings).
+    // Start chapters on a new page except for bibliography and indices. We do a manual
+    // pagebreak for bibliography and indices (see explanation down below).
     if chapter-pagebreak and it.level == 1 {
-      // Do not start each figures list (index of figures/tables/listings) on separate
-      // pages as this can get quite tedious if the document only has a couple of figures,
-      // tables, or listings.
-      // Note that we do however start the first figure index on new page. We do this by
-      // using a manual `pagebreak()` down below.
-      if not it.body.text.starts-with("Index of") {
+      let b-t = it.body.text
+      if not b-t.starts-with("Index of") and b-t != "Bibliography" {
         pagebreak()
       }
     }
@@ -206,6 +203,9 @@
 
   // Display bibliography.
   if bibliography != none {
+    // Display bibliography on a new page regardless of whether `chapter-pagebreak` is
+    // enabled or not.
+    pagebreak()
     show std-bibliography: set text(0.85em)
     // Use default paragraph properties for bibliography.
     show std-bibliography: set par(leading: 0.65em, justify: false, linebreaks: auto)
@@ -222,7 +222,12 @@
       let tbls = table-index and has-fig(table)
       let lsts = listing-index and has-fig(raw)
       if imgs or tbls or lsts {
-        pagebreak(weak: true)
+        // Display Indices on a new page regardless of whether `chapter-pagebreak` is
+        // enabled or not. Note that we pagebreak only once instead of each each
+        // individual index. This is because for documents that only have a couple of
+        // figures, starting each index on new page would result in superfluous
+        // whitespace.
+        pagebreak()
       }
 
       if imgs { outline(title: "Index of Figures", target: fig-t(image)) }

@@ -21,6 +21,8 @@ The changes should be grouped using the following categories (in order of preced
 ### Changed
 
 - Footer chapter size from `0.65em` to `0.68em`.
+- Start bibliography on a new page regardless of whether `chapter-pagebreak` is set to
+  `true` or not.
 
 ### Fixed
 
