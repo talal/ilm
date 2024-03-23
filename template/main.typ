@@ -1,4 +1,4 @@
-#import "@preview/ilm:0.1.0": *
+#import "@preview/ilm:0.1.1": *
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
@@ -66,7 +66,7 @@ If a page does not begin with a chapter then we display chapter to which the cur
 The template also displays an index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
 
 ```typst
-#import "@preview/ilm:0.1.0": *
+#import "@preview/ilm:0.1.1": *
 #show: ilm.with(
   figure-index: true,
   table-index: true,
