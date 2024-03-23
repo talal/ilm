@@ -18,6 +18,10 @@ The changes should be grouped using the following categories (in order of preced
 
 ## [Unreleased]
 
+### Added
+
+- Running footer demo in template and example.
+
 ### Changed
 
 - Footer chapter size from `0.65em` to `0.68em`.

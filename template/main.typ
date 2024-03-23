@@ -59,6 +59,9 @@ They both look similar, the only difference is that 'Ilm uses more spacing betwe
 
 If you prefer Typst's default spacing then you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
 
+== Footer
+If a page does not begin with a chapter then we display chapter to which the current section belongs to in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
+
 = Figures
 The template also displays an index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
 
@@ -127,3 +130,13 @@ and here is how the same `code` looks in Iosevka:
 #snip("Code snippet typeset in Iosevka font")
 
 In the case that both code snippets look the same then it means that Iosevka is not installed on your computer.
+
+= Footer Demo
+== Subheading
+#lorem(120)
+
+#pagebreak()
+#lorem(55)
+
+== Subheading Two <demo>
+#lorem(55)
