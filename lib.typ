@@ -109,8 +109,8 @@
     // Start chapters on a new page except for bibliography and indices. We do a manual
     // pagebreak for bibliography and indices (see explanation down below).
     if chapter-pagebreak and it.level == 1 {
-      let b-t = it.body.text
-      if not b-t.starts-with("Index of") and b-t != "Bibliography" {
+      let txt = if "text" in it.body.fields() { it.body.text } else { "" }
+      if not txt.starts-with("Index of") and txt != "Bibliography" {
         pagebreak()
       }
     }

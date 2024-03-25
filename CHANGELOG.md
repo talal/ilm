@@ -18,6 +18,10 @@ The changes should be grouped using the following categories (in order of preced
 
 ## [Unreleased]
 
+### Fixed
+
+- Check if a heading's `body` has a `text` field before using it.
+
 ## 0.1.1 - 2024-03-23
 
 ### Added
