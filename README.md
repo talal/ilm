@@ -54,7 +54,7 @@ show rule. If you, however, want to change an existing project to use this templ
 can add a show rule like this at the top of your file:
 
 ```typ
-#import "@preview/ilm:0.1.0": *
+#import "@preview/ilm:0.1.2": *
 
 #show: ilm.with(
   title: [Your Title],
