@@ -52,7 +52,7 @@ the above code will render the following:
 
 These functions will overwrite the standard #link("https://typst.app/docs/reference/text/smallcaps/")[`smallcaps`] and #link("https://typst.app/docs/reference/text/upper/")[`upper`] functions that Typst itself provides. This behavior is intentional as the functions that 'Ilm exports fit in better with the rest of the template's styling.
 
-Here is how Typst's own #std-smallcaps[smallcaps] and #std-upper[upper] compared to the 'Ilm's variants down below:\
+Here is how Typst's own #std-smallcaps[smallcaps] and #std-upper[upper] look compared to the 'Ilm's variants:\
 #hide[Here is how Typst's own ] #smallcaps[smallcaps] and #upper[upper]
 
 They both look similar, the only difference is that 'Ilm uses more spacing between individual characters.
@@ -60,13 +60,12 @@ They both look similar, the only difference is that 'Ilm uses more spacing betwe
 If you prefer Typst's default spacing then you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
 
 == Footer
-If a page does not begin with a chapter then we display chapter to which the current section belongs to in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
+If a page does not begin with a chapter then we display the chapter's name, to which the current section belongs to, in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
 
 = Figures
 The template also displays an index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
 
 ```typst
-#import "@preview/ilm:0.1.2": *
 #show: ilm.with(
   figure-index: true,
   table-index: true,
@@ -75,7 +74,7 @@ The template also displays an index of figures (images), tables, and listings (c
 ```
 
 == Tables
-In order to increase the focus on table's content, we minimize table's borders by using thin gray lines instead of thick black ones. Additionally, we use small caps for the header row. Take a look at the table below:
+In order to increase the focus on table's content, we minimize the table's borders by using thin gray lines instead of thick black ones. Additionally, we use small caps for the header row. Take a look at the table below:
 
 #let unit(u) = math.display(math.upright(u))
 #let si-table = table(
@@ -92,7 +91,7 @@ In order to increase the focus on table's content, we minimize table's borders b
 
 #figure(caption: ['Ilm's styling], si-table)
 
-For comparison, this is how the same table will look with Typst's default styling:
+For comparison, this is how the same table would look with Typst's default styling:
 
 #[
   #set table(inset: 5pt, stroke: 1pt + black)
