@@ -101,22 +101,13 @@
   // Default spacing is 1.2em.
   show par: set block(spacing: 1.35em)
 
-  // Configure heading properties.
-  set heading(numbering: "1.")
+  // Add vertical space after headings.
   show heading: it => {
-    // Do not hyphenate headings.
-    set text(hyphenate: false)
-    // Start chapters on a new page except for bibliography and indices. We do a manual
-    // pagebreak for bibliography and indices (see explanation down below).
-    if chapter-pagebreak and it.level == 1 {
-      let txt = if "text" in it.body.fields() { it.body.text } else { "" }
-      if not txt.starts-with("Index of") and txt != "Bibliography" {
-        pagebreak()
-      }
-    }
     it
     v(2%, weak: true)
   }
+  // Do not hyphenate headings.
+  show heading: set text(hyphenate: false)
 
   // Show a small maroon circle next to external links.
   show link: it => {
@@ -129,8 +120,6 @@
 
   // Display preface as the second page.
   if preface != none {
-    // Do not number headings on the preface page.
-    set heading(numbering: none)
     page(preface)
   }
 
@@ -139,6 +128,20 @@
 
   // Display table of contents.
   outline(title: "Contents")
+
+  // Start chapters on a new page except for bibliography and indices. We do a manual
+  // pagebreak for bibliography and indices (see explanation down below).
+  show heading.where(level: 1): it => {
+    if chapter-pagebreak {
+      let txt = if "text" in it.body.fields() { it.body.text } else { "" }
+      if not txt.starts-with("Index of") and txt != "Bibliography" {
+        pagebreak()
+      }
+    }
+    it
+  }
+  // Configure heading numbering.
+  set heading(numbering: "1.")
 
   // Configure page numbering and footer.
   set page(
