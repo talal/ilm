@@ -15,14 +15,10 @@
     ]
   ],
   bibliography: bibliography("refs.bib"),
-  chapter-pagebreak: false,
-  figure-index: true,
-  table-index: true,
-  listing-index: true
+  figure-index: (enabled: true),
+  table-index: (enabled: true),
+  listing-index: (enabled: true)
 )
-
-= Introduction
-Let's do a brief walkthrough of the 'Ilm template.
 
 = Text
 == External links
@@ -134,8 +130,10 @@ In the case that both code snippets look the same then it means that Iosevka is 
 == Subheading
 #lorem(120)
 
-#pagebreak()
 #lorem(55)
 
+#lorem(120)
+
+#pagebreak()
 == Subheading Two <demo>
 #lorem(55)
