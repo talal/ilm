@@ -1,6 +1,6 @@
 [package]
 name = "ilm"
-version = "0.1.3"
+version = "1.0.0"
 compiler = "0.11.0"
 entrypoint = "lib.typ"
 repository = "https://github.com/talal/ilm"
