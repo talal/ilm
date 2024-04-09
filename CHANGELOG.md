@@ -21,6 +21,8 @@ The changes should be grouped using the following categories (in order of preced
 ### Added
 
 - `date-format` field for specifying custom date format.
+- `table-of-contents` field for specifying custom `outline` function for the table of
+  contents.
 
 ## 0.1.3 - 2024-04-07
 

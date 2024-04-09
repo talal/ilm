@@ -41,7 +41,14 @@
   // be omitted if you don't have one.
   preface: none,
 
+  // The result of a call to the `outline` function or `none`.
+  // Set this to `none`, if you want to disable the table of contents.
+  // More info: https://typst.app/docs/reference/model/outline/
+  table-of-contents: outline(title: "Contents"),
+
   // The result of a call to the `bibliography` function or `none`.
+  // Example: bibliography("refs.bib")
+  // More info: https://typst.app/docs/reference/model/bibliography/
   bibliography: none,
 
   // Whether to start a chapter on a new page.
@@ -131,7 +138,9 @@
   set outline(indent: auto)
 
   // Display table of contents.
-  outline(title: "Contents")
+  if table-of-contents != none {
+    table-of-contents
+  }
 
   // Start chapters on a new page except for bibliography and indices. We do a manual
   // pagebreak for bibliography and indices (see explanation down below).
