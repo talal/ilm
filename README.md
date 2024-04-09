@@ -38,14 +38,16 @@ This template exports the `ilm` function with the following named arguments:
 | `title` | `Your Title` | [content] | The title for your work. |
 | `author` | `Author` | [content] | A string to specify the author's name |
 | `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
-| `date` | `none` | [datetime] | This date will be displayed on the cover page in the format: `MMMM DD, YYYY`. |
+| `date` | `none` | [datetime] | The date that will be displayed on the cover page. |
+| `date-format` | `[month repr:long] [day padding:zero], [year repr:full]` | [string] | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |
 | `abstract` | `none` | [content] | A brief summary/description of your work. This is shown on the cover page. |
 | `preface` | `none` | [content] | The preface for your work. The preface content is shown on its own separate page after the cover. |
+| `table-of-contents` | `outline(title: "Contents")` | [content] | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
 | `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
 | `chapter-pagebreak` | `true` | [bool] | Setting this to `false` will prevent chapters from starting on a new page. |
-| `figure-index` | `false` | [bool] | Setting this to `true` will display a index of image figures at the end of the document. |
-| `table-index` | `false` | [bool] | Setting this to `true` will display a index of table figures at the end of the document. |
-| `listing-index` | `false` | [bool] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
+| `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display a index of image figures at the end of the document. |
+| `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display a index of table figures at the end of the document. |
+| `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
 
 The function also accepts a single, positional argument for the body.
 
@@ -63,9 +65,9 @@ can add a show rule like this at the top of your file:
   abstract: [],
   preface: [],
   bibliography: bibliography("refs.bib"),
-  figure-index: true,
-  table-index: true,
-  listing-index: true
+  figure-index: (enabled: true),
+  table-index: (enabled: true),
+  listing-index: (enabled: true)
 )
 
 // Your content goes below.
@@ -73,8 +75,10 @@ can add a show rule like this at the top of your file:
 
 [iosevka]: https://typeof.net/Iosevka/
 [bibliography]: https://typst.app/docs/reference/model/bibliography/
+[outline]: https://typst.app/docs/reference/model/outline/
 [bool]: https://typst.app/docs/reference/foundations/bool/
 [content]: https://typst.app/docs/reference/foundations/content/
 [datetime]: https://typst.app/docs/reference/foundations/datetime/
+[dictionary]: https://typst.app/docs/reference/foundations/dictionary/
 [paper size string]: https://typst.app/docs/reference/layout/page#parameters-paper
 [string]: https://typst.app/docs/reference/foundations/str/
