@@ -20,12 +20,14 @@ The changes should be grouped using the following categories (in order of preced
 
 ### Added
 
-- `date-format` field for specifying custom date format.
-- `table-of-contents` field for specifying custom `outline` function for the table of
+- `date-format` argument for specifying custom date format.
+- `table-of-contents` argument for specifying custom `outline` function for the table of
   contents.
 
 ### Changed
 
+- Use dictionary for `figure-index`, `table-index`, and `listing-index` arguments and add
+  title field for specifying custom title.
 - Create chapter page breaks inside `body` context.
 
 ## 0.1.3 - 2024-04-07

@@ -54,14 +54,23 @@
   // Whether to start a chapter on a new page.
   chapter-pagebreak: true,
 
-  // Whether to display an index of figures (images).
-  figure-index: false,
+  // Display an index of figures (images).
+  figure-index: (
+    enabled: false,
+    title: "",
+  ),
 
-  // Whether to display an index of tables
-  table-index: false,
+  // Display an index of tables
+  table-index: (
+    enabled: false,
+    title: "",
+  ),
 
-  // Whether to display an index of listings (code blocks).
-  listing-index: false,
+  // Display an index of listings (code blocks).
+  listing-index: (
+    enabled: false,
+    title: "",
+  ),
 
   // The content of your work.
   body,
@@ -226,12 +235,12 @@
   // Display indices of figures, tables, and listings.
   let fig-t(kind) = figure.where(kind: kind)
   let has-fig(kind) = counter(fig-t(kind)).get().at(0) > 0
-  if figure-index or table-index or listing-index {
+  if figure-index.enabled or table-index.enabled or listing-index.enabled {
     show outline: set heading(outlined: true)
     context {
-      let imgs = figure-index and has-fig(image)
-      let tbls = table-index and has-fig(table)
-      let lsts = listing-index and has-fig(raw)
+      let imgs = figure-index.enabled and has-fig(image)
+      let tbls = table-index.enabled and has-fig(table)
+      let lsts = listing-index.enabled and has-fig(raw)
       if imgs or tbls or lsts {
         // Note that we pagebreak only once instead of each each
         // individual index. This is because for documents that only have a couple of
@@ -240,9 +249,9 @@
         pagebreak()
       }
 
-      if imgs { outline(title: "Index of Figures", target: fig-t(image)) }
-      if tbls { outline(title: "Index of Tables", target: fig-t(table)) }
-      if lsts { outline(title: "Index of Listings", target: fig-t(raw)) }
+      if imgs { outline(title: figure-index.at("title", default: "Index of Figures"), target: fig-t(image)) }
+      if tbls { outline(title: table-index.at("title", default: "Index of Tables"), target: fig-t(table)) }
+      if lsts { outline(title: listing-index.at("title", default: "Index of Listings"), target: fig-t(raw)) }
     }
   }
 }
