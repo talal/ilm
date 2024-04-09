@@ -30,6 +30,10 @@
   // Example: datetime(year: 2024, month: 03, day: 17)
   date: none,
 
+  // Format in which the date will be displayed on cover page.
+  // More info: https://typst.app/docs/reference/foundations/datetime/#format
+  date-format: "[month repr:long] [day padding:zero], [year repr:full]",
+
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
 
@@ -91,7 +95,7 @@
       #if date != none {
         v-space
         // Display date as MMMM DD, YYYY
-        text(date.display("[month repr:long] [day padding:zero], [year repr:full]"))
+        text(date.display(date-format))
       }
   ]))
 

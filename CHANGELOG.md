@@ -18,6 +18,10 @@ The changes should be grouped using the following categories (in order of preced
 
 ## [Unreleased]
 
+### Added
+
+- `date-format` field for specifying custom date format.
+
 ## 0.1.3 - 2024-04-07
 
 ### Fixed
