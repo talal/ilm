@@ -142,17 +142,6 @@
     table-of-contents
   }
 
-  // Start chapters on a new page except for bibliography and indices. We do a manual
-  // pagebreak for bibliography and indices (see explanation down below).
-  show heading.where(level: 1): it => {
-    if chapter-pagebreak {
-      let txt = if "text" in it.body.fields() { it.body.text } else { "" }
-      if not txt.starts-with("Index of") and txt != "Bibliography" {
-        pagebreak()
-      }
-    }
-    it
-  }
   // Configure heading numbering.
   set heading(numbering: "1.")
 
@@ -215,12 +204,18 @@
   // Use smallcaps for table header row.
   show table.cell.where(y: 0): smallcaps
 
-  body
+  // Wrap `body` in curly braces so that it has its own context. This way show/set rules will only apply to body.
+  {
+    // Start chapters on a new page.
+    show heading.where(level: 1): it => {
+      if chapter-pagebreak { pagebreak() }
+      it
+    }
+    body
+  }
 
   // Display bibliography.
   if bibliography != none {
-    // Display bibliography on a new page regardless of whether `chapter-pagebreak` is
-    // enabled or not.
     pagebreak()
     show std-bibliography: set text(0.85em)
     // Use default paragraph properties for bibliography.
@@ -238,8 +233,7 @@
       let tbls = table-index and has-fig(table)
       let lsts = listing-index and has-fig(raw)
       if imgs or tbls or lsts {
-        // Display Indices on a new page regardless of whether `chapter-pagebreak` is
-        // enabled or not. Note that we pagebreak only once instead of each each
+        // Note that we pagebreak only once instead of each each
         // individual index. This is because for documents that only have a couple of
         // figures, starting each index on new page would result in superfluous
         // whitespace.

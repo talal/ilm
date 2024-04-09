@@ -24,6 +24,10 @@ The changes should be grouped using the following categories (in order of preced
 - `table-of-contents` field for specifying custom `outline` function for the table of
   contents.
 
+### Changed
+
+- Create chapter page breaks inside `body` context.
+
 ## 0.1.3 - 2024-04-07
 
 ### Fixed
