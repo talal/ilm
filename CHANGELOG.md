@@ -14,9 +14,15 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.1.0...HEAD
 
 ## [Unreleased]
+
+## 1.1.0 - 2024-04-11
+
+## Changed
+
+- Use _Libertinus Serif_ font, if available, otherwise fall back to _Linux Libertine_.
 
 ## 1.0.0 - 2024-04-09
 

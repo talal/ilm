@@ -1,4 +1,4 @@
-#import "@preview/ilm:1.0.0": *
+#import "@preview/ilm:1.1.0": *
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
