@@ -1,6 +1,6 @@
 # ‘Ilm
 
-> ‘Ilm (Urdu: عِلْم) is the Urdu term for knowledge. It is pronounced as ill-lm.
+> ‘Ilm (Urdu: عِلْم) is the Urdu term for knowledge. It is pronounced as [/ə.ləm/](https://en.wiktionary.org/wiki/%D8%B9%D9%84%D9%85#Urdu).
 
 A versatile, clean and minimal template for non-fiction writing. The template is ideal for
 class notes, reports, and books.
