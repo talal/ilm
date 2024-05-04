@@ -44,7 +44,7 @@
   // The result of a call to the `outline` function or `none`.
   // Set this to `none`, if you want to disable the table of contents.
   // More info: https://typst.app/docs/reference/model/outline/
-  table-of-contents: outline(title: "Contents"),
+  table-of-contents: outline(),
 
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib")

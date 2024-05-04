@@ -18,6 +18,11 @@ The changes should be grouped using the following categories (in order of preced
 
 ## [Unreleased]
 
+### Fixed
+
+- Removed hardcoded heading for table of contents so that the heading is defined as per
+  Typst's language settings.
+
 ## 1.1.0 - 2024-04-11
 
 ## Changed
