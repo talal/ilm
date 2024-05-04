@@ -49,6 +49,9 @@ This template exports the `ilm` function with the following named arguments:
 | `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display a index of table figures at the end of the document. |
 | `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
 
+> [!NOTE]
+> The language setting for text (`lang` parameter of `text` function) should be defined before the `ilm` function so that headings such as table of contents and bibliography will be defined as per the text language.
+
 The function also accepts a single, positional argument for the body.
 
 The template will initialize your package with a sample call to the `ilm` function in a

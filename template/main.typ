@@ -1,5 +1,7 @@
 #import "@preview/ilm:1.1.0": *
 
+#set text(lang: "en")
+
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
   author: "Max Mustermann",

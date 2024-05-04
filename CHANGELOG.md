@@ -18,6 +18,10 @@ The changes should be grouped using the following categories (in order of preced
 
 ## [Unreleased]
 
+### Added
+
+- Language setting definition in template.
+
 ### Fixed
 
 - Removed hardcoded heading for table of contents so that the heading is defined as per
