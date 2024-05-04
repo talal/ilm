@@ -25,7 +25,7 @@ The changes should be grouped using the following categories (in order of preced
 
 ## 1.1.0 - 2024-04-11
 
-## Changed
+### Changed
 
 - Use _Libertinus Serif_ font, if available, otherwise fall back to _Linux Libertine_.
 
