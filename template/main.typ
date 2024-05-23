@@ -55,10 +55,10 @@ Here is how Typst's own #std-smallcaps[smallcaps] and #std-upper[upper] look com
 
 They both look similar, the only difference being that 'Ilm uses more spacing between individual characters.
 
-If you prefer Typst's default spacing, you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
+If you prefer Typst's default spacing then you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
 
 == Footer
-If a page does not begin with a chapter, then we display the chapter's name, to which the current section belongs, in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
+If a page does not begin with a chapter then we display the chapter's name, to which the current section belongs, in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
 
 = Figures
 The template also displays an index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
@@ -103,7 +103,7 @@ For comparison, this is how the same table would look with Typst's default styli
 
 = Code
 == Custom font
-'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_] font for raw text instead of the default _Fira Mono_. If Iosevka is not installed, the template will fall back to Fira Mono.
+'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_] font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
 ```rust
@@ -126,7 +126,7 @@ For comparison, here is what `code` in Fira Mono looks like:
 and here is how the same `code` looks in Iosevka:
 #snip("Code snippet typeset in Iosevka font")
 
-In case both code snippets look the same, Iosevka is likely not installed on your computer.
+In the case that both code snippets look the same then it means that Iosevka is not installed on your computer.
 
 = Footer Demo
 == Subheading
