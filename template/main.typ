@@ -26,7 +26,7 @@
 == External links
 'Ilm adds a small maroon circle to external (outgoing) links #link("https://github.com/talal/ilm")[like so].
 
-This acts as a hint for the reader so that they know that a specific text is a hyperlink. This is far better than #underline[underling a hyperlink] or making it a #text(fill: blue)[different color]. Don't you agree?
+This acts as a hint for the reader so that they know that a specific text is a hyperlink. This is far better than #underline[underlining a hyperlink] or making it a #text(fill: blue)[different color]. Don't you agree?
 
 #let wiki-url(stub) = {
   return link("https://en.wikipedia.org/wiki/"+stub, stub)
@@ -41,7 +41,7 @@ This acts as a hint for the reader so that they know that a specific text is a h
 ]
 ```
 
-the above code will render the following:
+The above code will render the following:
 
 #blockquote[A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. -- Gandalf @wikipedia_gandalf]
 
@@ -53,12 +53,12 @@ These functions will overwrite the standard #link("https://typst.app/docs/refere
 Here is how Typst's own #std-smallcaps[smallcaps] and #std-upper[upper] look compared to the 'Ilm's variants:\
 #hide[Here is how Typst's own ] #smallcaps[smallcaps] and #upper[upper]
 
-They both look similar, the only difference is that 'Ilm uses more spacing between individual characters.
+They both look similar, the only difference being that 'Ilm uses more spacing between individual characters.
 
 If you prefer Typst's default spacing then you can still use it by prefixing `std-` to the functions: ```typst #std-smallcaps()``` and ```typst #std-upper()```.
 
 == Footer
-If a page does not begin with a chapter then we display the chapter's name, to which the current section belongs to, in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
+If a page does not begin with a chapter then we display the chapter's name, to which the current section belongs, in the footer. #link(<demo>)[Click here] to go to @demo down below and see the footer in action.
 
 = Figures
 The template also displays an index of figures (images), tables, and listings (code blocks) at the end of the document, if you set the respective options to `true`:
@@ -72,7 +72,7 @@ The template also displays an index of figures (images), tables, and listings (c
 ```
 
 == Tables
-In order to increase the focus on table's content, we minimize the table's borders by using thin gray lines instead of thick black ones. Additionally, we use small caps for the header row. Take a look at the table below:
+In order to increase the focus on table content, we minimize the table's borders by using thin gray lines instead of thick black ones. Additionally, we use small caps for the header row. Take a look at the table below:
 
 #let unit(u) = math.display(math.upright(u))
 #let si-table = table(
