@@ -1,4 +1,4 @@
-#import "@preview/ilm:1.1.1": *
+#import "@preview/ilm:1.1.2": *
 
 #set text(lang: "en")
 
@@ -43,7 +43,7 @@ This acts as a hint for the reader so that they know that a specific text is a h
 
 The above code will render the following:
 
-#blockquote[A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. -- Gandalf @wikipedia_gandalf]
+#blockquote[A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. -- Gandalf]
 
 == Small- and all caps
 'Ilm also exports functions for styling text in small caps and uppercase, namely: `smallcaps` and `upper` respectively.
@@ -65,9 +65,9 @@ The template also displays an index of figures (images), tables, and listings (c
 
 ```typst
 #show: ilm.with(
-  figure-index: true,
-  table-index: true,
-  listing-index: true
+  figure-index: (enabled: true),
+  table-index: (enabled: true),
+  listing-index: (enabled: true)
 )
 ```
 
@@ -103,7 +103,7 @@ For comparison, this is how the same table would look with Typst's default styli
 
 = Code
 == Custom font
-'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_] font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
+'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_]@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
 ```rust
