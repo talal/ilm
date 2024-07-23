@@ -14,9 +14,14 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.1.2...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.1.3...HEAD
 
 ## [Unreleased]
+
+## 1.1.3 - 2024-07-23
+
+### Fixed
+- Chapter page breaks when using headings inside of a page container.
 
 ## 1.1.2 - 2024-06-18
 
