@@ -45,6 +45,7 @@ This template exports the `ilm` function with the following named arguments:
 | `table-of-contents` | `outline()` | [content] | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
 | `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
 | `chapter-pagebreak` | `true` | [bool] | Setting this to `false` will prevent chapters from starting on a new page. |
+| `external-link-circle` | `true` | [bool] | Setting this to `false` will disable the maroon circle that is shown next to external links. |
 | `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display a index of image figures at the end of the document. |
 | `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display a index of table figures at the end of the document. |
 | `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
@@ -59,14 +60,13 @@ show rule. If you, however, want to change an existing project to use this templ
 can add a show rule like this at the top of your file:
 
 ```typ
-#import "@preview/ilm:1.1.3": *
+#import "@preview/ilm:1.2.0": *
 
 #show: ilm.with(
   title: [Your Title],
   author: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
-  abstract: [],
-  preface: [],
+  abstract: [#lorem(30)],
   bibliography: bibliography("refs.bib"),
   figure-index: (enabled: true),
   table-index: (enabled: true),

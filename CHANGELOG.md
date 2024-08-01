@@ -14,9 +14,14 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.1.3...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.2.0...HEAD
 
 ## [Unreleased]
+
+## 1.2.0 - 2024-08-01
+
+### Added
+- `external-link-circle` option for disabling circle next to external links.
 
 ## 1.1.3 - 2024-07-23
 

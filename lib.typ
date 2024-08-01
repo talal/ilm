@@ -54,6 +54,9 @@
   // Whether to start a chapter on a new page.
   chapter-pagebreak: true,
 
+  // Whether to display a maroon circle next to external links.
+  external-link-circle: true,
+
   // Display an index of figures (images).
   figure-index: (
     enabled: false,
@@ -131,11 +134,12 @@
 
   // Show a small maroon circle next to external links.
   show link: it => {
-    // Workaround for ctheorems package so that its labels keep the default link styling.
-    if type(it.dest) == label { return it }
     it
-    h(1.6pt)
-    super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))))
+    // Workaround for ctheorems package so that its labels keep the default link styling.
+    if external-link-circle and type(it.dest) != label  {
+      h(1.6pt)
+      super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))))
+    }
   }
 
   // Display preface as the second page.

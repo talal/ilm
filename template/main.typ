@@ -1,4 +1,4 @@
-#import "@preview/ilm:1.1.3": *
+#import "@preview/ilm:1.2.0": *
 
 #set text(lang: "en")
 
@@ -28,9 +28,13 @@
 
 This acts as a hint for the reader so that they know that a specific text is a hyperlink. This is far better than #underline[underlining a hyperlink] or making it a #text(fill: blue)[different color]. Don't you agree?
 
-#let wiki-url(stub) = {
-  return link("https://en.wikipedia.org/wiki/"+stub, stub)
-}
+If you want to disable this behavior then you can do so by setting the concerning option to `false`:
+
+```typst
+#show: ilm.with(
+  external-link-circle: false
+)
+```
 
 == Blockquotes
 'Ilm also exports a `blockquote` function which can be used to create blockquotes. The function has one argument: `body` of the type content and can be used like so:
@@ -103,7 +107,7 @@ For comparison, this is how the same table would look with Typst's default styli
 
 = Code
 == Custom font
-'Ilm uses the #link("https://typeof.net/Iosevka/")[_Iosevka_]@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
+'Ilm uses the _Iosevka_@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
 ```rust
