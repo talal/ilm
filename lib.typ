@@ -137,7 +137,9 @@
     it
     // Workaround for ctheorems package so that its labels keep the default link styling.
     if external-link-circle and type(it.dest) != label  {
+      sym.wj
       h(1.6pt)
+      sym.wj
       super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))))
     }
   }
