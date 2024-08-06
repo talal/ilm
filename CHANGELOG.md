@@ -14,9 +14,14 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.2.0...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.2.1...HEAD
 
 ## [Unreleased]
+
+## 1.2.1 - 2024-08-06
+
+### Fixed
+- Avoid line break between link text and indicator (circle).
 
 ## 1.2.0 - 2024-08-01
 
