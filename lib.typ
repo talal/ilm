@@ -96,27 +96,32 @@
   )
 
   // Cover page.
-  page(align(left + horizon, block(width: 90%)[
-      #let v-space = v(2em, weak: true)
-      #text(3em)[*#title*]
+  page(
+    align(
+      left + horizon,
+      block(width: 90%)[
+        #let v-space = v(2em, weak: true)
+        #text(3em)[*#title*]
 
-      #v-space
-      #text(1.6em, author)
+        #v-space
+        #text(1.6em, author)
 
-      #if abstract != none {
-        v-space
-        block(width: 80%)[
-          // Default leading is 0.65em.
-          #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
-        ]
-      }
+        #if abstract != none {
+          v-space
+          block(width: 80%)[
+            // Default leading is 0.65em.
+            #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
+          ]
+        }
 
-      #if date != none {
-        v-space
-        // Display date as MMMM DD, YYYY
-        text(date.display(date-format))
-      }
-  ]))
+        #if date != none {
+          v-space
+          // Display date as MMMM DD, YYYY
+          text(date.display(date-format))
+        }
+      ],
+    ),
+  )
 
   // Configure paragraph properties.
   // Default leading is 0.65em.
@@ -135,7 +140,7 @@
   show link: it => {
     it
     // Workaround for ctheorems package so that its labels keep the default link styling.
-    if external-link-circle and type(it.dest) != label  {
+    if external-link-circle and type(it.dest) != label {
       sym.wj
       h(1.6pt)
       sym.wj
@@ -160,37 +165,39 @@
   set heading(numbering: "1.")
 
   // Configure page numbering and footer.
-  set page(
-    footer: context {
-      // Get current page number.
-      let i = counter(page).at(here()).first()
+  set page(footer: context {
+    // Get current page number.
+    let i = counter(page).at(here()).first()
 
-      // Align right for even pages and left for odd.
-      let is-odd = calc.odd(i)
-      let aln = if is-odd { right } else { left }
+    // Align right for even pages and left for odd.
+    let is-odd = calc.odd(i)
+    let aln = if is-odd {
+      right
+    } else {
+      left
+    }
 
-      // Are we on a page that starts a chapter?
-      let target = heading.where(level: 1)
-      if query(target).any(it => it.location().page() == i) {
-        return align(aln)[#i]
-      }
+    // Are we on a page that starts a chapter?
+    let target = heading.where(level: 1)
+    if query(target).any(it => it.location().page() == i) {
+      return align(aln)[#i]
+    }
 
-      // Find the chapter of the section we are currently in.
-      let before = query(target.before(here()))
-      if before.len() > 0 {
-        let current = before.last()
-        let gap = 1.75em
-        let chapter = upper(text(size: 0.68em, current.body))
-        if current.numbering != none {
-            if is-odd {
-              align(aln)[#chapter #h(gap) #i]
-            } else {
-              align(aln)[#i #h(gap) #chapter]
-            }
+    // Find the chapter of the section we are currently in.
+    let before = query(target.before(here()))
+    if before.len() > 0 {
+      let current = before.last()
+      let gap = 1.75em
+      let chapter = upper(text(size: 0.68em, current.body))
+      if current.numbering != none {
+        if is-odd {
+          align(aln)[#chapter #h(gap) #i]
+        } else {
+          align(aln)[#i #h(gap) #chapter]
         }
       }
-    },
-  )
+    }
+  })
 
   // Configure equation numbering.
   set math.equation(numbering: "(1)")
@@ -204,9 +211,7 @@
   )
 
   // Display block code with padding.
-  show raw.where(block: true): block.with(
-    inset: (x: 5pt),
-  )
+  show raw.where(block: true): block.with(inset: (x: 5pt))
 
   // Break large tables across pages.
   show figure.where(kind: table): set block(breakable: true)
@@ -222,7 +227,9 @@
   {
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
-      if chapter-pagebreak { colbreak(weak: true) }
+      if chapter-pagebreak {
+        colbreak(weak: true)
+      }
       it
     }
     body
@@ -254,9 +261,15 @@
         pagebreak()
       }
 
-      if imgs { outline(title: figure-index.at("title", default: "Index of Figures"), target: fig-t(image)) }
-      if tbls { outline(title: table-index.at("title", default: "Index of Tables"), target: fig-t(table)) }
-      if lsts { outline(title: listing-index.at("title", default: "Index of Listings"), target: fig-t(raw)) }
+      if imgs {
+        outline(title: figure-index.at("title", default: "Index of Figures"), target: fig-t(image))
+      }
+      if tbls {
+        outline(title: table-index.at("title", default: "Index of Tables"), target: fig-t(table))
+      }
+      if lsts {
+        outline(title: listing-index.at("title", default: "Index of Listings"), target: fig-t(raw))
+      }
     }
   }
 }
@@ -268,6 +281,6 @@
     fill: fill-color,
     inset: 2em,
     stroke: (y: 0.5pt + stroke-color),
-    body
+    body,
   )
 }

@@ -19,7 +19,7 @@
   bibliography: bibliography("refs.bib"),
   figure-index: (enabled: true),
   table-index: (enabled: true),
-  listing-index: (enabled: true)
+  listing-index: (enabled: true),
 )
 
 = Text
@@ -110,16 +110,16 @@ For comparison, this is how the same table would look with Typst's default styli
 'Ilm uses the _Iosevka_@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
-```rust
-fn main() {
-    let user = ("Adrian", 38);
-    println!("User {} is {} years old", user.0, user.1);
+  ```rust
+  fn main() {
+      let user = ("Adrian", 38);
+      println!("User {} is {} years old", user.0, user.1);
 
-    // tuples within tuples
-    let employee = (("Adrian", 38), "die Mobiliar");
-    println!("User {} is {} years old and works for {}", employee.0.1, employee.0.1, employee.1);
-}
-```
+      // tuples within tuples
+      let employee = (("Adrian", 38), "die Mobiliar");
+      println!("User {} is {} years old and works for {}", employee.0.1, employee.0.1, employee.1);
+  }
+  ```
 ]
 
 #show raw: set text(font: "Fira Mono")
