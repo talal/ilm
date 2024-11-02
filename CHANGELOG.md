@@ -14,23 +14,36 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.2.1...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.3.0...HEAD
 
 ## [Unreleased]
+
+## 1.3.0 - 2024-11-02
+
+### Fixed
+
+- Use spacing attribute for paragraph spacing instead of block.
+
+### Changed
+
+- Minimum required compiler version to 0.12.0.
 
 ## 1.2.1 - 2024-08-06
 
 ### Fixed
+
 - Avoid line break between link text and indicator (circle).
 
 ## 1.2.0 - 2024-08-01
 
 ### Added
+
 - `external-link-circle` option for disabling circle next to external links.
 
 ## 1.1.3 - 2024-07-23
 
 ### Fixed
+
 - Chapter page breaks when using headings inside of a page container.
 
 ## 1.1.2 - 2024-06-18

@@ -82,8 +82,7 @@
   set document(title: title, author: author)
 
   // Set the body font.
-  // Default is Linux Libertine at 11pt
-  set text(font: ("Libertinus Serif", "Linux Libertine"), size: 12pt)
+  set text(size: 12pt) // default is 11pt
 
   // Set raw text font.
   // Default is Fira Mono at 8.8pt
