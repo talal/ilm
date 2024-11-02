@@ -120,9 +120,8 @@
 
   // Configure paragraph properties.
   // Default leading is 0.65em.
-  set par(leading: 0.7em, justify: true, linebreaks: "optimized")
   // Default spacing is 1.2em.
-  show par: set block(spacing: 1.35em)
+  set par(leading: 0.7em, spacing: 1.35em, justify: true, linebreaks: "optimized")
 
   // Add vertical space after headings.
   show heading: it => {
