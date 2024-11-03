@@ -222,7 +222,8 @@
   // Use smallcaps for table header row.
   show table.cell.where(y: 0): smallcaps
 
-  // Wrap `body` in curly braces so that it has its own context. This way show/set rules will only apply to body.
+  // Wrap `body` in curly braces so that it has its own context. This way show/set rules
+  // will only apply to body.
   {
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
@@ -253,21 +254,29 @@
       let tbls = table-index.enabled and has-fig(table)
       let lsts = listing-index.enabled and has-fig(raw)
       if imgs or tbls or lsts {
-        // Note that we pagebreak only once instead of each each
-        // individual index. This is because for documents that only have a couple of
-        // figures, starting each index on new page would result in superfluous
-        // whitespace.
+        // Note that we pagebreak only once instead of each each individual index. This is
+        // because for documents that only have a couple of figures, starting each index
+        // on new page would result in superfluous whitespace.
         pagebreak()
       }
 
       if imgs {
-        outline(title: figure-index.at("title", default: "Index of Figures"), target: fig-t(image))
+        outline(
+          title: figure-index.at("title", default: "Index of Figures"),
+          target: fig-t(image),
+        )
       }
       if tbls {
-        outline(title: table-index.at("title", default: "Index of Tables"), target: fig-t(table))
+        outline(
+          title: table-index.at("title", default: "Index of Tables"),
+          target: fig-t(table),
+        )
       }
       if lsts {
-        outline(title: listing-index.at("title", default: "Index of Listings"), target: fig-t(raw))
+        outline(
+          title: listing-index.at("title", default: "Index of Listings"),
+          target: fig-t(raw),
+        )
       }
     }
   }
