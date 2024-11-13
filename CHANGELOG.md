@@ -14,9 +14,15 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.3.0...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.3.1...HEAD
 
 ## [Unreleased]
+
+## 1.3.1 - 2024-11-13
+
+### Fixed
+
+- Page numbering and chapter name in footer.
 
 ## 1.3.0 - 2024-11-02
 

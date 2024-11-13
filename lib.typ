@@ -228,7 +228,7 @@
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
       if chapter-pagebreak {
-        colbreak(weak: true)
+        pagebreak(weak: true)
       }
       it
     }
