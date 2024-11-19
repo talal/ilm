@@ -14,9 +14,18 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.3.1...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.4.0...HEAD
 
 ## [Unreleased]
+
+## 1.4.0 - 2024-11-19
+
+### Added
+
+- `appendix` option for defining appendix.
+- Documentation of template to template's `main.typ` file so that users of Typst's web app
+  can see how the template works and how to customize it without leaving the web app, i.e.
+  they don't have to read the README on GitHub.
 
 ## 1.3.1 - 2024-11-13
 
