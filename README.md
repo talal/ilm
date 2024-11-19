@@ -17,7 +17,7 @@ See the [example.pdf](https://github.com/talal/ilm/blob/main/example.pdf) file t
 You can use this template in the Typst web app by clicking "Start from template" on the
 dashboard and searching for `ilm`.
 
-Alternatively, you can use the CLI to kick this project off using the command
+Alternatively, you can use the CLI to kick this project off using the command:
 
 ```sh
 typst init @preview/ilm
@@ -42,13 +42,14 @@ This template exports the `ilm` function with the following named arguments:
 | `date-format` | `[month repr:long] [day padding:zero], [year repr:full]` | [string] | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |
 | `abstract` | `none` | [content] | A brief summary/description of your work. This is shown on the cover page. |
 | `preface` | `none` | [content] | The preface for your work. The preface content is shown on its own separate page after the cover. |
-| `table-of-contents` | `outline()` | [content] | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
-| `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
 | `chapter-pagebreak` | `true` | [bool] | Setting this to `false` will prevent chapters from starting on a new page. |
 | `external-link-circle` | `true` | [bool] | Setting this to `false` will disable the maroon circle that is shown next to external links. |
-| `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display a index of image figures at the end of the document. |
-| `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display a index of table figures at the end of the document. |
-| `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display a index of listing (code block) figures at the end of the document. |
+| `table-of-contents` | `outline()` | [content] | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
+| `appendix` | `(enabled: false, title: "Appendix", heading-numbering-format: "A.1.1.", body: none)` | [dictionary] | Setting `enabled` to `true` and defining your content in `body` will display the appendix after the main body of your document and before the bibliography. |
+| `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
+| `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display an index of image figures at the end of the document. |
+| `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display an index of table figures at the end of the document. |
+| `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display an index of listing (code block) figures at the end of the document. |
 
 > [!NOTE]
 > The language setting for text (`lang` parameter of `text` function) should be defined before the `ilm` function so that headings such as table of contents and bibliography will be defined as per the text language.
@@ -61,6 +62,8 @@ can add a show rule like this at the top of your file:
 
 ```typ
 #import "@preview/ilm:1.3.1": *
+
+#set text(lang: "en")
 
 #show: ilm.with(
   title: [Your Title],

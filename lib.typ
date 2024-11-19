@@ -12,8 +12,7 @@
 #let stroke-color = luma(200)
 #let fill-color = luma(250)
 
-// This function gets your whole document as its `body` and formats it as a simple
-// non-fiction paper.
+// This function gets your whole document as its `body`.
 #let ilm(
   // The title for your work.
   title: [Your Title],
@@ -32,6 +31,7 @@
 
   // Format in which the date will be displayed on cover page.
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
+  // The default format will display date as: MMMM DD, YYYY
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",
 
   // An abstract for your work. Can be omitted if you don't have one.
@@ -45,6 +45,14 @@
   // Set this to `none`, if you want to disable the table of contents.
   // More info: https://typst.app/docs/reference/model/outline/
   table-of-contents: outline(),
+
+  // Display an appendix after the body but before the bibliography.
+  appendix: (
+    enabled: false,
+    title: "",
+    heading-numbering-format: "",
+    body: none,
+  ),
 
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib")
@@ -115,7 +123,6 @@
 
         #if date != none {
           v-space
-          // Display date as MMMM DD, YYYY
           text(date.display(date-format))
         }
       ],
@@ -159,9 +166,6 @@
   if table-of-contents != none {
     table-of-contents
   }
-
-  // Configure heading numbering.
-  set heading(numbering: "1.")
 
   // Configure page numbering and footer.
   set page(footer: context {
@@ -225,6 +229,9 @@
   // Wrap `body` in curly braces so that it has its own context. This way show/set rules
   // will only apply to body.
   {
+    // Configure heading numbering.
+    set heading(numbering: "1.")
+
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
       if chapter-pagebreak {
@@ -233,6 +240,26 @@
       it
     }
     body
+  }
+
+  // Display appendix before the bibliography.
+  if appendix.enabled {
+    pagebreak()
+    heading(level: 1)[#appendix.at("title", default: "Appendix")]
+
+    // For heading prefixes in the appendix, the standard convention is A.1.1.
+    let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
+
+    counter(heading).update(0)
+    set heading(outlined: false, numbering: (..nums) => {
+      let vals = nums.pos()
+      if vals.len() > 0{
+        let v = vals.slice(0)
+        return numbering(num-fmt, ..v)
+      }
+    })
+
+    appendix.body
   }
 
   // Display bibliography.
