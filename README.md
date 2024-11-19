@@ -25,9 +25,34 @@ typst init @preview/ilm
 
 Typst will create a new directory with all the files needed to get you started.
 
-This template uses the [Iosevka] font for raw text. In order to use Iosevka, the font must
-be installed on your computer. In case Iosevka is not installed, as will be the case for
-Typst Web App, then the template will fall back to the default "Fira Mono" font.
+The template will initialize your package with a sample call to the `ilm` function in a
+show rule. If you, however, want to change an existing project to use this template, you
+can add a show rule like this at the top of your file:
+
+```typ
+#import "@preview/ilm:1.3.1": *
+
+#set text(lang: "en")
+
+#show: ilm.with(
+  title: [Your Title],
+  author: "Max Mustermann",
+  date: datetime(year: 2024, month: 03, day: 19),
+  abstract: [#lorem(30)],
+  bibliography: bibliography("refs.bib"),
+  figure-index: (enabled: true),
+  table-index: (enabled: true),
+  listing-index: (enabled: true)
+)
+
+// Your content goes below.
+```
+
+> [!NOTE]
+> This template uses the [Iosevka] font for raw text. In order to use Iosevka,
+> the font must be installed on your computer. In case Iosevka is not installed, as will be
+> the case for Typst Web App, then the template will fall back to the default "Fira Mono"
+> font.
 
 ## Configuration
 
@@ -51,33 +76,16 @@ This template exports the `ilm` function with the following named arguments:
 | `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display an index of table figures at the end of the document. |
 | `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display an index of listing (code block) figures at the end of the document. |
 
-> [!NOTE]
-> The language setting for text (`lang` parameter of `text` function) should be defined before the `ilm` function so that headings such as table of contents and bibliography will be defined as per the text language.
+The above table gives you a _brief description_ of the different options that you can
+choose to customize the template. For a detailed explanation of these options, see the
+[example.pdf](https://github.com/talal/ilm/blob/main/example.pdf) file.
 
 The function also accepts a single, positional argument for the body.
 
-The template will initialize your package with a sample call to the `ilm` function in a
-show rule. If you, however, want to change an existing project to use this template, you
-can add a show rule like this at the top of your file:
-
-```typ
-#import "@preview/ilm:1.3.1": *
-
-#set text(lang: "en")
-
-#show: ilm.with(
-  title: [Your Title],
-  author: "Max Mustermann",
-  date: datetime(year: 2024, month: 03, day: 19),
-  abstract: [#lorem(30)],
-  bibliography: bibliography("refs.bib"),
-  figure-index: (enabled: true),
-  table-index: (enabled: true),
-  listing-index: (enabled: true)
-)
-
-// Your content goes below.
-```
+> [!NOTE]
+> The language setting for text (`lang` parameter of `text` function) should be
+> defined before the `ilm` function so that headings such as table of contents and
+> bibliography will be defined as per the text language.
 
 [iosevka]: https://typeof.net/Iosevka/
 [bibliography]: https://typst.app/docs/reference/model/bibliography/
