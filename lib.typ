@@ -82,6 +82,15 @@
     enabled: false,
     title: "",
   ),
+  // Page footer configuration
+  footer: (
+    // Alternate the page indicator on left and right side (like a book)
+    number-on-alternating-sides: true,
+    // if alternating is off, this chooses the side to print numbers on
+    fixed-side-right: true,
+    // Repeat chapter title
+    repeat-chapter-title: true,
+  ),
 
   // The content of your work.
   body,
@@ -172,9 +181,18 @@
     // Get current page number.
     let i = counter(page).at(here()).first()
 
+    let number-on-alternating-sides = footer.at("number-on-alternating-sides", default: true)
+    let fixed-side-right = footer.at("fixed-side-right", default: true)
+    let repeat-chapter-title = footer.at("repeat-chapter-title", default: true)
+
     // Align right for even pages and left for odd.
-    let is-odd = calc.odd(i)
-    let aln = if is-odd {
+    let on-right-side = if number-on-alternating-sides {
+      calc.odd(i)
+    } else {
+      fixed-side-right
+    }
+
+    let aln = if on-right-side {
       right
     } else {
       left
@@ -191,9 +209,13 @@
     if before.len() > 0 {
       let current = before.last()
       let gap = 1.75em
-      let chapter = upper(text(size: 0.68em, current.body))
+      let chapter = if repeat-chapter-title {
+        upper(text(size: 0.68em, current.body))
+      } else {
+        ""
+      }
       if current.numbering != none {
-        if is-odd {
+        if on-right-side {
           align(aln)[#chapter #h(gap) #i]
         } else {
           align(aln)[#i #h(gap) #chapter]
