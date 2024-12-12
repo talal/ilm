@@ -182,11 +182,25 @@ The template also displays an index of figures (images), tables, and listings (c
 The `title` option can be omitted as it is optional and will default to predefined values.
 
 == Footer
-If a page does not begin with a chapter then the chapter's name, to which the current section belongs to, is shown in the footer.
+```typst
+#show: ilm.with(
+  footer: (
+    number-on-alternating-sides: true,
+    fixed-side-right: true,
+    repeat-chapter-title: true,
+  ),
+)
+```
+
+All values will use the default value if not passed to the dictionary.
+
+If a page does not begin with a chapter then the chapter's name, to which the current section belongs to, is shown in the footer, unless `repeat-chapter-title` is set to `false`.
 
 Look at the page numbering for the current page down below. It will show "#upper[Layout]" next to the page number because the current subheading _Footer_ is part of the _Layout_ chapter.
 
 When we say chapter, we mean the the first-level or top-level heading which is defined using a single equals sign (`=`).
+
+For reports, the alternating printing of page numbers at the left and right can be disabled by setting `number-on-alternating-side` to `false`. The resulting side is defined by `fixed-side-right` (`true` for right, `false` for left).
 
 = Text
 Typst defaults to English for the language of the text. If you are writing in a different language then you need to define you language before the 'Ilm template is loaded, i.e. before the `#show: ilm.with()` like so:

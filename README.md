@@ -75,6 +75,7 @@ This template exports the `ilm` function with the following named arguments:
 | `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display an index of image figures at the end of the document. |
 | `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display an index of table figures at the end of the document. |
 | `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display an index of listing (code block) figures at the end of the document. |
+| `footer` | `(number-on-alternating-sides: true, fixed-side-right: true, repeat-chapter-title: true)` | [dictionary] | Configures footer printing. Setting `number-on-alternating-sides` to `false` will print all page numbers on the same side, right if `fixed-side-right` is true, else left. `repeat-chapter-title` configures if the chapter title is printed in the footer line. |
 
 The above table gives you a _brief description_ of the different options that you can
 choose to customize the template. For a detailed explanation of these options, see the
