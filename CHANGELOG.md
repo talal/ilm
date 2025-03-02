@@ -14,9 +14,19 @@ The changes should be grouped using the following categories (in order of preced
 - Removed: for now removed features.
 -->
 
-[unreleased]: https://github.com/talal/ilm/compare/v1.4.0...HEAD
+[unreleased]: https://github.com/talal/ilm/compare/v1.4.1...HEAD
 
 ## [Unreleased]
+
+## 1.4.1 - 2025-03-02
+
+### Changed
+
+- Minimum required compiler version to 0.13.0.
+
+### Fixed
+
+- Superfluous set rule.
 
 ## 1.4.0 - 2024-11-19
 
