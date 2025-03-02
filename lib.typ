@@ -144,9 +144,6 @@
     page(preface)
   }
 
-  // Indent nested entires in the outline.
-  set outline(indent: auto)
-
   // Display table of contents.
   if table-of-contents != none {
     table-of-contents
