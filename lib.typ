@@ -16,36 +16,28 @@
 #let ilm(
   // The title for your work.
   title: [Your Title],
-
   // Author's name.
   author: "Author",
-
   // The paper size to use.
   paper-size: "a4",
-
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
   // Example: datetime(year: 2024, month: 03, day: 17)
   date: none,
-
   // Format in which the date will be displayed on cover page.
   // More info: https://typst.app/docs/reference/foundations/datetime/#format
   // The default format will display date as: MMMM DD, YYYY
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",
-
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
-
   // The contents for the preface page. This will be displayed after the cover page. Can
   // be omitted if you don't have one.
   preface: none,
-
   // The result of a call to the `outline` function or `none`.
   // Set this to `none`, if you want to disable the table of contents.
   // More info: https://typst.app/docs/reference/model/outline/
   table-of-contents: outline(),
-
   // Display an appendix after the body but before the bibliography.
   appendix: (
     enabled: false,
@@ -53,36 +45,29 @@
     heading-numbering-format: "",
     body: none,
   ),
-
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib")
   // More info: https://typst.app/docs/reference/model/bibliography/
   bibliography: none,
-
   // Whether to start a chapter on a new page.
   chapter-pagebreak: true,
-
   // Whether to display a maroon circle next to external links.
   external-link-circle: true,
-
   // Display an index of figures (images).
   figure-index: (
     enabled: false,
     title: "",
   ),
-
   // Display an index of tables
   table-index: (
     enabled: false,
     title: "",
   ),
-
   // Display an index of listings (code blocks).
   listing-index: (
     enabled: false,
     title: "",
   ),
-
   // The content of your work.
   body,
 ) = {
@@ -168,39 +153,41 @@
   }
 
   // Configure page numbering and footer.
-  set page(footer: context {
-    // Get current page number.
-    let i = counter(page).at(here()).first()
+  set page(
+    footer: context {
+      // Get current page number.
+      let i = counter(page).at(here()).first()
 
-    // Align right for even pages and left for odd.
-    let is-odd = calc.odd(i)
-    let aln = if is-odd {
-      right
-    } else {
-      left
-    }
+      // Align right for even pages and left for odd.
+      let is-odd = calc.odd(i)
+      let aln = if is-odd {
+        right
+      } else {
+        left
+      }
 
-    // Are we on a page that starts a chapter?
-    let target = heading.where(level: 1)
-    if query(target).any(it => it.location().page() == i) {
-      return align(aln)[#i]
-    }
+      // Are we on a page that starts a chapter?
+      let target = heading.where(level: 1)
+      if query(target).any(it => it.location().page() == i) {
+        return align(aln)[#i]
+      }
 
-    // Find the chapter of the section we are currently in.
-    let before = query(target.before(here()))
-    if before.len() > 0 {
-      let current = before.last()
-      let gap = 1.75em
-      let chapter = upper(text(size: 0.68em, current.body))
-      if current.numbering != none {
-        if is-odd {
-          align(aln)[#chapter #h(gap) #i]
-        } else {
-          align(aln)[#i #h(gap) #chapter]
+      // Find the chapter of the section we are currently in.
+      let before = query(target.before(here()))
+      if before.len() > 0 {
+        let current = before.last()
+        let gap = 1.75em
+        let chapter = upper(text(size: 0.68em, current.body))
+        if current.numbering != none {
+          if is-odd {
+            align(aln)[#chapter #h(gap) #i]
+          } else {
+            align(aln)[#i #h(gap) #chapter]
+          }
         }
       }
-    }
-  })
+    },
+  )
 
   // Configure equation numbering.
   set math.equation(numbering: "(1)")
@@ -221,7 +208,7 @@
   set table(
     // Increase the table cell's padding
     inset: 7pt, // default is 5pt
-    stroke: (0.5pt + stroke-color)
+    stroke: (0.5pt + stroke-color),
   )
   // Use smallcaps for table header row.
   show table.cell.where(y: 0): smallcaps
@@ -251,13 +238,16 @@
     let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
 
     counter(heading).update(0)
-    set heading(outlined: false, numbering: (..nums) => {
-      let vals = nums.pos()
-      if vals.len() > 0{
-        let v = vals.slice(0)
-        return numbering(num-fmt, ..v)
-      }
-    })
+    set heading(
+      outlined: false,
+      numbering: (..nums) => {
+        let vals = nums.pos()
+        if vals.len() > 0 {
+          let v = vals.slice(0)
+          return numbering(num-fmt, ..v)
+        }
+      },
+    )
 
     appendix.body
   }
