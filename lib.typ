@@ -1,3 +1,5 @@
+#import "@preview/numbly:0.1.0": numbly
+
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 #let std-smallcaps = smallcaps
@@ -38,13 +40,6 @@
   // Set this to `none`, if you want to disable the table of contents.
   // More info: https://typst.app/docs/reference/model/outline/
   table-of-contents: outline(),
-  // Display an appendix after the body but before the bibliography.
-  appendix: (
-    enabled: false,
-    title: "",
-    heading-numbering-format: "",
-    body: none,
-  ),
   // The result of a call to the `bibliography` function or `none`.
   // Example: bibliography("refs.bib")
   // More info: https://typst.app/docs/reference/model/bibliography/
@@ -226,29 +221,6 @@
     body
   }
 
-  // Display appendix before the bibliography.
-  if appendix.enabled {
-    pagebreak()
-    heading(level: 1)[#appendix.at("title", default: "Appendix")]
-
-    // For heading prefixes in the appendix, the standard convention is A.1.1.
-    let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
-
-    counter(heading).update(0)
-    set heading(
-      outlined: false,
-      numbering: (..nums) => {
-        let vals = nums.pos()
-        if vals.len() > 0 {
-          let v = vals.slice(0)
-          return numbering(num-fmt, ..v)
-        }
-      },
-    )
-
-    appendix.body
-  }
-
   // Display bibliography.
   if bibliography != none {
     pagebreak()
@@ -305,4 +277,30 @@
     stroke: (y: 0.5pt + stroke-color),
     body,
   )
+}
+
+#let appendix(
+  title: "Appendix",
+  body,
+) = {
+  pagebreak()
+  align(center)[
+    #heading( // Appendix general title
+      level: 1,
+      numbering: none, // no prefix
+      title,
+    )
+  ]
+  counter(heading).update(0) // Reset the heading counter
+  set heading(
+    offset: 1, // Scramble everything in the appendix environment under the general title
+    numbering: numbly(
+      "", // Appendix general title, no prefix
+      "{2:A}.", // Actual First level
+      "{2:A}.{3}.", // Lower levels use arabic numerals
+      "{2:A}.{3}.{4}.",
+    )
+  )
+
+  body
 }
