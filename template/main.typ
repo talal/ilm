@@ -1,4 +1,4 @@
-#import "@preview/ilm:1.4.1": *
+#import "../lib.typ": *
 
 #set text(lang: "en")
 
@@ -115,35 +115,33 @@ By default, the template will insert a #link("https://typst.app/docs/reference/l
 ```
 
 == Appendices
-The template can display different appendix, if you enable and define it:
+You can invoke the appendices section by:
 
 ```typst
-#show: ilm.with(
-  appendix: (
-    enabled: true,
-    title: "Appendix", // optional
-    heading-numbering-format: "A.1.1.", // optional
-    body: [
-      = First Appendix
-      = Second Appendix
-    ],
-  ),
+#show: appendix.with(
+  title: "附录",
 )
+= First Appendix
+= Second Appendix
 ```
 
-The `title` and `heading-numbering-format` options can be omitted as they are optional and will default to predefined values.
+Anything that you write after this statement will be shown in the appendices section.
+
+The `title` parameter can be omitted as it is optional and will be set to default value `Appendix`:
+
+```typst
+#show: appendix
+= First Appendix
+= Second Appendix
+```
 
 #emoji.fire Tip: if your appendix is quite long then you can define it in a separate file and import it in the template definition like so:
 
 ```typst
-#show: ilm.with(
-  appendix: (
-    enabled: true,
-    // Assuming your file is called `appendix.typ` and is
-    // located in the same directory as your main Typst file.
-    body: [#include "appendix.typ"],
-  ),
-)
+#show: appendix
+// Assuming your file is called `appendix.typ` and is
+// located in the same directory as your main Typst file.
+#include "appendix.typ"
 ```
 
 == Bibliography
