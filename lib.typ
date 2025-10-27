@@ -17,7 +17,7 @@
   // The title for your work.
   title: [Your Title],
   // Author's name.
-  author: [Author],
+  author: "Author",
   // The paper size to use.
   paper-size: "a4",
   // Date that will be displayed on cover page.

@@ -1,10 +1,10 @@
-#import "@preview/ilm:1.4.2": *
+#import "@preview/ilm:1.4.1": *
 
 #set text(lang: "en")
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
-  author: [Max Mustermann],
+  author: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [
     'Ilm (Urdu: #text(lang: "ur", font: ("Noto Nastaliq Urdu", "Noto Naskh Arabic"), size: 0.8em)[عِلْم]) is the Urdu term for knowledge. In its general usage, 'ilm may refer to knowledge of any specific thing or any form of "learning". Subsequently, the term came to be used to refer to various categories of "sciences", especially when used in its plural form ('ulum).
