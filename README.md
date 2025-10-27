@@ -61,7 +61,7 @@ This template exports the `ilm` function with the following named arguments:
 | Argument | Default Value | Type | Description |
 | --- | --- | --- | --- |
 | `title` | `Your Title` | [content] | The title for your work. |
-| `author` | `Author` | [content] | A string to specify the author's name |
+| `author` | `Author` | [string] | A string to specify the author's name |
 | `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
 | `date` | `none` | [datetime] | The date that will be displayed on the cover page. |
 | `date-format` | `[month repr:long] [day padding:zero], [year repr:full]` | [string] | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |
