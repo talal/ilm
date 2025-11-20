@@ -53,6 +53,13 @@
   chapter-pagebreak: true,
   // Whether to display a maroon circle next to external links.
   external-link-circle: true,
+  // Raw text customization
+  raw-text: (
+    use-typst-defaults: false,
+    // List of fonts in order of priority.
+    custom-font: ("Iosevka", "Fira Mono"),
+    custom-size: 9pt,
+  ),
   // Display an index of figures (images).
   figure-index: (
     enabled: false,
@@ -77,9 +84,19 @@
   // Set the body font.
   set text(size: 12pt) // default is 11pt
 
-  // Set raw text font.
-  // Default is Fira Mono at 8.8pt
-  show raw: set text(font: ("Iosevka", "Fira Mono"), size: 9pt)
+  // Customize raw text formatting.
+  show raw: it => {
+    if raw-text.at("use-typst-defaults", default: false) {
+      it
+    } else {
+      set text(
+        // Reference: Typst's default is Fira Mono at 8.8pt
+        font: raw-text.at("custom-font", default: ("Iosevka", "Fira Mono")),
+        size: raw-text.at("custom-size", default: 9pt),
+      )
+      it
+    }
+  }
 
   // Configure page size and margins.
   set page(

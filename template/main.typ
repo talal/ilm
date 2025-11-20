@@ -278,7 +278,7 @@ For comparison, this is how the same table would look with Typst's default styli
 ]
 
 = Code
-== Custom font
+== Custom formatting
 'Ilm uses the _Iosevka_@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
@@ -294,12 +294,38 @@ For comparison, this is how the same table would look with Typst's default styli
   ```
 ]
 
-#show raw: set text(font: "Fira Mono")
-For comparison, here is what `code` in Fira Mono looks like:
-#snip("Code snippet typeset in Fira Mono font")
+#[
+  #show raw: set text(font: "Fira Mono")
+  For comparison, here is what `code` in Fira Mono looks like:
+  #snip("Code snippet typeset in Fira Mono font")
+]
 
-#show raw: set text(font: ("Iosevka", "Fira Mono"))
-and here is how the same `code` looks in Iosevka:
-#snip("Code snippet typeset in Iosevka font")
+#[
+  #show raw: set text(font: ("Iosevka", "Fira Mono"))
+  and here is how the same `code` looks in Iosevka:
+  #snip("Code snippet typeset in Iosevka font")
+]
 
 In the case that both code snippets look identical then it means that Iosevka is not installed on your computer.
+
+You can disable 'Ilm's custom raw text formatting using the `raw-text` option:
+
+```typst
+#show: ilm.with(
+  raw-text: (
+    use-typst-defaults: true,
+  ),
+)
+```
+
+Additionally, you can specify your own custom font and size using:
+
+```typst
+#show: ilm.with(
+  raw-text: (
+    // custom-font takes a list of fonts in order of priority.
+    custom-font: ("JetBrains Mono", "Cascadia Mono"),
+    custom-size: 10pt,
+  ),
+)
+```
