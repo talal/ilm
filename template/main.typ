@@ -1,4 +1,4 @@
-#import "@preview/ilm:1.4.1": *
+#import "@preview/ilm:1.4.2": *
 
 #set text(lang: "en")
 
