@@ -110,10 +110,15 @@
       left + horizon,
       block(width: 90%)[
         #let v-space = v(2em, weak: true)
+        #let author-content = if type(author) == array {
+          author.join(linebreak())
+        } else {
+          author
+        }
         #text(3em)[*#title*]
 
         #v-space
-        #text(1.6em, author)
+        #text(1.6em, author-content)
 
         #if abstract != none {
           v-space
