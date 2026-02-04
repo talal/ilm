@@ -17,7 +17,11 @@
   // The title for your work.
   title: [Your Title],
   // Author's name.
+  // TODO: Deprecated. Use `authors` instead. Will be removed in a future version.
   author: "Author",
+  // Author(s) of your work. Can be a string or an array of strings.
+  // If an array is provided, authors will be displayed on separate lines on the cover page.
+  authors: none,
   // The paper size to use.
   paper-size: "a4",
   // Date that will be displayed on cover page.
@@ -78,8 +82,20 @@
   // The content of your work.
   body,
 ) = {
+  // Determine the final authors to use (new `authors` parameter takes precedence over
+  // deprecated `author`). Normalize to array for simpler processing.
+  let final-authors = if authors != none {
+    if type(authors) == str {
+      (authors,)
+    } else {
+      authors
+    }
+  } else {
+    (author,)
+  }
+
   // Set the document's metadata.
-  set document(title: title, author: author)
+  set document(title: title, author: final-authors.join(", "))
 
   // Set the body font.
   set text(size: 12pt) // default is 11pt
@@ -118,7 +134,22 @@
         #text(3em)[*#title*]
 
         #v-space
-        #text(1.6em, author-content)
+        // Display author(s)
+        #let author-count = final-authors.len()
+        #let author-size = if author-count == 1 {
+          1.6em
+        } else if author-count == 2 {
+          1.4em
+        } else {
+          1.2em
+        }
+
+        #for (i, auth) in final-authors.enumerate() {
+          text(author-size, auth)
+          if i < author-count - 1 {
+            linebreak()
+          }
+        }
 
         #if abstract != none {
           v-space

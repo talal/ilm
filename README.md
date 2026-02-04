@@ -36,7 +36,7 @@ can add a show rule like this at the top of your file:
 
 #show: ilm.with(
   title: [Your Title],
-  author: "Max Mustermann",
+  authors: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [#lorem(30)],
   bibliography: bibliography("refs.bib"),
@@ -61,7 +61,7 @@ This template exports the `ilm` function with the following named arguments:
 | Argument | Default Value | Type | Description |
 | --- | --- | --- | --- |
 | `title` | `Your Title` | [content] | The title for your work. |
-| `author` | `Author` | [string] | A string to specify the author's name |
+| `authors` | `none` | [string] or [array] | The author(s) of your work. Can be a string for a single author or an array of strings for multiple authors. Multiple authors will be displayed on separate lines with font size automatically scaled. |
 | `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
 | `date` | `none` | [datetime] | The date that will be displayed on the cover page. |
 | `date-format` | `[month repr:long] [day padding:zero], [year repr:full]` | [string] | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |

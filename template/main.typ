@@ -1,10 +1,10 @@
-#import "@preview/ilm:1.4.2": *
+#import "../lib.typ": *
 
 #set text(lang: "en")
 
 #show: ilm.with(
   title: [The Beauty of\ Sharing Knowledge],
-  author: "Max Mustermann",
+  authors: "Max Mustermann",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [
     'Ilm (Urdu: #text(lang: "ur", font: ("Noto Nastaliq Urdu", "Noto Naskh Arabic"), size: 0.8em)[عِلْم]) is the Urdu term for knowledge. In its general usage, 'ilm may refer to knowledge of any specific thing or any form of "learning". Subsequently, the term came to be used to refer to various categories of "sciences", especially when used in its plural form ('ulum).
@@ -39,18 +39,32 @@ The template uses `A4` as its page size, you can specify a different #link("http
 + Indices (if enabled) --- index of figures (images), tables, or listings (code blocks)
 
 == Cover
-The cover/title page has a title, author, date, and abstract which is a short description shown under the author name:
+The cover/title page has a title, author(s), date, and abstract which is a short description shown under the author name:
 
 ```typst
 #show: ilm.with(
   title: [Your Title],
-  author: "Author Name",
+  authors: "Author Name",
   date: datetime(year: 2024, month: 03, day: 19),
   abstract: [Your content goes here],
 )
 ```
 
-Only the `title` and `author` fields are necessary; `date` and `abstract` are optional.
+Only the `title` and `authors` fields are necessary; `date` and `abstract` are optional.
+
+=== Multiple authors
+You can specify multiple authors by providing an array. Authors will be displayed on separate lines on the cover page, with font size automatically adjusted based on the number of authors:
+
+```typst
+#show: ilm.with(
+  title: [Your Title],
+  authors: ("John Doe", "Jane Smith", "Max Mustermann"),
+)
+```
+
+The `authors` parameter accepts either a string (single author) or an array of strings (multiple authors).
+
+=== Date format
 
 By default, the date is shown in the format: `MMMM DD, YYYY`. You can change the date format by specifying a different format string:
 
@@ -278,7 +292,7 @@ For comparison, this is how the same table would look with Typst's default styli
 ]
 
 = Code
-== Custom formatting
+== Custom font and size
 'Ilm uses the _Iosevka_@wikipedia_iosevka font for raw text instead of the default _Fira Mono_. If Iosevka is not installed then the template will fall back to Fira Mono.
 
 #let snip(cap) = figure(caption: cap)[
