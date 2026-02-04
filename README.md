@@ -60,6 +60,7 @@ This template exports the `ilm` function with the following named arguments:
 
 | Argument (type) | Default Value | Description |
 | --- | --- | --- |
+| `cover-page` ([string], [content], or `none`) | `"use-ilm-default"` | Cover page customization. Set to `"use-ilm-default"` for the default cover page, `none` to skip the cover page, or provide custom content to create your own cover page. |
 | `title` ([content]) | `Your Title` | The title for your work. |
 | `authors` ([string] or [array]) | `none` | The author(s) of your work. Can be a string for a single author or an array of strings for multiple authors. Multiple authors will be displayed on separate lines with font size automatically scaled. |
 | `paper-size` ([string]) | `a4` | Specify a [paper size string] to change the page size. |

@@ -30,7 +30,7 @@ The template uses `A4` as its page size, you can specify a different #link("http
 ```
 
 'Ilm display's its content in the following order:
-+ Cover page
++ Cover page (unless disabled)
 + Preface page (if defined)
 + Table of contents (unless disabled)
 + Body (your main content)
@@ -39,7 +39,7 @@ The template uses `A4` as its page size, you can specify a different #link("http
 + Indices (if enabled) --- index of figures (images), tables, or listings (code blocks)
 
 == Cover
-The cover/title page has a title, author(s), date, and abstract which is a short description shown under the author name:
+By default, 'Ilm generates a cover/title page with a title, author(s), date, and abstract:
 
 ```typst
 #show: ilm.with(
@@ -64,6 +64,7 @@ You can specify multiple authors by providing an array. Authors will be displaye
 
 The `authors` parameter accepts either a string (single author) or an array of strings (multiple authors).
 
+
 === Date format
 
 By default, the date is shown in the format: `MMMM DD, YYYY`. You can change the date format by specifying a different format string:
@@ -75,6 +76,41 @@ By default, the date is shown in the format: `MMMM DD, YYYY`. You can change the
 ```
 
 See Typst's #link("https://typst.app/docs/reference/foundations/datetime/#format")[official documentation] for more info on how date format strings are defined.
+
+=== Customizing the cover page
+You have full control over the cover page behavior:
+
+*No cover page:*
+```typst
+#show: ilm.with(
+  cover-page: none,
+)
+```
+
+*Custom cover page:*
+```typst
+#show: ilm.with(
+  cover-page: [
+    #align(center + horizon)[
+      #text(4em)[*My Custom Title*]
+      #v(2em)
+      #text(2em)[Subtitle]
+      #v(1em)
+      #text(1.2em)[Author Name]
+    ]
+  ],
+)
+```
+
+When you provide custom content, 'Ilm will automatically wrap it in a `page()` for you. The `title`, `authors`, `date`, and `abstract` parameters are still used for document metadata even when a custom cover page is provided.
+
+#emoji.fire Tip: if your custom cover page is complex, define it in a separate file and import it:
+
+```typst
+#show: ilm.with(
+  cover-page: [#include "custom-cover.typ"],
+)
+```
 
 == Preface
 The preface content is shown on its own separate page after the cover page.

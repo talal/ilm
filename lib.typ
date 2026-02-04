@@ -22,6 +22,11 @@
   // Author(s) of your work. Can be a string or an array of strings.
   // If an array is provided, authors will be displayed on separate lines on the cover page.
   authors: none,
+  // Cover page customization.
+  // Set to "use-ilm-default" to use Ilm's default cover page,
+  // set to `none` to skip the cover page entirely,
+  // or provide custom content to create your own cover page.
+  cover-page: "use-ilm-default",
   // The paper size to use.
   paper-size: "a4",
   // Date that will be displayed on cover page.
@@ -130,51 +135,56 @@
   )
 
   // Cover page.
-  page(
-    align(
-      left + horizon,
-      block(width: 90%)[
-        #let v-space = v(2em, weak: true)
-        #let author-content = if type(author) == array {
-          author.join(linebreak())
-        } else {
-          author
-        }
-        #text(3em)[*#title*]
+  if cover-page == none {
+    // Skip cover page
+  } else if type(cover-page) == content {
+    // Custom cover page content
+    page(cover-page)
+  } else if type(cover-page) == str and cover-page == "use-ilm-default" {
+    // Default Ilm cover page
+    page(
+      align(
+        left + horizon,
+        block(width: 90%)[
+          #let v-space = v(2em, weak: true)
+          #text(3em)[*#title*]
 
-        #v-space
-        // Display author(s)
-        #let author-count = final-authors.len()
-        #let author-size = if author-count == 1 {
-          1.6em
-        } else if author-count == 2 {
-          1.4em
-        } else {
-          1.2em
-        }
-
-        #for (i, auth) in final-authors.enumerate() {
-          text(author-size, auth)
-          if i < author-count - 1 {
-            linebreak()
+          #v-space
+          // Display author(s)
+          #let author-count = final-authors.len()
+          #let author-size = if author-count == 1 {
+            1.6em
+          } else if author-count == 2 {
+            1.4em
+          } else if author-count == 3 {
+            1.2em
+          } else {
+            1.1em
           }
-        }
+          
+          #for (i, auth) in final-authors.enumerate() {
+            text(author-size, auth)
+            if i < author-count - 1 {
+              linebreak()
+            }
+          }
 
-        #if abstract != none {
-          v-space
-          block(width: 80%)[
-            // Default leading is 0.65em.
-            #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
-          ]
-        }
+          #if abstract != none {
+            v-space
+            block(width: 80%)[
+              // Default leading is 0.65em.
+              #par(leading: 0.78em, justify: true, linebreaks: "optimized", abstract)
+            ]
+          }
 
-        #if date != none {
-          v-space
-          text(date.display(date-format))
-        }
-      ],
-    ),
-  )
+          #if date != none {
+            v-space
+            text(date.display(date-format))
+          }
+        ],
+      ),
+    )
+  }
 
   // Configure paragraph properties.
   // Default leading is 0.65em.
