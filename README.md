@@ -58,24 +58,24 @@ can add a show rule like this at the top of your file:
 
 This template exports the `ilm` function with the following named arguments:
 
-| Argument | Default Value | Type | Description |
-| --- | --- | --- | --- |
-| `title` | `Your Title` | [content] | The title for your work. |
-| `authors` | `none` | [string] or [array] | The author(s) of your work. Can be a string for a single author or an array of strings for multiple authors. Multiple authors will be displayed on separate lines with font size automatically scaled. |
-| `paper-size` | `a4` | [string] | Specify a [paper size string] to change the page size. |
-| `date` | `none` | [datetime] | The date that will be displayed on the cover page. |
-| `date-format` | `[month repr:long] [day padding:zero], [year repr:full]` | [string] | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |
-| `abstract` | `none` | [content] | A brief summary/description of your work. This is shown on the cover page. |
-| `preface` | `none` | [content] | The preface for your work. The preface content is shown on its own separate page after the cover. |
-| `chapter-pagebreak` | `true` | [bool] | Setting this to `false` will prevent chapters from starting on a new page. |
-| `external-link-circle` | `true` | [bool] | Setting this to `false` will disable the maroon circle that is shown next to external links. |
-| `raw-text` | `(font: ("Iosevka", "Fira Mono"), size: 9pt)` | [string] or [dictionary] | Customize raw text (code) styling. Set to `"use-typst-default"` to use Typst's default formatting, or provide a dictionary with `font` and `size` keys to customize. |
-| `table-of-contents` | `outline()` | [content] | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
-| `appendix` | `(enabled: false, title: "Appendix", heading-numbering-format: "A.1.1.", body: none)` | [dictionary] | Setting `enabled` to `true` and defining your content in `body` will display the appendix after the main body of your document and before the bibliography. |
-| `bibliography` | `none` | [content] | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
-| `figure-index` | `(enabled: false, title: "Index of Figures")` | [dictionary] | Setting this to `true` will display an index of image figures at the end of the document. |
-| `table-index` | `(enabled: false, title: "Index of Tables")` | [dictionary] | Setting this to `true` will display an index of table figures at the end of the document. |
-| `listing-index` | `(enabled: false, title: "Index of Listings")` | [dictionary] | Setting this to `true` will display an index of listing (code block) figures at the end of the document. |
+| Argument (type) | Default Value | Description |
+| --- | --- | --- |
+| `title` ([content]) | `Your Title` | The title for your work. |
+| `authors` ([string] or [array]) | `none` | The author(s) of your work. Can be a string for a single author or an array of strings for multiple authors. Multiple authors will be displayed on separate lines with font size automatically scaled. |
+| `paper-size` ([string]) | `a4` | Specify a [paper size string] to change the page size. |
+| `date` ([datetime]) | `none` | The date that will be displayed on the cover page. |
+| `date-format` ([string]) | `[month repr:long] [day padding:zero], [year repr:full]` | The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`. |
+| `abstract` ([content]) | `none` | A brief summary/description of your work. This is shown on the cover page. |
+| `preface` ([content]) | `none` | The preface for your work. The preface content is shown on its own separate page after the cover. |
+| `chapter-pagebreak` ([bool]) | `true` | Setting this to `false` will prevent chapters from starting on a new page. |
+| `external-link-circle` ([bool]) | `true` | Setting this to `false` will disable the maroon circle that is shown next to external links. |
+| `raw-text` ([string] or [dictionary]) | `(font: ("Iosevka", "Fira Mono"), size: 9pt)` | Customize raw text (code) styling. Set to `"use-typst-default"` to use Typst's default formatting, or provide a dictionary with `font` and `size` keys to customize. |
+| `table-of-contents` ([content]) | `outline()` | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
+| `appendix` ([dictionary]) | `(enabled: false, title: "Appendix", heading-numbering-format: "A.1.1.", body: none)` | Setting `enabled` to `true` and defining your content in `body` will display the appendix after the main body of your document and before the bibliography. |
+| `bibliography` ([content]) | `none` | The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations. |
+| `figure-index` ([dictionary]) | `(enabled: false, title: "Index of Figures")` | Setting this to `true` will display an index of image figures at the end of the document. |
+| `table-index` ([dictionary]) | `(enabled: false, title: "Index of Tables")` | Setting this to `true` will display an index of table figures at the end of the document. |
+| `listing-index` ([dictionary]) | `(enabled: false, title: "Index of Listings")` | Setting this to `true` will display an index of listing (code block) figures at the end of the document. |
 
 The above table gives you a _brief description_ of the different options that you can
 choose to customize the template. For a detailed explanation of these options, see the
@@ -88,12 +88,12 @@ The function also accepts a single, positional argument for the body.
 > defined before the `ilm` function so that headings such as table of contents and
 > bibliography will be defined as per the text language.
 
-[iosevka]: https://typeof.net/Iosevka/
 [bibliography]: https://typst.app/docs/reference/model/bibliography/
-[outline]: https://typst.app/docs/reference/model/outline/
 [bool]: https://typst.app/docs/reference/foundations/bool/
 [content]: https://typst.app/docs/reference/foundations/content/
 [datetime]: https://typst.app/docs/reference/foundations/datetime/
 [dictionary]: https://typst.app/docs/reference/foundations/dictionary/
+[iosevka]: https://typeof.net/Iosevka/
+[outline]: https://typst.app/docs/reference/model/outline/
 [paper size string]: https://typst.app/docs/reference/layout/page#parameters-paper
 [string]: https://typst.app/docs/reference/foundations/str/
