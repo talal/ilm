@@ -57,12 +57,12 @@
   chapter-pagebreak: true,
   // Whether to display a maroon circle next to external links.
   external-link-circle: true,
-  // Raw text customization
+  // Raw text customization.
+  // Set to "use-typst-default" to use Typst's default raw text styling,
+  // or provide a dictionary to customize font and size.
   raw-text: (
-    use-typst-defaults: false,
-    // List of fonts in order of priority.
-    custom-font: ("Iosevka", "Fira Mono"),
-    custom-size: 9pt,
+    font: ("Iosevka", "Fira Mono"),
+    size: 9pt,
   ),
   // Display an index of figures (images).
   figure-index: (
@@ -102,14 +102,23 @@
 
   // Customize raw text formatting.
   show raw: it => {
-    if raw-text.at("use-typst-defaults", default: false) {
+    // TODO: Remove backwards compatibility for `use-typst-defaults` in future version
+    let use-defaults = (
+      (type(raw-text) == str and raw-text == "use-typst-default") or 
+      (type(raw-text) == dictionary and raw-text.at("use-typst-defaults", default: false))
+    )
+    
+    if use-defaults {
       it
-    } else {
+    } else if type(raw-text) == dictionary {
       set text(
         // Reference: Typst's default is Fira Mono at 8.8pt
-        font: raw-text.at("custom-font", default: ("Iosevka", "Fira Mono")),
-        size: raw-text.at("custom-size", default: 9pt),
+        // TODO: Remove backwards compatibility for `custom-font` and `custom-size` in future version
+        font: raw-text.at("font", default: raw-text.at("custom-font", default: ("Iosevka", "Fira Mono"))),
+        size: raw-text.at("size", default: raw-text.at("custom-size", default: 9pt)),
       )
+      it
+    } else {
       it
     }
   }

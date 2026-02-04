@@ -322,24 +322,22 @@ For comparison, this is how the same table would look with Typst's default styli
 
 In the case that both code snippets look identical then it means that Iosevka is not installed on your computer.
 
-You can disable 'Ilm's custom raw text formatting using the `raw-text` option:
+You can use Typst's default raw text formatting by setting the `raw-text` option to a special string:
 
 ```typst
 #show: ilm.with(
-  raw-text: (
-    use-typst-defaults: true,
-  ),
+  raw-text: "use-typst-default",
 )
 ```
 
-Additionally, you can specify your own custom font and size using:
+Alternatively, you can specify your own custom font and size using a dictionary:
 
 ```typst
 #show: ilm.with(
   raw-text: (
-    // custom-font takes a list of fonts in order of priority.
-    custom-font: ("JetBrains Mono", "Cascadia Mono"),
-    custom-size: 10pt,
+    // font takes a list of fonts in order of priority.
+    font: ("JetBrains Mono", "Cascadia Mono"),
+    size: 10pt,
   ),
 )
 ```
