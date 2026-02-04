@@ -232,11 +232,54 @@ The template also displays an index of figures (images), tables, and listings (c
 The `title` option can be omitted as it is optional and will default to predefined values.
 
 == Footer
-If a page does not begin with a chapter then the chapter's name, to which the current section belongs to, is shown in the footer.
+By default, 'Ilm displays page numbers in the footer with alternating alignment (left on even pages, right on odd pages). If a page does not begin with a chapter, the chapter's name is shown alongside the page number.
 
-Look at the page numbering for the current page down below. It will show "#upper[Layout]" next to the page number because the current subheading _Footer_ is part of the _Layout_ chapter.
+Look at the page numbering for the current page. It should show "#upper[Layout]" next to the page number because the current subheading _Footer_ is part of the _Layout_ chapter.
 
 When we say chapter, we mean the the first-level or top-level heading which is defined using a single equals sign (`=`).
+
+=== Customizing page numbering
+You can customize the page numbering style in footer or disable it entirely:
+
+*Disable page numbering:*
+```typst
+#show: ilm.with(
+  footer: none,
+)
+```
+
+*Different styles:*
+```typst
+// Alternating sides with chapter name (default)
+#show: ilm.with(
+  footer: "page-number-alternate-with-chapter",
+)
+
+// Left-aligned with chapter name
+#show: ilm.with(
+  footer: "page-number-left-with-chapter",
+)
+
+// Right-aligned with chapter name
+#show: ilm.with(
+  footer: "page-number-right-with-chapter",
+)
+
+// Centered page number only (no chapter name)
+#show: ilm.with(
+  footer: "page-number-center",
+)
+
+// Left-aligned page number only (no chapter name)
+#show: ilm.with(
+  footer: "page-number-left",
+)
+
+// Right-aligned page number only (no chapter name)
+#show: ilm.with(
+  footer: "page-number-right",
+)
+```
 
 = Text
 Typst defaults to English for the language of the text. If you are writing in a different language then you need to define you language before the 'Ilm template is loaded, i.e. before the `#show: ilm.with()` like so:

@@ -62,6 +62,16 @@
   chapter-pagebreak: true,
   // Whether to display a maroon circle next to external links.
   external-link-circle: true,
+  // Footer style for page numbering.
+  // Set to `none` to disable footer entirely.
+  // Available styles:
+  // - "page-number-alternate-with-chapter": alternating sides with chapter name (default)
+  // - "page-number-left-with-chapter": left-aligned with chapter name
+  // - "page-number-right-with-chapter": right-aligned with chapter name
+  // - "page-number-center": centered page number only
+  // - "page-number-left": left-aligned page number only
+  // - "page-number-right": right-aligned page number only
+  footer: "page-number-alternate-with-chapter",
   // Raw text customization.
   // Set to "use-typst-default" to use Typst's default raw text styling,
   // or provide a dictionary to customize font and size.
@@ -109,10 +119,10 @@
   show raw: it => {
     // TODO: Remove backwards compatibility for `use-typst-defaults` in future version
     let use-defaults = (
-      (type(raw-text) == str and raw-text == "use-typst-default") or 
+      (type(raw-text) == str and raw-text == "use-typst-default") or
       (type(raw-text) == dictionary and raw-text.at("use-typst-defaults", default: false))
     )
-    
+
     if use-defaults {
       it
     } else if type(raw-text) == dictionary {
@@ -161,7 +171,7 @@
           } else {
             1.1em
           }
-          
+
           #for (i, auth) in final-authors.enumerate() {
             text(author-size, auth)
             if i < author-count - 1 {
@@ -223,36 +233,71 @@
 
   // Configure page numbering and footer.
   set page(
-    footer: context {
-      // Get current page number.
-      let i = counter(page).at(here()).first()
-
-      // Align right for even pages and left for odd.
-      let is-odd = calc.odd(i)
-      let aln = if is-odd {
-        right
-      } else {
-        left
-      }
-
-      // Are we on a page that starts a chapter?
-      let target = heading.where(level: 1)
-      if query(target).any(it => it.location().page() == i) {
-        return align(aln)[#i]
-      }
-
-      // Find the chapter of the section we are currently in.
-      let before = query(target.before(here()))
-      if before.len() > 0 {
-        let current = before.last()
-        let gap = 1.75em
-        let chapter = upper(text(size: 0.68em, current.body))
-        if current.numbering != none {
-          if is-odd {
-            align(aln)[#chapter #h(gap) #i]
-          } else {
-            align(aln)[#i #h(gap) #chapter]
+    footer: if footer != none {
+      context {
+        // Get current page number.
+        let i = counter(page).at(here()).first()
+        
+        // Only get chapter info if needed
+        let chapter = none
+        let on-chapter-page = false
+        
+        if footer.ends-with("with-chapter") {
+          // Are we on a page that starts a chapter?
+          let target = heading.where(level: 1)
+          on-chapter-page = query(target).any(it => it.location().page() == i)
+          
+          // Find the chapter of the section we are currently in.
+          if not on-chapter-page {
+            let before = query(target.before(here()))
+            if before.len() > 0 {
+              let current = before.last()
+              if current.numbering != none {
+                chapter = upper(text(size: 0.68em, current.body))
+              }
+            }
           }
+        }
+        
+        let gap = 1.75em
+        
+        // Apply footer style
+        if footer == "page-number-alternate-with-chapter" {
+          let is-odd = calc.odd(i)
+          let aln = if is-odd { right } else { left }
+          
+          if chapter != none {
+            if is-odd {
+              align(aln)[#chapter #h(gap) #i]
+            } else {
+              align(aln)[#i #h(gap) #chapter]
+            }
+          } else {
+            align(aln)[#i]
+          }
+        } else if footer == "page-number-left-with-chapter" {
+          if chapter != none {
+            align(left)[#i #h(gap) #chapter]
+          } else {
+            align(left)[#i]
+          }
+        } else if footer == "page-number-right-with-chapter" {
+          if chapter != none {
+            align(right)[#chapter #h(gap) #i]
+          } else {
+            align(right)[#i]
+          }
+        } else if footer == "page-number-center" {
+          align(center)[#i]
+        } else if footer == "page-number-left" {
+          align(left)[#i]
+        } else if footer == "page-number-right" {
+          align(right)[#i]
+        } else {
+          // Fallback to default behavior
+          let is-odd = calc.odd(i)
+          let aln = if is-odd { right } else { left }
+          align(aln)[#i]
         }
       }
     },

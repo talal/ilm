@@ -70,6 +70,7 @@ This template exports the `ilm` function with the following named arguments:
 | `preface` ([content]) | `none` | The preface for your work. The preface content is shown on its own separate page after the cover. |
 | `chapter-pagebreak` ([bool]) | `true` | Setting this to `false` will prevent chapters from starting on a new page. |
 | `external-link-circle` ([bool]) | `true` | Setting this to `false` will disable the maroon circle that is shown next to external links. |
+| `footer` ([string] or `none`) | `"page-number-alternate-with-chapter"` | Footer style for page numbering. Set to `none` to disable footer entirely. Available styles: `"page-number-alternate-with-chapter"` (alternating sides with chapter name), `"page-number-left-with-chapter"`, `"page-number-right-with-chapter"`, `"page-number-center"`, `"page-number-left"`, `"page-number-right"`. |
 | `raw-text` ([string] or [dictionary]) | `(font: ("Iosevka", "Fira Mono"), size: 9pt)` | Customize raw text (code) styling. Set to `"use-typst-default"` to use Typst's default formatting, or provide a dictionary with `font` and `size` keys to customize. |
 | `table-of-contents` ([content]) | `outline()` | The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents. |
 | `appendix` ([dictionary]) | `(enabled: false, title: "Appendix", heading-numbering-format: "A.1.1.", body: none)` | Setting `enabled` to `true` and defining your content in `body` will display the appendix after the main body of your document and before the bibliography. |
