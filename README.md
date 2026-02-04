@@ -30,7 +30,7 @@ show rule. If you, however, want to change an existing project to use this templ
 can add a show rule like this at the top of your file:
 
 ```typ
-#import "@preview/ilm:1.4.2": *
+#import "@preview/ilm:2.0.0": *
 
 #set text(lang: "en")
 
