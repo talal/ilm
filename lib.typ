@@ -217,49 +217,52 @@
     page(cover-page)
   } else if type(cover-page) == str and cover-page == "use-ilm-default" {
     // Default Ilm cover page
-    page(
-      align(
-        left + horizon,
-        block(width: 90%)[
-          #let v-space = v(2em, weak: true)
-          #text(3em)[*#title*]
+    context {
+      let alignment = if _is-rtl(text.lang) { right } else { left }
+      page(
+        align(
+          alignment + horizon,
+          block(width: 90%)[
+            #let v-space = v(2em, weak: true)
+            #text(3em)[*#title*]
 
-          #v-space
-          // Display author(s)
-          #let author-count = final-authors.len()
-          #let author-size = if author-count == 1 {
-            1.6em
-          } else if author-count == 2 {
-            1.4em
-          } else if author-count == 3 {
-            1.2em
-          } else {
-            1.1em
-          }
-
-          #for (i, auth) in final-authors.enumerate() {
-            text(author-size, auth)
-            if i < author-count - 1 {
-              linebreak()
+            #v-space
+            // Display author(s)
+            #let author-count = final-authors.len()
+            #let author-size = if author-count == 1 {
+              1.6em
+            } else if author-count == 2 {
+              1.4em
+            } else if author-count == 3 {
+              1.2em
+            } else {
+              1.1em
             }
-          }
 
-          #if abstract != none {
-            v-space
-            block(width: 80%)[
-              // Default leading is 0.65em.
-              #set par(leading: 0.78em, justify: true, linebreaks: "optimized")
-              #abstract
-            ]
-          }
+            #for (i, auth) in final-authors.enumerate() {
+              text(author-size, auth)
+              if i < author-count - 1 {
+                linebreak()
+              }
+            }
 
-          #if date != none {
-            v-space
-            text(date.display(date-format))
-          }
-        ],
-      ),
-    )
+            #if abstract != none {
+              v-space
+              block(width: 80%)[
+                // Default leading is 0.65em.
+                #set par(leading: 0.78em, justify: true, linebreaks: "optimized")
+                #abstract
+              ]
+            }
+
+            #if date != none {
+              v-space
+              text(date.display(date-format))
+            }
+          ],
+        ),
+      )
+    }
   }
 
   // Configure paragraph properties.
