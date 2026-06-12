@@ -82,6 +82,26 @@
   }
 }
 
+// Returns true if the given language code is considered RTL
+#let _is-rtl(lang) = {
+  lang in (
+    "ar",   // Arabic
+    "arc",  // Aramaic
+    "dv",   // Dhivehi
+    "fa",   // Persian (Farsi)
+    "ha",   // Hausa (Ajami script, sometimes RTL)
+    "he",   // Hebrew
+    "khw",  // Khowar
+    "ks",   // Kashmiri
+    "ku",   // Kurdish (Sorani script)
+    "ps",   // Pashto
+    "sd",   // Sindhi
+    "ug",   // Uyghur
+    "ur",   // Urdu
+    "yi",   // Yiddish
+  )
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This function gets your whole document as its `body`.
@@ -197,49 +217,52 @@
     page(cover-page)
   } else if type(cover-page) == str and cover-page == "use-ilm-default" {
     // Default Ilm cover page
-    page(
-      align(
-        left + horizon,
-        block(width: 90%)[
-          #let v-space = v(2em, weak: true)
-          #text(3em)[*#title*]
+    context {
+      let alignment = if _is-rtl(text.lang) { right } else { left }
+      page(
+        align(
+          alignment + horizon,
+          block(width: 90%)[
+            #let v-space = v(2em, weak: true)
+            #text(3em)[*#title*]
 
-          #v-space
-          // Display author(s)
-          #let author-count = final-authors.len()
-          #let author-size = if author-count == 1 {
-            1.6em
-          } else if author-count == 2 {
-            1.4em
-          } else if author-count == 3 {
-            1.2em
-          } else {
-            1.1em
-          }
-
-          #for (i, auth) in final-authors.enumerate() {
-            text(author-size, auth)
-            if i < author-count - 1 {
-              linebreak()
+            #v-space
+            // Display author(s)
+            #let author-count = final-authors.len()
+            #let author-size = if author-count == 1 {
+              1.6em
+            } else if author-count == 2 {
+              1.4em
+            } else if author-count == 3 {
+              1.2em
+            } else {
+              1.1em
             }
-          }
 
-          #if abstract != none {
-            v-space
-            block(width: 80%)[
-              // Default leading is 0.65em.
-              #set par(leading: 0.78em, justify: true, linebreaks: "optimized")
-              #abstract
-            ]
-          }
+            #for (i, auth) in final-authors.enumerate() {
+              text(author-size, auth)
+              if i < author-count - 1 {
+                linebreak()
+              }
+            }
 
-          #if date != none {
-            v-space
-            text(date.display(date-format))
-          }
-        ],
-      ),
-    )
+            #if abstract != none {
+              v-space
+              block(width: 80%)[
+                // Default leading is 0.65em.
+                #set par(leading: 0.78em, justify: true, linebreaks: "optimized")
+                #abstract
+              ]
+            }
+
+            #if date != none {
+              v-space
+              text(date.display(date-format))
+            }
+          ],
+        ),
+      )
+    }
   }
 
   // Configure paragraph properties.
@@ -314,7 +337,18 @@
   // will only apply to body.
   {
     // Configure heading numbering.
-    set heading(numbering: "1.")
+    set heading(numbering: (..nums) => {
+      let nums-arr = nums.pos()
+      if nums-arr.len() == 1 {
+        numbering("1.", ..nums-arr)
+      } else if _is-rtl(text.lang) {
+        nums-arr = nums-arr.rev()
+        let pattern = "1" + ".1" * (nums-arr.len() - 1)
+        numbering(pattern, ..nums-arr)
+      } else {
+        numbering("1.1")
+      }
+    })
 
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
