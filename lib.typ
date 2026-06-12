@@ -82,6 +82,26 @@
   }
 }
 
+// Returns true if the given language code is considered RTL
+#let _is-rtl(lang) = {
+  lang in (
+    "ar",   // Arabic
+    "arc",  // Aramaic
+    "dv",   // Dhivehi
+    "fa",   // Persian (Farsi)
+    "ha",   // Hausa (Ajami script, sometimes RTL)
+    "he",   // Hebrew
+    "khw",  // Khowar
+    "ks",   // Kashmiri
+    "ku",   // Kurdish (Sorani script)
+    "ps",   // Pashto
+    "sd",   // Sindhi
+    "ug",   // Uyghur
+    "ur",   // Urdu
+    "yi",   // Yiddish
+  )
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This function gets your whole document as its `body`.
@@ -314,7 +334,18 @@
   // will only apply to body.
   {
     // Configure heading numbering.
-    set heading(numbering: "1.")
+    set heading(numbering: (..nums) => {
+      let nums-arr = nums.pos()
+      if nums-arr.len() == 1 {
+        numbering("1.", ..nums-arr)
+      } else if _is-rtl(text.lang) {
+        nums-arr = nums-arr.rev()
+        let pattern = "1" + ".1" * (nums-arr.len() - 1)
+        numbering(pattern, ..nums-arr)
+      } else {
+        numbering("1.1")
+      }
+    })
 
     // Start chapters on a new page.
     show heading.where(level: 1): it => {
