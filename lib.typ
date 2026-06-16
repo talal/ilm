@@ -300,6 +300,8 @@
   // Display block code with padding.
   show raw.where(block: true): block.with(inset: (x: 5pt))
 
+  // Justifying and hyphenating in tables doesn't look great.
+  show table: set par(justify: false)
   // Break large tables across pages.
   show figure.where(kind: table): set block(breakable: true)
   // Configure cell formatting.
