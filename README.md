@@ -10,7 +10,7 @@ images, tables, code blocks.
 
 Dynamic running footer contains the title of the chapter (top-level heading).
 
-See the [example.pdf](https://github.com/talal/ilm/blob/v2.1.1/example.pdf) file to see how it looks.
+See the [example.pdf](https://github.com/talal/ilm/blob/v3.0.0/example.pdf) file to see how it looks.
 
 ## Usage
 
@@ -30,7 +30,7 @@ show rule. If you, however, want to change an existing project to use this templ
 can add a show rule like this at the top of your file:
 
 ```typ
-#import "@preview/ilm:2.1.1": *
+#import "@preview/ilm:3.0.0": *
 
 #set text(lang: "en")
 
@@ -38,16 +38,16 @@ can add a show rule like this at the top of your file:
   title: [Your Title],
   authors: "Max Mustermann",
   abstract: [#lorem(30)],
-  bibliography: bibliography("refs.bib"),
-  figure-index: (enabled: true),
-  table-index: (enabled: true),
-  listing-index: (enabled: true)
 )
+
+#cover-page()
+
+#outline()
 
 // Your content goes here.
 ```
 
-> This template uses the [Iosevka] font for raw text (inline code and code blocks). In order to use Iosevka, the font must be installed on your computer. In case Iosevka is not installed, as will be the case for Typst Web App, then the template will fall back to "DejaVu Sans Mono" font which is available on Typst Web App.
+> This template uses the [IBM Plex Mono] font for raw text (inline code and code blocks), which is available on the Typst web app. When compiling locally, you may want to install it on your system; otherwise, the template falls back to _DejaVu Sans Mono_, which is bundled with the Typst CLI.
 
 ## Configuration
 
@@ -59,26 +59,21 @@ The template exports the `ilm` function with several named arguments (read: opti
 
 ### Options
 
-The list below shows a _brief description_ for each option. For a detailed explanation of these options, see the [example.pdf](https://github.com/talal/ilm/blob/v2.1.1/example.pdf) file.
-
-- `cover-page`\
-  type: [string], [content], or `none`\
-  default: `"use-ilm-default"`\
-  description: Cover page customization. Set to `"use-ilm-default"` for the default cover page, `none` to skip the cover page, or provide custom content to create your own cover page.
+The list below shows a _brief description_ for each option. For a detailed explanation of these options, see the [example.pdf](https://github.com/talal/ilm/blob/v3.0.0/example.pdf) file.
 
 - `title`\
   type: [content]\
-  default: `Your Title`\
+  default: `[Your Title]`\
   description: The title for your work.
 
 - `authors`\
-  type: [string] or [array]\
-  default: `none`\
-  description: The author(s) of your work. Can be a string for a single author or an array of strings for multiple authors. Multiple authors will be displayed on separate lines with font size automatically scaled.
+  type: `none`, [string], or [array]\
+  default: `("Author Name",)`\
+  description: The author(s) of your work. Set to `none` or `()` to omit authors from the cover page. A string represents a single author; an array displays authors on separate lines with font size automatically scaled.
 
 - `paper-size`\
   type: [string]\
-  default: `a4`\
+  default: `"a4"`\
   description: Specify a [paper size string] to change the page size.
 
 - `date`\
@@ -88,7 +83,7 @@ The list below shows a _brief description_ for each option. For a detailed expla
 
 - `date-format`\
   type: [string]\
-  default: `[month repr:long] [day padding:zero], [year repr:full]`\
+  default: `"[month repr:long] [day padding:zero], [year repr:full]"`\
   description: The format for the date that will be displayed on the cover page. By default, the date will be displayed as `MMMM DD, YYYY`.
 
 - `abstract`\
@@ -96,15 +91,10 @@ The list below shows a _brief description_ for each option. For a detailed expla
   default: `none`\
   description: A brief summary/description of your work. This is shown on the cover page. Set to `none` to disable.
 
-- `preface`\
-  type: [content]\
-  default: `none`\
-  description: The preface for your work. The preface content is shown on its own separate page after the cover.
-
 - `chapter-pagebreak`\
   type: [bool]\
   default: `true`\
-  description: Setting this to `false` will prevent chapters from starting on a new page.
+  description: Setting this to `false` will prevent numbered chapters from starting on a new page.
 
 - `external-link-circle`\
   type: [bool]\
@@ -116,47 +106,39 @@ The list below shows a _brief description_ for each option. For a detailed expla
   default: `"page-number-alternate-with-chapter"`\
   description: Footer style for page numbering. Set to `none` to disable footer entirely. Available styles: `"page-number-alternate-with-chapter"` (alternating sides with chapter name), `"page-number-left-with-chapter"`, `"page-number-right-with-chapter"`, `"page-number-center"`, `"page-number-left"`, `"page-number-right"`.
 
-- `raw-text`\
-  type: [string] or [dictionary]\
-  default: `(font: ("Iosevka", "DejaVu Sans Mono"), size: 9pt)`\
-  description: Customize raw text (code) styling. Set to `"use-typst-default"` to use Typst's default formatting, or provide a dictionary with `font` and `size` keys to customize.
+### Components & Functions
 
-- `table-of-contents`\
-  type: [content]\
-  default: `outline()`\
-  description: The result of a call to the [outline function][outline] or none. Setting this to `none` will disable the table of contents.
+'Ilm exports several standalone functions and components to compose your document:
 
-- `appendix`\
-  type: [dictionary]\
-  default: `(enabled: false, title: "Appendix", heading-numbering-format: "A.1.1.", body: none)`\
-  description: Setting `enabled` to `true` and defining your content in `body` will display the appendix after the main body of your document and before the bibliography.
+- `cover-page()`\
+  Displays the cover/title page using metadata (`title`, `authors`, `date`, `date-format`, `abstract`) configured in `ilm`.
 
-- `bibliography`\
-  type: [content]\
-  default: `none`\
-  description: The result of a call to the [bibliography function][bibliography] or none. Specifying this will configure numeric, IEEE-style citations.
+- `appendix(body)`\
+  Applies appendix styling to headings within `body`. It resets the heading counter, switches to alphabetical numbering (`A.1`), and sets the supplement to `[Appendix]`. Can be used as a container (`#appendix[...]`) or as a show rule (`#show: appendix`).
 
-- `figure-index`\
-  type: [dictionary]\
-  default: `(enabled: false, title: "Index of Figures")`\
-  description: Setting this to `true` will display an index of image figures at the end of the document.
+- `list-of-figures(..args)`\
+  Renders an outline of figure images. Accepts any parameter supported by Typst's [`outline`][outline]. Defaults to `title: [List of Figures]`.
 
-- `table-index`\
-  type: [dictionary]\
-  default: `(enabled: false, title: "Index of Tables")`\
-  description: Setting this to `true` will display an index of table figures at the end of the document.
+- `list-of-tables(..args)`\
+  Renders an outline of figure tables. Accepts any parameter supported by Typst's [`outline`][outline]. Defaults to `title: [List of Tables]`.
 
-- `listing-index`\
-  type: [dictionary]\
-  default: `(enabled: false, title: "Index of Listings")`\
-  description: Setting this to `true` will display an index of listing (code block) figures at the end of the document.
+- `list-of-listings(..args)`\
+  Renders an outline of raw/code blocks. Accepts any parameter supported by Typst's [`outline`][outline]. Defaults to `title: [List of Listings]`.
 
-[bibliography]: https://typst.app/docs/reference/model/bibliography/
+- `blockquote(body)`\
+  Renders `body` styled as an indented, highlighted blockquote.
+
+- `smallcaps(body, all: false)`\
+  Displays small caps with tuned letter tracking, wrapping Typst's `std.smallcaps`.
+
+- `upper(body)`\
+  Displays uppercase text with tuned letter tracking, wrapping Typst's `std.upper`.
+
+[array]: https://typst.app/docs/reference/foundations/array/
 [bool]: https://typst.app/docs/reference/foundations/bool/
 [content]: https://typst.app/docs/reference/foundations/content/
 [datetime]: https://typst.app/docs/reference/foundations/datetime/
-[dictionary]: https://typst.app/docs/reference/foundations/dictionary/
-[iosevka]: https://typeof.net/Iosevka/
+[ibm plex mono]: https://www.ibm.com/plex/
 [outline]: https://typst.app/docs/reference/model/outline/
 [paper size string]: https://typst.app/docs/reference/layout/page#parameters-paper
 [string]: https://typst.app/docs/reference/foundations/str/

@@ -18,11 +18,37 @@ The category must be one of (in order):
 - Fixed: for bug fixes
 -->
 
-## Unreleased
+## [3.0.0] - 2026-11-07
 
 ### Changed
 
+- **Breaking:** modularize template components into standalone functions and native Typst features, removing `cover-page`, `preface`, `table-of-contents`, `appendix`, `bibliography`, `figure-index`, `table-index`, and `listing-index` options from `ilm`
+- **Breaking:** only trigger `chapter-pagebreak` before numbered first-level headings (`it.numbering != none`)
+- **Breaking:** number headings (`1.1`), figures (`1.1`), and equations (`(1.1)`) by chapter
+- Use `IBM Plex Mono` for raw/code blocks, `Lato` for headings, and `New Computer Modern Math` for equations
+- Style table of contents with bold chapter entries without dot leaders and `Appendix A:` prefix for appendices
+- Position table and code listing captions at the top and add horizontal rules to code listing figures
+- Modernize `smallcaps` and `upper` to wrap `std.smallcaps` and `std.upper` with `0.05em` character tracking and add `all` parameter support to `smallcaps`
+- Style running chapter title in footer using small caps (`c2sc: 1, smcp: 1`) with `0.08em` tracking and old-style numerals for page numbers
+- Apply small caps to table headers regardless of whether `table.header()` or regular rows are used
 - Do not justify and hyphenate text in tables
+- Bump minimum compiler version to 0.15.0
+
+### Added
+
+- Add `cover-page()` function for rendering the title/cover page
+- Add `appendix(body)` function (usable as `#show: appendix` or `#appendix[...]`) that resets the heading counter, sets alphabetical numbering (`A.1`), and configures the supplement to `[Appendix]`
+- Add `list-of-figures()`, `list-of-tables()`, and `list-of-listings()` functions wrapping `outline.with(...)` with localized default titles
+
+### Removed
+
+- **Breaking:** remove `raw-text` option from `ilm` in favor of native `#show raw: set text(...)` rules
+
+### Fixed
+
+- Fix chapter-page detection in footer by comparing physical page numbers (`here().page()`)
+- Fix duplicate footer alignment and odd-page calculation
+- Omit authors from default cover page when none are provided
 
 ## [2.1.1] - 2026-06-03
 
@@ -189,7 +215,7 @@ The category must be one of (in order):
 
 _Initial release._
 
-[2.2.0]: https://github.com/talal/ilm/releases/tag/v2.2.0
+[3.0.0]: https://github.com/talal/ilm/releases/tag/v3.0.0
 [2.1.1]: https://github.com/talal/ilm/releases/tag/v2.1.1
 [2.1.0]: https://github.com/talal/ilm/releases/tag/v2.1.0
 [2.0.0]: https://github.com/talal/ilm/releases/tag/v2.0.0

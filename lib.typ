@@ -1,23 +1,91 @@
-// ══════════ Constants ══════════
-#let stroke-color = luma(200)
-#let fill-color = luma(250)
+// ══════════ Tokens & Constants ══════════
+#let _colors = (
+  external-link: rgb("#993333"),
+  fill: luma(250),
+  stroke: luma(200),
+)
 
-// ══════════ std scoping ══════════
-// Workaround for the lack of an `std` scope.
-#let std-bibliography = bibliography
-#let std-smallcaps = smallcaps
-#let std-upper = upper
+#let _fonts = (
+  serif: "Libertinus Serif",
+  sans: "Lato",
+  mono: ("IBM Plex Mono", "DejaVu Sans Mono"),
+  math: "New Computer Modern Math",
+)
 
-// Overwrite the default `smallcaps` and `upper` functions with increased spacing between
-// characters. Default tracking is 0pt.
-#let smallcaps(body) = std-smallcaps(text(tracking: 0.6pt, body))
-#let upper(body) = std-upper(text(tracking: 0.6pt, body))
+#let _base-size = 12pt
+#let _sizes = (
+  h1: 1.65 * _base-size,
+  h2: 1.25 * _base-size,
+  h3: 1 * _base-size,
+  body: _base-size,
+  mono-inline: 0.8 * _base-size, // 9.6pt. Bump to 0.83x for almost exact x-height parity with serif.
+  mono-block: 9pt, // Use slightly smaller font for blocks than inline code.
+  small: 0.9 * _base-size, // used for captions and footnotes
+  spacing: 1.1em,
+)
 
 // ══════════ Helper Functions ══════════
+// Extract plain text from content or strings.
+#let _plain-text(val) = {
+  if type(val) == str {
+    val
+  } else if type(val) == content {
+    let fields = val.fields()
+    if "text" in fields {
+      fields.text
+    } else if "children" in fields {
+      fields
+        .children
+        .map(c => {
+          if type(c) == str {
+            c
+          } else if c.func() == [ ].func() {
+            " "
+          } else {
+            _plain-text(c)
+          }
+        })
+        .join()
+    } else if "body" in fields {
+      _plain-text(fields.body)
+    } else if "child" in fields {
+      _plain-text(fields.child)
+    } else {
+      ""
+    }
+  } else {
+    ""
+  }
+}
+
+// Numbering of the form "<chapter>.<n>", adapting to "1.1" or "A.1" automatically.
+#let _chapter-num(n) = {
+  let ch = query(heading.where(level: 1).before(here())).last(default: none)
+  if ch != none and ch.numbering != none {
+    numbering(ch.numbering, counter(heading).get().first(), n)
+  } else {
+    numbering("1", n)
+  }
+}
+
+// Normalize `authors` (`none`, `str`, or `array`) into an array.
+#let _normalize-authors(authors) = {
+  if type(authors) == str {
+    (authors,)
+  } else if type(authors) == array {
+    authors
+  } else {
+    ()
+  }
+}
+
 // Render the footer content based on the footer style.
 #let _render-footer(footer) = context {
   // Get current page number.
-  let i = counter(page).at(here()).first()
+  let num = counter(page).at(here()).first()
+  let is-odd = calc.odd(num)
+  let aln = if is-odd { right } else { left }
+  let i = text(number-type: "old-style")[#num]
 
   // Only get chapter info if needed.
   let chapter = none
@@ -26,7 +94,8 @@
   if footer.ends-with("with-chapter") {
     // Are we on a page that starts a chapter?
     let target = heading.where(level: 1)
-    on-chapter-page = query(target).any(it => it.location().page() == i)
+    let n = here().page()
+    on-chapter-page = query(target).any(it => it.location().page() == n)
 
     // Find the chapter of the section we are currently in.
     if not on-chapter-page {
@@ -34,19 +103,16 @@
       if before.len() > 0 {
         let current = before.last()
         if current.numbering != none {
-          chapter = upper(text(size: 0.68em, current.body))
+          chapter = text(features: (c2sc: 1, smcp: 1), tracking: 0.08em, current.body)
         }
       }
     }
   }
 
-  let gap = 1.75em
+  let gap = 1em
 
   // Apply footer style.
   if footer == "page-number-alternate-with-chapter" {
-    let is-odd = calc.odd(i)
-    let aln = if is-odd { right } else { left }
-
     if chapter != none {
       if is-odd {
         align(aln)[#chapter #h(gap) #i]
@@ -76,10 +142,136 @@
     align(right)[#i]
   } else {
     // Fallback to default behavior.
-    let is-odd = calc.odd(i)
-    let aln = if is-odd { right } else { left }
     align(aln)[#i]
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#let _ilm-meta = state("ilm--meta", (:))
+
+// ══════════ CAPS ══════════
+// Overwrite the default `smallcaps` and `upper` functions with increased spacing between
+// characters. Default tracking is 0pt.
+#let smallcaps(body, all: false) = std.smallcaps(all: all, text(tracking: 0.05em, body))
+#let upper(body) = std.upper(text(tracking: 0.05em, body))
+
+// ══════════ Blockquote ══════════
+#let blockquote(body) = {
+  block(
+    width: 100%,
+    fill: _colors.fill,
+    inset: (x: 2em, y: 1.5em),
+    stroke: (y: 0.5pt + _colors.stroke),
+    body,
+  )
+}
+
+// ══════════ Cover Page ══════════
+#let cover-page(
+  title: auto,
+  authors: auto,
+  date: auto,
+  date-format: auto,
+  abstract: auto,
+) = page(
+  header: none,
+  footer: none,
+  context {
+    let meta = _ilm-meta.get()
+    let title = if title != auto { title } else { meta.at("title", default: [Your Title]) }
+    let authors = if authors != auto {
+      _normalize-authors(authors)
+    } else {
+      meta.at("authors", default: ("Author Name",))
+    }
+    let date = if date != auto { date } else { meta.at("date", default: none) }
+    let date-format = if date-format != auto {
+      date-format
+    } else {
+      meta.at("date-format", default: "[month repr:long] [day padding:zero], [year repr:full]")
+    }
+    let abstract = if abstract != auto { abstract } else { meta.at("abstract", default: none) }
+
+    // Add cover bookmark without showing heading or listing it in the outline
+    {
+      show heading: none
+      heading(level: 1, numbering: none, outlined: false, bookmarked: true, "Cover")
+    }
+
+    let v-space = v(2em, weak: true)
+    align(
+      left + horizon,
+      block(width: 72%)[
+        #let title-len = _plain-text(title).trim().len()
+        #let title-size = if title-len < 35 {
+          3.0 * _base-size
+        } else if title-len < 60 {
+          2.5 * _base-size
+        } else if title-len < 100 {
+          2.1 * _base-size
+        } else {
+          1.8 * _base-size
+        }
+        #show std.title: set text(size: title-size)
+        #show std.title: set par(justify: false, leading: 0.65em)
+        #std.title(title)
+
+        #if authors.len() > 0 {
+          v-space
+          let author-count = authors.len()
+          let author-size = if author-count == 1 {
+            1.6em
+          } else if author-count == 2 {
+            1.4em
+          } else if author-count == 3 {
+            1.2em
+          } else {
+            1.1em
+          }
+          for (i, auth) in authors.enumerate() {
+            text(author-size, auth)
+            if i < author-count - 1 {
+              linebreak()
+            }
+          }
+        }
+
+        #if abstract != none {
+          v-space
+          set par(leading: 0.78em, justify: true, linebreaks: "optimized")
+          abstract
+        }
+
+        #if date != none {
+          v-space
+          text(date.display(date-format))
+        }
+      ],
+    )
+  },
+)
+
+// ══════════ List of Figures, Tables, Listings ══════════
+#let list-of-figures = outline.with(
+  title: [List of Figures],
+  target: figure.where(kind: image),
+)
+#let list-of-tables = outline.with(
+  title: [List of Tables],
+  target: figure.where(kind: table),
+)
+#let list-of-listings = outline.with(
+  title: [List of Listings],
+  target: figure.where(kind: raw),
+)
+
+// ══════════ Appendix ══════════
+#let appendix(body) = {
+  counter(heading).update(0)
+  set heading(numbering: "A.1")
+  show heading.where(level: 1): set heading(supplement: [Appendix])
+  body
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,14 +280,8 @@
 #let ilm(
   // The title for your work.
   title: [Your Title],
-  // Author(s) of your work. Can be a string or an array of strings.
-  // If an array is provided, authors will be displayed on separate lines on the cover page.
-  authors: "Author",
-  // Cover page customization.
-  // Set to "use-ilm-default" to use Ilm's default cover page,
-  // set to `none` to skip the cover page entirely,
-  // or provide custom content to create your own cover page.
-  cover-page: "use-ilm-default",
+  // Author(s) of your work. Can be `none`, a string, or an array of strings.
+  authors: ("Author Name",),
   // The paper size to use.
   paper-size: "a4",
   // Date that will be displayed on cover page.
@@ -109,24 +295,6 @@
   date-format: "[month repr:long] [day padding:zero], [year repr:full]",
   // An abstract for your work. Can be omitted if you don't have one.
   abstract: none,
-  // The contents for the preface page. This will be displayed after the cover page.
-  // Can be omitted if you don't have one.
-  preface: none,
-  // The result of a call to the `outline` function or `none`.
-  // Set this to `none`, if you want to disable the table of contents.
-  // More info: https://typst.app/docs/reference/model/outline/
-  table-of-contents: outline(),
-  // Display an appendix after the body but before the bibliography.
-  appendix: (
-    enabled: false,
-    title: "",
-    heading-numbering-format: "",
-    body: none,
-  ),
-  // The result of a call to the `bibliography` function or `none`.
-  // Example: bibliography("refs.bib")
-  // More info: https://typst.app/docs/reference/model/bibliography/
-  bibliography: none,
   // Whether to start a chapter on a new page.
   chapter-pagebreak: true,
   // Whether to display a maroon circle next to external links.
@@ -141,123 +309,206 @@
   // - "page-number-left": left-aligned page number only
   // - "page-number-right": right-aligned page number only
   footer: "page-number-alternate-with-chapter",
-  // Raw text customization.
-  // Set to "use-typst-default" to use Typst's default raw text styling,
-  // or provide a dictionary to customize font and size.
-  raw-text: (
-    font: ("Iosevka", "DejaVu Sans Mono"),
-    size: 9pt,
-  ),
-  // Display an index of figures (images).
-  figure-index: (
-    enabled: false,
-    title: "",
-  ),
-  // Display an index of tables
-  table-index: (
-    enabled: false,
-    title: "",
-  ),
-  // Display an index of listings (code blocks).
-  listing-index: (
-    enabled: false,
-    title: "",
-  ),
   // The content of your work.
   body,
 ) = {
-  // Determine the final authors to use. Normalize to array for simpler processing.
-  let final-authors = if type(authors) == str {
-    (authors,)
-  } else {
-    authors
-  }
+  // Normalize to array for simpler processing.
+  let authors = _normalize-authors(authors)
 
-  // Set the document's metadata.
-  set document(title: title, author: final-authors.join(", "))
+  // Store metadata in state for other components that use it, e.g. cover-page, etc.
+  _ilm-meta.update((
+    title: title,
+    authors: authors,
+    date: date,
+    date-format: date-format,
+    abstract: abstract,
+  ))
 
-  // Set the body font.
-  set text(size: 12pt) // default is 11pt
+  // ══════════ Page Setup ══════════
+  set document(
+    title: title,
+    ..if authors.len() > 0 {
+      (author: authors.join(", "))
+    } else {
+      (:)
+    },
+  )
 
-  // Customize raw text formatting.
-  let raw-text-args = if type(raw-text) == dictionary { raw-text } else { (:) }
-  show raw: set text(..raw-text-args)
-
-  // Configure page size and margins.
   set page(
     paper: paper-size,
-    margin: (bottom: 1.75cm, top: 2.25cm),
+    margin: (x: 2.5cm, y: 2.25cm),
+    footer-descent: 1cm,
+    footer: if footer != none { _render-footer(footer) },
   )
 
-  // Cover page.
-  if cover-page == none {
-    // Skip cover page
-  } else if type(cover-page) == content {
-    // Custom cover page content
-    page(cover-page)
-  } else if type(cover-page) == str and cover-page == "use-ilm-default" {
-    // Default Ilm cover page
-    page(
-      align(
-        left + horizon,
-        block(width: 90%)[
-          #let v-space = v(2em, weak: true)
-          #text(3em)[*#title*]
+  // ══════════ Typography ══════════
+  set text(font: _fonts.serif, size: _sizes.body)
 
-          #v-space
-          // Display author(s)
-          #let author-count = final-authors.len()
-          #let author-size = if author-count == 1 {
-            1.6em
-          } else if author-count == 2 {
-            1.4em
-          } else if author-count == 3 {
-            1.2em
-          } else {
-            1.1em
-          }
-
-          #for (i, auth) in final-authors.enumerate() {
-            text(author-size, auth)
-            if i < author-count - 1 {
-              linebreak()
-            }
-          }
-
-          #if abstract != none {
-            v-space
-            block(width: 80%)[
-              // Default leading is 0.65em.
-              #set par(leading: 0.78em, justify: true, linebreaks: "optimized")
-              #abstract
-            ]
-          }
-
-          #if date != none {
-            v-space
-            text(date.display(date-format))
-          }
-        ],
-      ),
-    )
-  }
-
-  // Configure paragraph properties.
   set par(
-    leading: 0.7em, // (default: 0.65em)
-    spacing: 1.35em, // (default: 1.2em)
     justify: true,
     linebreaks: "optimized",
+    // 0.75em yields a baseline distance of ~= 16.8 pt (1.40x).
+    leading: 0.75em, // spacing between lines (default: 0.65em)
+    spacing: 1.5em, // spacing between paragraphs (default: 1.2em)
   )
 
-  // Add vertical space after headings.
-  show heading: it => {
-    it
-    v(2%, weak: true)
-  }
-  // Do not hyphenate headings.
-  show heading: set text(hyphenate: false)
+  set underline(offset: 2pt)
 
+  // ══════════ Headings ══════════
+  show heading: set text(font: _fonts.sans, hyphenate: false)
+  show heading: set block(above: 1.8em, below: 1.3em)
+  show heading: it => {
+    if it.numbering == none { return it }
+    let num = counter(heading).display()
+    let prefix = if it.supplement == [Appendix] [Appendix #num:] else { num }
+    block[#prefix#h(0.5em)#it.body]
+  }
+  show heading.where(level: 1): set text(size: _sizes.h1)
+  show heading.where(level: 2): set text(size: _sizes.h2)
+  show heading.where(level: 3): set text(size: _sizes.h3)
+  show heading.where(level: 1): it => {
+    // Add additional 2em spacing before level-1 headings.
+    v(2em)
+    it
+  }
+
+  // ══════════ Lists ══════════
+  set list(indent: 1em, spacing: _sizes.spacing, marker: ([•], [–], [‣]))
+  set enum(indent: 1em, spacing: _sizes.spacing)
+  set terms(spacing: _sizes.spacing, separator: [: ])
+
+  // ══════════ Equations ══════════
+  show math.equation: set text(font: _fonts.math)
+  set math.equation(numbering: n => [(#_chapter-num(n))])
+
+  // ══════════ Figures ══════════
+  set figure(gap: 1.2em, numbering: _chapter-num)
+  show figure: set block(spacing: 1.5em)
+  show figure.caption: it => {
+    set text(size: _sizes.small)
+    if it.numbering != none {
+      strong[#it.supplement #context it.counter.display(it.numbering)#it.separator]
+    } else if it.supplement != none {
+      strong[#it.supplement#it.separator]
+    }
+    it.body
+  }
+
+  // ══════════ Tables ══════════
+  show table: set par(justify: false)
+  show table: set text(hyphenate: false)
+  set table(
+    inset: 7pt, // increase cell padding (default: 5pt)
+    stroke: (0.5pt + _colors.stroke),
+  )
+  show table.cell.where(y: 0): smallcaps
+
+  show figure.where(kind: table): set block(breakable: true)
+  show figure.where(kind: table): set figure(gap: 0.75em)
+  show figure.where(kind: table): set figure.caption(position: top)
+
+  // ══════════ Code ══════════
+  set raw(tab-size: 4)
+  show raw: set text(
+    font: _fonts.mono,
+    size: _sizes.mono-inline,
+    features: (
+      calt: 1, // contextual alternates (ligatures)
+      case: 1, // case-sensitive forms
+    ),
+  )
+
+  // We use `highlight` instead of `box` so long snippets can wrap across line breaks
+  // while retaining the exact same dimensions:
+  // - `extent` extends the background horizontally on both sides without adding layout
+  //   width, so `h(x-pad)` reserves matching horizontal space.
+  // - `top-edge` and `bottom-edge` are measured from the baseline, so adding `y-pad`
+  //   above cap-height (`measure(it).height`) and `-y-pad` below the baseline adds
+  //   vertical padding.
+  show raw.where(block: false): it => context {
+    let x-pad = 3pt
+    let y-pad = 3pt
+
+    h(x-pad)
+    highlight(
+      fill: _colors.fill.darken(2%),
+      top-edge: measure(it).height + y-pad,
+      bottom-edge: -y-pad,
+      extent: x-pad,
+      radius: 2pt,
+      it,
+    )
+    h(x-pad)
+  }
+
+  // Display block code with padding.
+  show raw.where(block: true): set par(leading: 0.65em) // spacing between lines
+  show raw.where(block: true): set text(size: _sizes.mono-block)
+  show raw.where(block: true): set block(
+    width: 100%,
+    breakable: true,
+    inset: (left: 0.5em),
+    spacing: 2em,
+  )
+
+  // Figure code listing styling (Editorial Top & Bottom Rules).
+  show figure.where(kind: raw): it => block(
+    width: 100%,
+    spacing: 2em,
+    breakable: true,
+    {
+      if it.has("caption") and it.caption != none {
+        align(left)[#it.caption]
+        v(0.75em, weak: true)
+      }
+      line(length: 100%, stroke: 0.5pt + _colors.stroke)
+      v(1em, weak: true)
+      {
+        show raw.where(block: true): set block(
+          inset: (left: 0.5em), // use same inset as regular (non-figure) code blocks
+        )
+        it.body
+      }
+      v(1em, weak: true)
+      line(length: 100%, stroke: 0.5pt + _colors.stroke)
+    },
+  )
+
+  // ══════════ Outlines ══════════
+  show outline: set heading(outlined: true)
+  set outline.entry(fill: pad(x: 0.25em, repeat(gap: 0.5em)[.]))
+  // Table of contents only: bold chapter entries without dot leaders, and appendix
+  // entries labelled "Appendix A:" instead of a bare number.
+  show outline.where(target: selector(heading)): it => {
+    set heading(outlined: false, bookmarked: true)
+    show outline.entry.where(level: 1): set outline.entry(fill: none)
+    show outline.entry.where(level: 1): set block(above: 1.7em)
+    show outline.entry.where(level: 1): set text(weight: "bold")
+    show outline.entry: it => {
+      if it.prefix() == none { return it }
+      let prefix = if it.element.supplement == [Appendix] {
+        [Appendix #it.prefix(): ]
+      } else {
+        [#it.prefix()#h(0.75em)]
+      }
+      link(it.element.location(), it.indented(none, prefix + it.inner()))
+    }
+    it
+  }
+
+  // ══════════ Bibliography ══════════
+  show bibliography: it => {
+    pagebreak(weak: true)
+    set par(
+      leading: 0.65em,
+      spacing: _sizes.spacing,
+    )
+    show link: set text(font: _fonts.mono, size: _sizes.mono-inline)
+    it
+  }
+
+  // ══════════ Links ══════════
+  // NOTE: put this after outline and bibliography so their links don't get the circle styling.
   // Show a small maroon circle next to external links.
   show link: it => {
     it
@@ -267,144 +518,37 @@
       sym.wj
       h(1.6pt)
       sym.wj
-      super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + rgb("#993333"))))
+      super(box(height: 3.8pt, circle(radius: 1.2pt, stroke: 0.7pt + _colors.external-link)))
     }
   }
 
-  // Display preface as the second page.
-  if preface != none {
-    page(preface)
-  }
+  // ══════════ Footnotes ══════════
+  show footnote.entry: set text(size: _sizes.small)
 
-  // Display table of contents.
-  if table-of-contents != none {
-    table-of-contents
-  }
-
-  // Configure footer (which includes page numbering).
-  set page(
-    footer: if footer != none { _render-footer(footer) },
-  )
-
-  // Configure equation numbering.
-  set math.equation(numbering: "(1)")
-
-  // Display inline code in a small box that retains the correct baseline.
-  show raw.where(block: false): box.with(
-    fill: fill-color.darken(2%),
-    inset: (x: 3pt, y: 0pt),
-    outset: (y: 3pt),
-    radius: 2pt,
-  )
-
-  // Display block code with padding.
-  show raw.where(block: true): block.with(inset: (x: 5pt))
-
-  // Justifying and hyphenating in tables doesn't look great.
-  show table: set par(justify: false)
-  // Break large tables across pages.
-  show figure.where(kind: table): set block(breakable: true)
-  // Configure cell formatting.
-  set table(
-    inset: 7pt, // increase cell padding (default: 5pt)
-    stroke: (0.5pt + stroke-color),
-  )
-  // Use smallcaps for table header row.
-  show table.cell.where(y: 0): smallcaps
-
+  // ══════════ Main Body ══════════
   // Wrap `body` in curly braces so that it has its own context. This way show/set rules
   // will only apply to body.
   {
     // Configure heading numbering.
-    set heading(numbering: "1.")
+    set heading(numbering: "1.1")
+    show heading.where(level: 1): set heading(supplement: [Chapter])
 
-    // Start chapters on a new page.
+    // Start chapters on a new page and reset per-chapter counters.
     show heading.where(level: 1): it => {
-      if chapter-pagebreak {
-        pagebreak(weak: true)
+      if it.numbering != none {
+        if chapter-pagebreak {
+          pagebreak(weak: true)
+        }
+
+        // Reset figure and equation numbering for each chapter.
+        for kind in (image, table, raw) {
+          counter(figure.where(kind: kind)).update(0)
+        }
+        counter(math.equation).update(0)
       }
       it
     }
+
     body
   }
-
-  // Display appendix before the bibliography.
-  if appendix.enabled {
-    pagebreak()
-    heading(level: 1)[#appendix.at("title", default: "Appendix")]
-
-    // For heading prefixes in the appendix, the standard convention is A.1.1.
-    let num-fmt = appendix.at("heading-numbering-format", default: "A.1.1.")
-
-    counter(heading).update(0)
-    set heading(
-      outlined: false,
-      numbering: (..nums) => {
-        let vals = nums.pos()
-        if vals.len() > 0 {
-          let v = vals.slice(0)
-          return numbering(num-fmt, ..v)
-        }
-      },
-    )
-
-    appendix.body
-  }
-
-  // Display bibliography.
-  if bibliography != none {
-    pagebreak()
-    show std-bibliography: set text(0.85em)
-    // Use default paragraph properties for bibliography.
-    show std-bibliography: set par(leading: 0.65em, justify: false, linebreaks: auto)
-    bibliography
-  }
-
-  // Display indices of figures, tables, and listings.
-  let fig-t(kind) = figure.where(kind: kind)
-  let has-fig(kind) = counter(fig-t(kind)).get().at(0) > 0
-  if figure-index.enabled or table-index.enabled or listing-index.enabled {
-    show outline: set heading(outlined: true)
-    context {
-      let imgs = figure-index.enabled and has-fig(image)
-      let tbls = table-index.enabled and has-fig(table)
-      let lsts = listing-index.enabled and has-fig(raw)
-      if imgs or tbls or lsts {
-        // Note that we pagebreak only once instead of each each individual index. This is
-        // because for documents that only have a couple of figures, starting each index
-        // on new page would result in superfluous whitespace.
-        pagebreak()
-      }
-
-      if imgs {
-        outline(
-          title: figure-index.at("title", default: "Index of Figures"),
-          target: fig-t(image),
-        )
-      }
-      if tbls {
-        outline(
-          title: table-index.at("title", default: "Index of Tables"),
-          target: fig-t(table),
-        )
-      }
-      if lsts {
-        outline(
-          title: listing-index.at("title", default: "Index of Listings"),
-          target: fig-t(raw),
-        )
-      }
-    }
-  }
-}
-
-// This function formats its `body` (content) into a blockquote.
-#let blockquote(body) = {
-  block(
-    width: 100%,
-    fill: fill-color,
-    inset: 2em,
-    stroke: (y: 0.5pt + stroke-color),
-    body,
-  )
 }
