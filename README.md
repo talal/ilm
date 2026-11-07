@@ -47,7 +47,7 @@ can add a show rule like this at the top of your file:
 // Your content goes here.
 ```
 
-> This template uses the [IBM Plex Mono] font for raw text (inline code and code blocks), which is available on the Typst web app. When compiling locally, you may want to install it on your system; otherwise, the template falls back to _DejaVu Sans Mono_, which is bundled with the Typst CLI.
+This template uses [IBM Plex Mono] for raw text (inline code and code blocks) and [Lato] for headings. Both fonts are available in the Typst web app. When compiling locally, install these fonts on your system so the template looks exactly as designed. Otherwise, it will fall back to default fonts, which don’t look as good.
 
 ## Configuration
 
@@ -139,6 +139,7 @@ The list below shows a _brief description_ for each option. For a detailed expla
 [content]: https://typst.app/docs/reference/foundations/content/
 [datetime]: https://typst.app/docs/reference/foundations/datetime/
 [ibm plex mono]: https://www.ibm.com/plex/
+[lato]: https://www.latofonts.com/
 [outline]: https://typst.app/docs/reference/model/outline/
 [paper size string]: https://typst.app/docs/reference/layout/page#parameters-paper
 [string]: https://typst.app/docs/reference/foundations/str/
