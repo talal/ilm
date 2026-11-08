@@ -357,11 +357,11 @@ If you want to remove all styling and restore Typst's default styling, use:
 
   #show raw: set text(font: deja)
   For comparison, here is how `inline code` in #deja looks like:
-  #snip([Code snippet typeset in #deja font.])
+  #snip([Code snippet typeset in #deja font])
 
   #show raw: set text(font: (plex, deja))
   and here is how the same `inline code` looks in #plex:
-  #snip([Code snippet typeset in #plex font.])
+  #snip([Code snippet typeset in #plex font])
 ]
 
 In the case that both code snippets look identical then it means that #plex is not installed on your system.

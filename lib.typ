@@ -18,8 +18,8 @@
   h2: 1.25 * _base-size,
   h3: 1 * _base-size,
   body: _base-size,
-  mono-inline: 0.8 * _base-size, // 9.6pt. Bump to 0.83x for almost exact x-height parity with serif.
-  mono-block: 9pt, // Use slightly smaller font for blocks than inline code.
+  mono-inline: 0.8 * _base-size, // 9.6pt; x-height parity with serif
+  mono-block: 9pt, // Use slightly smaller size than inline code.
   small: 0.9 * _base-size, // used for captions and footnotes
   spacing: 1.1em,
 )
@@ -336,8 +336,7 @@
 
   set page(
     paper: paper-size,
-    margin: (x: 2.5cm, y: 2.25cm),
-    footer-descent: 1cm,
+    footer-descent: 1.25cm, // a4 paper has 2.5cm margins so footer sits 1.25cm above paper edge
     footer: if footer != none { _render-footer(footer) },
   )
 
@@ -366,11 +365,6 @@
   show heading.where(level: 1): set text(size: _sizes.h1)
   show heading.where(level: 2): set text(size: _sizes.h2)
   show heading.where(level: 3): set text(size: _sizes.h3)
-  show heading.where(level: 1): it => {
-    // Add additional 2em spacing before level-1 headings.
-    v(2em)
-    it
-  }
 
   // ══════════ Lists ══════════
   set list(indent: 1em, spacing: _sizes.spacing, marker: ([•], [–], [‣]))
@@ -383,7 +377,7 @@
 
   // ══════════ Figures ══════════
   set figure(gap: 1.2em, numbering: _chapter-num)
-  show figure: set block(spacing: 1.5em)
+  show figure: set block(spacing: 2em)
   show figure.caption: it => {
     set text(size: _sizes.small)
     if it.numbering != none {
@@ -454,19 +448,16 @@
   // Figure code listing styling (Editorial Top & Bottom Rules).
   show figure.where(kind: raw): it => block(
     width: 100%,
-    spacing: 2em,
     breakable: true,
     {
       if it.has("caption") and it.caption != none {
-        align(left)[#it.caption]
-        v(0.75em, weak: true)
+        it.caption
+        v(0.75em, weak: true) // use same caption gap as tables
       }
       line(length: 100%, stroke: 0.5pt + _colors.stroke)
       v(1em, weak: true)
       {
-        show raw.where(block: true): set block(
-          inset: (left: 0.5em), // use same inset as regular (non-figure) code blocks
-        )
+        show raw.where(block: true): set block(spacing: 0pt)
         it.body
       }
       v(1em, weak: true)
@@ -476,7 +467,7 @@
 
   // ══════════ Outlines ══════════
   show outline: set heading(outlined: true)
-  set outline.entry(fill: pad(x: 0.25em, repeat(gap: 0.5em)[.]))
+  set outline.entry(fill: pad(left: 0.25em, right: 1em, repeat(gap: 0.5em)[.]))
   // Table of contents only: bold chapter entries without dot leaders, and appendix
   // entries labelled "Appendix A:" instead of a bare number.
   show outline.where(target: selector(heading)): it => {
@@ -496,13 +487,35 @@
     it
   }
 
+  // Separate figure outline entries by chapter (e.g. List of Figures, Tables, Listings).
+  show outline.entry: entry => context {
+    if entry.element.func() == figure {
+      let prev = query(
+        selector(figure.where(kind: entry.element.kind)).before(entry.element.location()),
+      ).at(-2, default: none)
+
+      let is-new-chapter = if prev != none {
+        let prev-ch = query(heading.where(level: 1).before(prev.location())).last(default: none)
+        let cur-ch = query(heading.where(level: 1).before(entry.element.location())).last(
+          default: none,
+        )
+        prev-ch != none and cur-ch != none and prev-ch.location() != cur-ch.location()
+      } else {
+        false
+      }
+      if is-new-chapter {
+        v(_sizes.spacing)
+      }
+      entry
+    } else {
+      entry
+    }
+  }
+
   // ══════════ Bibliography ══════════
   show bibliography: it => {
     pagebreak(weak: true)
-    set par(
-      leading: 0.65em,
-      spacing: _sizes.spacing,
-    )
+    set par(leading: 0.65em)
     show link: set text(font: _fonts.mono, size: _sizes.mono-inline)
     it
   }
