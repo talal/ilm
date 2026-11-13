@@ -13,14 +13,14 @@
 )
 
 #let _base-size = 12pt
+// Round display/UI sizes to integer points while keeping them proportional to `_base-size`.
+#let _pt-round(multiplier, base: _base-size) = calc.round((multiplier * base) / 1pt) * 1pt
 #let _sizes = (
-  h1: 1.65 * _base-size,
-  h2: 1.25 * _base-size,
-  h3: 1 * _base-size,
+  h1: _pt-round(1.65),
+  h2: _pt-round(1.25),
+  h3: _base-size,
   body: _base-size,
-  mono-inline: 0.8 * _base-size, // 9.6pt; x-height parity with serif
-  mono-block: 9pt, // Use slightly smaller size than inline code.
-  small: 0.9 * _base-size, // used for captions and footnotes
+  small: _pt-round(0.9), // used for captions and footnotes
   spacing: 1.1em,
 )
 
@@ -81,11 +81,10 @@
 
 // Render the footer content based on the footer style.
 #let _render-footer(footer) = context {
-  // Get current page number.
-  let num = counter(page).at(here()).first()
-  let is-odd = calc.odd(num)
+  // Use counter parity for alternating alignment while respecting custom page numbering formats.
+  let is-odd = calc.odd(counter(page).get().first())
   let aln = if is-odd { right } else { left }
-  let i = text(number-type: "old-style")[#num]
+  let i = text(number-type: "old-style", counter(page).display())
 
   // Only get chapter info if needed.
   let chapter = none
@@ -99,12 +98,13 @@
 
     // Find the chapter of the section we are currently in.
     if not on-chapter-page {
-      let before = query(target.before(here()))
-      if before.len() > 0 {
-        let current = before.last()
-        if current.numbering != none {
-          chapter = text(features: (c2sc: 1, smcp: 1), tracking: 0.08em, current.body)
+      let current = query(target.before(here())).last(default: none)
+      if current != none and current.numbering != none {
+        let title = {
+          show linebreak: ""
+          current.body
         }
+        chapter = text(features: (c2sc: 1, smcp: 1), tracking: 0.08em, title)
       }
     }
   }
@@ -143,6 +143,16 @@
   } else {
     // Fallback to default behavior.
     align(aln)[#i]
+  }
+}
+
+// Format an outline entry's body, dot leader, and tabular lining page number.
+#let _outline-inner(entry) = {
+  let page = text(number-type: "lining", number-width: "tabular", entry.page())
+  if entry.fill == none {
+    [#entry.body()#h(1fr)#sym.wj#page]
+  } else {
+    [#entry.body() #box(width: 1fr, entry.fill) #sym.wj#page]
   }
 }
 
@@ -354,13 +364,17 @@
   set underline(offset: 2pt)
 
   // ══════════ Headings ══════════
-  show heading: set text(font: _fonts.sans, hyphenate: false)
+  show heading: set text(font: _fonts.sans, features: (liga: 0), hyphenate: false)
   show heading: set block(above: 1.8em, below: 1.3em)
   show heading: it => {
     if it.numbering == none { return it }
     let num = counter(heading).display()
     let prefix = if it.supplement == [Appendix] [Appendix #num:] else { num }
-    block[#prefix#h(0.5em)#it.body]
+    grid(
+      columns: (auto, 1fr),
+      column-gutter: 0.5em,
+      prefix, it.body,
+    )
   }
   show heading.where(level: 1): set text(size: _sizes.h1)
   show heading.where(level: 2): set text(size: _sizes.h2)
@@ -390,7 +404,7 @@
 
   // ══════════ Tables ══════════
   show table: set par(justify: false)
-  show table: set text(hyphenate: false)
+  show table: set text(hyphenate: false, number-type: "lining", number-width: "tabular")
   set table(
     inset: 7pt, // increase cell padding (default: 5pt)
     stroke: (0.5pt + _colors.stroke),
@@ -403,9 +417,11 @@
 
   // ══════════ Code ══════════
   set raw(tab-size: 4)
+  // Typst defaults raw elements to 0.8em of surrounding text; `1.25em` cancels that
+  // built-in reduction so inline/block raw sizes below scale proportionally everywhere.
   show raw: set text(
     font: _fonts.mono,
-    size: _sizes.mono-inline,
+    size: 1.25em,
     features: (
       calt: 1, // contextual alternates (ligatures)
       case: 1, // case-sensitive forms
@@ -419,9 +435,11 @@
   // - `top-edge` and `bottom-edge` are measured from the baseline, so adding `y-pad`
   //   above cap-height (`measure(it).height`) and `-y-pad` below the baseline adds
   //   vertical padding.
+  // 0.8em matches serif x-height parity (9.6pt at 12pt body).
+  show raw.where(block: false): set text(size: 0.8em)
   show raw.where(block: false): it => context {
-    let x-pad = 3pt
-    let y-pad = 3pt
+    let x-pad = 0.3125em // 3pt at 9.6pt inline raw size
+    let y-pad = 0.3125em
 
     h(x-pad)
     highlight(
@@ -437,7 +455,7 @@
 
   // Display block code with padding.
   show raw.where(block: true): set par(leading: 0.65em) // spacing between lines
-  show raw.where(block: true): set text(size: _sizes.mono-block)
+  show raw.where(block: true): set text(size: 0.75em) // use slightly smaller size than inline code
   show raw.where(block: true): set block(
     width: 100%,
     breakable: true,
@@ -473,42 +491,38 @@
   show outline.where(target: selector(heading)): it => {
     set heading(outlined: false, bookmarked: true)
     show outline.entry.where(level: 1): set outline.entry(fill: none)
-    show outline.entry.where(level: 1): set block(above: 1.7em)
+    show outline.entry.where(level: 1): set block(above: 1.7em, sticky: true)
     show outline.entry.where(level: 1): set text(weight: "bold")
-    show outline.entry: it => {
-      if it.prefix() == none { return it }
-      let prefix = if it.element.supplement == [Appendix] {
-        [Appendix #it.prefix(): ]
+    show outline.entry: entry => {
+      show linebreak: ""
+      let inner = _outline-inner(entry)
+      let body = if entry.prefix() == none {
+        entry.indented(none, inner)
+      } else if entry.element.supplement == [Appendix] {
+        entry.indented(none, [Appendix ] + entry.prefix() + [: ] + inner)
       } else {
-        [#it.prefix()#h(0.75em)]
+        entry.indented(entry.prefix(), inner, gap: 0.75em)
       }
-      link(it.element.location(), it.indented(none, prefix + it.inner()))
+      link(entry.element.location(), body)
     }
     it
   }
 
   // Separate figure outline entries by chapter (e.g. List of Figures, Tables, Listings).
-  show outline.entry: entry => context {
-    if entry.element.func() == figure {
-      let prev = query(
-        selector(figure.where(kind: entry.element.kind)).before(entry.element.location()),
-      ).at(-2, default: none)
-
-      let is-new-chapter = if prev != none {
-        let prev-ch = query(heading.where(level: 1).before(prev.location())).last(default: none)
-        let cur-ch = query(heading.where(level: 1).before(entry.element.location())).last(
-          default: none,
-        )
-        prev-ch != none and cur-ch != none and prev-ch.location() != cur-ch.location()
-      } else {
-        false
+  show outline.entry: entry => {
+    if entry.element.func() != figure { return entry }
+    context {
+      show linebreak: ""
+      let loc = entry.element.location()
+      let prev = query(figure.where(kind: entry.element.kind).before(loc)).at(-2, default: none)
+      if prev != none {
+        let ch-between = query(heading.where(level: 1).after(prev.location()).before(loc))
+        // Include body leading (0.75em) because `weak: true` collapses against it.
+        if ch-between.len() > 0 {
+          v(0.75em + _sizes.spacing, weak: true)
+        }
       }
-      if is-new-chapter {
-        v(_sizes.spacing)
-      }
-      entry
-    } else {
-      entry
+      link(loc, entry.indented(entry.prefix(), _outline-inner(entry)))
     }
   }
 
@@ -516,7 +530,11 @@
   show bibliography: it => {
     pagebreak(weak: true)
     set par(leading: 0.65em)
-    show link: set text(font: _fonts.mono, size: _sizes.mono-inline)
+    show link: l => if type(l.dest) == str {
+      text(font: _fonts.mono, size: 0.8em, l)
+    } else {
+      l
+    }
     it
   }
 
@@ -537,6 +555,7 @@
 
   // ══════════ Footnotes ══════════
   show footnote.entry: set text(size: _sizes.small)
+  show footnote.entry: set par(leading: 0.55em)
 
   // ══════════ Main Body ══════════
   // Wrap `body` in curly braces so that it has its own context. This way show/set rules

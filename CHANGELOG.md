@@ -18,6 +18,23 @@ The category must be one of (in order):
 - Fixed: for bug fixes
 -->
 
+## [Unreleased]
+
+### Changed
+
+- Use tabular lining numerals in tables and outline page numbers
+- Tighten footnote entry line leading (`0.55em`)
+- Disable ligatures (`liga: 0`) on `Lato` headings and round display/small text sizes to whole points
+
+### Fixed
+
+- Scale inline and block `raw` code proportionally with surrounding text using relative `em` sizing instead of fixed `pt` values
+- Respect custom `page(numbering: ...)` formats (such as Roman numerals) in the running footer
+- Add hanging indentation to wrapped numbered headings and table of contents entries, and keep level-1 outline entries sticky with their following entry
+- Strip manual linebreaks (`\`) from headings and captions inside the running footer, table of contents, and figure outlines
+- Fix figure outline chapter separator when figures appear before the first chapter
+- Apply monospace styling in bibliography to external string links only
+
 ## [3.0.0] - 2026-11-07
 
 ### Changed
@@ -215,6 +232,7 @@ The category must be one of (in order):
 
 _Initial release._
 
+[Unreleased]: https://github.com/talal/ilm/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/talal/ilm/releases/tag/v3.0.0
 [2.1.1]: https://github.com/talal/ilm/releases/tag/v2.1.1
 [2.1.0]: https://github.com/talal/ilm/releases/tag/v2.1.0
